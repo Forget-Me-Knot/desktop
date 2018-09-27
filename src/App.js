@@ -8,6 +8,24 @@ class App extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.handleChange = this.handleChange.bind(this)
 		this.loginSubmit = this.loginSubmit.bind(this)
+		this.callNotes = this.callNotes.bind(this)
+	}
+
+	callNotes(){
+		const user = firebase.auth().currentUser
+		var ref = firebase.database().ref('notes');
+		let myNotes = []
+		ref.on("value", function(snapshot) {
+			let notes = snapshot.val()
+			for(var key in notes){
+				if(notes[key].author === user.uid){
+					myNotes.push(notes[key].content)
+				}
+			}
+			console.log(myNotes)
+		}, function (error) {
+   	console.log("Error: " + error.code);
+		});
 	}
 
 	handleChange(event){
@@ -38,6 +56,17 @@ class App extends Component {
 		firebase.database().ref('users/' + user.uid).set({
 			email: user.email
 		})
+		console.log('logged in')
+		this.callNotes()
+	}
+
+	noteSubmit(event){
+		event.preventDefault()
+		const user = firebase.auth().currentUser
+		firebase.database().ref('notes/note2').set({
+			author: user.uid,
+			content: this.state.note
+		})
 	}
 
   render() {
@@ -57,6 +86,14 @@ class App extends Component {
 					<button type="submit">LOGIN</button>
 				</form>
 				<br />
+				<h3>Post your notes</h3>
+				<form onChange={this.handleChange} onSubmit={this.noteSubmit}>
+					<input type="text" name="note" />
+					<button type="submit">POST NOTE</button>
+				</form>
+				<br />
+				<h3>Read your notes</h3>
+				<p></p>
       </div>
     );
   }
