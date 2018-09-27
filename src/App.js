@@ -38,6 +38,7 @@ class App extends Component {
 		firebase.database().ref('users/' + user.uid).set({
 			email: user.email
 		})
+		console.log('logged in')
 	}
 
   render() {

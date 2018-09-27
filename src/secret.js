@@ -1,6 +1,7 @@
 const key = {
 	key: 'key',
-	keyy: 'key'
+	keyy: 'key',
+	kejeejbejkenekj: ''
 }
 
 module.exports = key
