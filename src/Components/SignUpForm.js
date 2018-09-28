@@ -41,6 +41,7 @@ export default class SignUpForm extends Component {
 			.catch(function(error){
 				console.error(error)
 			})
+		// update the display name in Authentication
 		firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
 				user.updateProfile({displayName})
