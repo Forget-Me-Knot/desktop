@@ -22,7 +22,7 @@ class MiniDrawer extends React.Component {
         <Drawer variant="permanent" className={classes.paper}>
           <List>
 						<ListItem>
-							<img className={classes.icon} src="reminder.png" alt="home" />{' '}
+							<img className={classes.icon} src="reminder.png" alt="home" />
 						</ListItem>
           </List>
         </Drawer>

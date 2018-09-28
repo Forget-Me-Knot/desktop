@@ -1,25 +1,30 @@
 import React, { Component } from 'react'
 import LoginForm from './LoginForm';
-import SignUpForm from './SignUpForm';
-import NoteForm from './NoteForm';
-import AllNotes from './AllNotes';
-// import firebase from '../firebase'
+import firebase from '../firebase'
 
 export default class Home extends Component {
+	constructor(){
+		super()
+		this.logOut = this.logOut.bind(this)
+	}
+
+	logOut(){
+		firebase.auth().signOut().then(function() {
+			console.log('Sign out!')
+			console.log(firebase.auth().currentUser)
+		}, function(error){
+			console.error(error)
+		})
+	}
+
 	render(){
 		return(
-			<div>
-				<h3>Sign Up</h3>
-				<SignUpForm />
-				<br />
-				<h3>Login</h3>
-				<LoginForm />
-				<br />
-				<h3>Post your notes</h3>
-				<NoteForm />
-				<br />
-				<AllNotes />
-		</div>
+			<div style={{position: "relative"}}>
+				<div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, 50%)"}}>
+					<LoginForm />
+				</div>
+				<button onClick={this.logOut}>LOGOUT</button>
+			</div>
 		)
 	}
 }

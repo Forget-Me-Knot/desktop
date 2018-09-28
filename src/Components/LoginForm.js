@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import firebase from '../firebase'
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import Card from '@material-ui/core/Card';
 
 export default class LoginForm extends Component {
 	constructor(){
 		super()
-		this.state = {}
 		this.handleChange = this.handleChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
 	}
@@ -23,16 +28,27 @@ export default class LoginForm extends Component {
 			.catch(function(error){
 				console.error(error)
 			})
-		console.log('logged in')
 	}
 
 	render(){
 		return (
-			<form onSubmit={this.loginSubmit} onChange={this.handleChange}>
-				Email: <input type="email" name="email" />
-				Password: <input type="password" name="password" />
-				<button type="submit">LOGIN</button>
-			</form>
+			<Card>
+				<form onChange={this.handleChange}>
+					<FormGroup style={{margin: "1em"}}>
+						<FormControl>
+							<InputLabel>E-mail</InputLabel>
+							<Input name="email" type="email"></Input>
+						</FormControl>
+						<FormControl>
+							<InputLabel>Password</InputLabel>
+							<Input name="password" type="password"></Input>
+						</FormControl>
+						<br />
+						<Button onClick={this.handleSubmit} type="submit">LOGIN</Button>
+						<Button>Sign up as a new user</Button>
+					</FormGroup>
+				</form>
+			</Card>
 		)
 	}
 }

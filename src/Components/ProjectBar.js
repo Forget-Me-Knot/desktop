@@ -10,19 +10,19 @@ export default class ProjectBar extends React.Component {
 			<div style={{height: 680, width: 170, borderRight: '0.1em solid #e0e0e0'}}>
       <List style={{paddingLeft: 20, width: 150}}>
 				<ListItem button>
-					<ListItemText primary="Project 1" />
+					<ListItemText primary="Calendar" />
 				</ListItem>
 				<Divider />
 				<ListItem button>
-					<ListItemText primary="Project 2" />
+					<ListItemText primary="To-do List" />
 				</ListItem>
 				<Divider />
 				<ListItem button>
-					<ListItemText primary="Project 3" />
+					<ListItemText primary="Notes" />
 				</ListItem>
 				<Divider />
 				<ListItem button>
-					<ListItemText primary="Project 4" />
+					<ListItemText primary="Photos" />
 				</ListItem>
 			</List>
 			</div>
