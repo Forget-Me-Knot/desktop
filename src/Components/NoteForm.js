@@ -5,9 +5,14 @@ export default class NoteForm extends Component {
 	constructor(){
 		super()
 		this.state = {}
+		this.handleChange = this.handleChange.bind(this)
+		this.handleSubmit = this.handleSubmit.bind(this)
 	}
 
 	handleChange(event){
+		if(!firebase.auth().currentUser) {
+			console.log("NOT LOGGED IN")
+		}
 		this.setState({
 			[event.target.name]: event.target.value
 		})
@@ -16,7 +21,8 @@ export default class NoteForm extends Component {
 	handleSubmit(event){
 		event.preventDefault()
 		const user = firebase.auth().currentUser
-		firebase.database().ref('notes/note2').set({
+		const noteid = Math.floor(Math.random() * 100000)
+		firebase.database().ref('notes/' + noteid).set({
 			author: user.uid,
 			content: this.state.note
 		})
@@ -24,7 +30,7 @@ export default class NoteForm extends Component {
 
 	render(){
 		return (
-			<form onChange={this.handleChange} onSubmit={this.noteSubmit}>
+			<form onChange={this.handleChange} onSubmit={this.handleSubmit}>
 				<input type="text" name="note" />
 				<button type="submit">POST NOTE</button>
 		</form>
