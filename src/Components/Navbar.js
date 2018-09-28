@@ -1,50 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import Button from '@material-ui/core/Button';
+import firebase from '../firebase'
 
 const styles = theme => ({
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
+  icon: {
+    height: '30px',
+	},
+	paper: {
+		width: 90
+	}
 });
 
 class MiniDrawer extends React.Component {
+	constructor(){
+		super()
+		this.logOut = this.logOut.bind(this)
+	}
+	logOut(){
+		firebase.auth().signOut().then(function() {
+			console.log('Sign out!')
+			console.log(firebase.auth().currentUser)
+		}, function(error){
+			console.error(error)
+		})
+	}
   render() {
     const { classes } = this.props;
-
     return (
-      <div>
-        <AppBar position="absolute" className={classNames(classes.appBar)}>
-          <Toolbar>
-            <Typography variant="title" color="inherit" noWrap>
-              FORGET ME KNOT
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Drawer variant="permanent">
-          <div className={classes.toolbar} />
-          <Divider />
-          <List className="listItem">ICON1</List>
-          <Divider />
-          <List>ICON2</List>
+      <div className={classes.root}>
+        <Drawer variant="permanent" className={classes.paper}>
+          <List>
+						<ListItem>
+							<Link to="/login" style={{ textDecoration: 'none' }}><img className={classes.icon} src="reminder.png" alt="home" /></Link>
+						</ListItem>
+          </List>
+					<Button size="small" onClick={this.logOut}>LOGOUT</Button>
         </Drawer>
       </div>
     );
@@ -53,6 +49,7 @@ class MiniDrawer extends React.Component {
 
 MiniDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(MiniDrawer);
