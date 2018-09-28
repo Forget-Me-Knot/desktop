@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
-import { Route, Switch, Router } from 'react-router-dom'
-import LoginForm from './Components/LoginForm';
+import { Switch, Route } from 'react-router-dom'
+import LoginForm from './Components/LoginForm'
 import SignUpForm from './Components/SignUpForm'
-import NoteForm from './Components/NoteForm';
+import NoteForm from './Components/NoteForm'
+import AllNotes from './Components/AllNotes'
 
 export default class Routes extends Component {
 	render(){
 		return (
-			<Router>
 			<Switch>
-				<Route path="/home" component={LoginForm} />
-				<Route path="/signup" component={SignUpForm} />
+				<Route path="/login" component={LoginForm} />
 				<Route path="/writenote" component={NoteForm} />
+				<Route path="/signup" component={SignUpForm} />
+				<Route path="/notes" component={AllNotes} />
 			</Switch>
-			</Router>
 		)
 	}
 }

@@ -21,7 +21,8 @@ export default class NoteForm extends Component {
 	handleSubmit(event){
 		event.preventDefault()
 		const user = firebase.auth().currentUser
-		firebase.database().ref('notes/note2').set({
+		const noteid = Math.floor(Math.random() * 100000)
+		firebase.database().ref('notes/' + noteid).set({
 			author: user.uid,
 			content: this.state.note
 		})
