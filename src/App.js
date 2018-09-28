@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import LoginForm from './Components/LoginForm';
-import SignUpForm from './Components/SignUpForm';
-import NoteForm from './Components/NoteForm';
-import AllNotes from './Components/AllNotes';
+import NavBar from './Components/Navbar'
+import ProjectBar from './Components/ProjectBar'
+import Home from './Components/Home'
+import Grid from '@material-ui/core/Grid';
 
 class App extends Component {
   constructor() {
@@ -11,18 +11,21 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <h3>Sign Up</h3>
-        <SignUpForm />
-        <br />
-        <h3>Login</h3>
-        <LoginForm />
-        <br />
-        <h3>Post your notes</h3>
-        <NoteForm />
-        <br />
-        <AllNotes />
-      </div>
+			<Grid container>
+				<Grid item xs={3}>
+					<Grid container>
+						<Grid item xs={2}>
+							<NavBar />
+						</Grid>
+						<Grid item xs={2}>
+							<ProjectBar />
+						</Grid>
+					</Grid>
+				</Grid>
+				<Grid item xs={9}>
+					<Home />
+				</Grid>
+			</Grid>
     );
   }
 }
