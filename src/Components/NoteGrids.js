@@ -18,11 +18,9 @@ const NoteGrids = (props) => {
 			<TableBody>
 				<TableRow>
 					{notes.map(note => (
-						<span>
 						<TableCell key={note.content}>
 							{note.content}
 						</TableCell>
-						</span>
 					))}
 				</TableRow>
 			</TableBody>
