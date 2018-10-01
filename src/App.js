@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Routes from './Routes';
+import Routes from './routes';
 import NavBar from './Components/Navbar';
 import ProjectBar from './Components/ProjectBar';
 import Grid from '@material-ui/core/Grid';
