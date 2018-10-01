@@ -12,6 +12,8 @@ export default class NoteForm extends Component {
 	handleChange(event){
 		if(!firebase.auth().currentUser) {
 			console.log("NOT LOGGED IN")
+		} else {
+			console.log(firebase.auth().currentUser.displayName)
 		}
 		this.setState({
 			[event.target.name]: event.target.value
