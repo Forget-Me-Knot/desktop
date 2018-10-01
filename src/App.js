@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import Routes from './Routes';
-import NavBar from './Components/Navbar';
-import ProjectBar from './Components/ProjectBar';
-import Grid from '@material-ui/core/Grid';
+import React, { Component } from "react";
+import Routes from "./routes";
+import NavBar from "./Components/Navbar";
+import ProjectBar from "./Components/ProjectBar";
+import Grid from "@material-ui/core/Grid";
 
 export default class App extends Component {
   constructor() {
