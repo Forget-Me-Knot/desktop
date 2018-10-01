@@ -15,7 +15,7 @@ const gotUser = user => ({ type: GOT_USER, user });
 export const getUser = () => {
   return async dispatch => {
     try {
-      const user = firebase.auth().currentUser;
+      const user = await firebase.auth().currentUser;
       dispatch(gotUser(user));
     } catch (err) {
       console.error(err);

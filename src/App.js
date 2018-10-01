@@ -4,7 +4,7 @@ import NavBar from './Components/Navbar';
 import ProjectBar from './Components/ProjectBar';
 import Grid from '@material-ui/core/Grid';
 
-class App extends Component {
+export default class App extends Component {
   constructor() {
     super();
     this.state = {};
@@ -31,22 +31,3 @@ class App extends Component {
     );
   }
 }
-
-// const mapStateToProps = state => {
-//   return {
-//     user: state.currentUser,
-//   };
-// };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     fetchUser: () => dispatch(getUser()),
-//   };
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(App);
-
-export default App;
