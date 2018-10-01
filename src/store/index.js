@@ -1,10 +1,10 @@
-import { createStore, combineReducers } from 'redux';
-//import thunkMiddleware from 'redux-thunk';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import user from './user';
 
 const reducer = combineReducers({ user });
-//const middleware = applyMiddleware(forwardToRenderer);
+const middleware = applyMiddleware(thunkMiddleware);
 
-const store = createStore(reducer);
+const store = createStore(reducer, middleware);
 
 export default store;
