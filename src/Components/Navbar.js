@@ -6,6 +6,7 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import firebase from '../firebase';
 
 const styles = theme => ({
@@ -48,12 +49,14 @@ class MiniDrawer extends React.Component {
                 <img className={classes.icon} src="reminder.png" alt="home" />
               </Link>
             </ListItem>
+            {user && (
+              <Button size="small" onClick={this.logOut}>
+                LOGOUT
+              </Button>
+            )}
+            <Divider />
+            <Button size="small">CALENDAR</Button>
           </List>
-          {user && (
-            <Button size="small" onClick={this.logOut}>
-              LOGOUT
-            </Button>
-          )}
         </Drawer>
       </div>
     );

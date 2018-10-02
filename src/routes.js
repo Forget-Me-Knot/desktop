@@ -5,6 +5,8 @@ import LoginForm from './Components/LoginForm';
 import SignUpForm from './Components/SignUpForm';
 import NoteForm from './Components/NoteForm';
 import AllNotes from './Components/AllNotes';
+//import FullCalendar from './Components/Calendar';
+import Todos from './Components/Todos';
 
 export default class Routes extends Component {
   render() {
@@ -15,6 +17,8 @@ export default class Routes extends Component {
         <Route path="/signup" component={SignUpForm} />
         <Route path="/notes" component={AllNotes} />
         <Route path="/home" component={Home} />
+        {/* <Route path="/calendar" component={FullCalendar} /> */}
+        <Route path="/todos" component={Todos} />
       </Switch>
     );
   }
