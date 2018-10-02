@@ -22,7 +22,35 @@ class MiniDrawer extends React.Component {
   constructor() {
     super();
     this.logOut = this.logOut.bind(this);
+    this.state = {
+      projects: [],
+    };
   }
+
+  componentDidMount() {
+    const user = firebase.auth().currentUser;
+    var self = this;
+    if (user) {
+      var ref = firebase.database().ref('projects/');
+      ref.on(
+        'value',
+        function(snapshot) {
+          let projectsArr = [];
+          let projects = snapshot.val();
+          for (var key in projects) {
+            if (projects[key].name) {
+              projectsArr.push(projects[key]);
+            }
+          }
+          self.setState({ projects: projectsArr });
+        },
+        function(error) {
+          console.log('Error: ', error.code);
+        }
+      );
+    }
+  }
+
   logOut() {
     firebase
       .auth()
@@ -56,6 +84,11 @@ class MiniDrawer extends React.Component {
             )}
             <Divider />
             <Button size="small">CALENDAR</Button>
+            {this.state.projects
+              ? this.state.projects.map(project => {
+                  <ListItem>{project.name}</ListItem>;
+                })
+              : null}
           </List>
         </Drawer>
       </div>
