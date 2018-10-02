@@ -25,7 +25,6 @@ class MiniDrawer extends React.Component {
       projects: []
     };
   }
-
   componentDidMount() {
     const user = firebase.auth().currentUser;
     var self = this;
@@ -67,6 +66,7 @@ class MiniDrawer extends React.Component {
   render() {
     const { classes } = this.props;
     const user = firebase.auth().currentUser;
+    console.log("User: ", user);
     return (
       <div className={classes.root}>
         <Drawer variant="permanent" className={classes.paper}>

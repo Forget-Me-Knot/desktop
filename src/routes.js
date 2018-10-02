@@ -23,20 +23,30 @@ export default class Routes extends Component {
   }
   render() {
     return (
-      <Switch>
-        {this.state.user && (
-          <Switch>
-            <Route path="/login" component={LoginForm} />
-            <Route path="/signup" component={SignUpForm} />
-            <Route path="/notes" component={AllNotes} />
-            <Route path="/home" component={Home} />
-            <Route path="/writenote" component={NoteForm} />
-            <Route path="/projectbar" component={ProjectBar} />
-          </Switch>
-        )}
-        <Route path="/login" component={LoginForm} />
-        <Route path="/signup" component={SignUpForm} />
-      </Switch>
+      <div>
+        {firebase.auth().onAuthStateChanged(user => {
+          console.log("Route User: ", user);
+          if (!user) {
+            return (
+              <Switch>
+                <Route path="/login" component={LoginForm} />
+                <Route path="/signup" component={SignUpForm} />
+              </Switch>
+            );
+          } else {
+            return (
+              <Switch>
+                <Route path="/login" component={LoginForm} />
+                <Route path="/signup" component={SignUpForm} />
+                <Route path="/notes" component={AllNotes} />
+                <Route path="/home" component={Home} />
+                <Route path="/writenote" component={NoteForm} />
+                <Route path="/projectbar" component={ProjectBar} />
+              </Switch>
+            );
+          }
+        })}
+      </div>
     );
   }
 }
