@@ -1,26 +1,26 @@
-import React, { Component } from "react";
-import Routes from "./routes";
-import NavBar from "./Components/Navbar";
-import ProjectBar from "./Components/ProjectBar";
-import Grid from "@material-ui/core/Grid";
-import { gotUser } from "./store/user";
-import firebase from "./firebase";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import Routes from './routes';
+import NavBar from './Components/Navbar';
+import ProjectBar from './Components/ProjectBar';
+import Grid from '@material-ui/core/Grid';
+import { gotUser } from './store/user';
+//import firebase from "./firebase";
+import { connect } from 'react-redux';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      user: {}
+      // user: {},
     };
   }
-  componentDidMount() {
-    this.props.getUser();
-  }
+  // componentDidMount() {
+  //   this.props.getUser();
+  // }
 
   render() {
     const user = this.props.user;
-    console.log("User: ", user);
+    console.log('User: ', user);
     return (
       <div>
         <Grid container>
@@ -43,19 +43,21 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    user: state.user.currentUser
-  };
-};
+// const mapStateToProps = state => {
+//   return {
+//     user: state.user.currentUser,
+//   };
+// };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getUser: () => dispatch(gotUser())
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     getUser: () => dispatch(gotUser()),
+//   };
+// };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(App);
+
+export default App;
