@@ -32,7 +32,7 @@ class App extends Component {
               <Grid item xs={2}>
                 {firebase.auth().onAuthStateChanged(user => {
                   console.log("App User: ", user);
-                  if (user && user) {
+                  if (user) {
                     return <ProjectBar />;
                   } else {
                     return null;

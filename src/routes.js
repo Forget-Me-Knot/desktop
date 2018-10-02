@@ -23,13 +23,18 @@ export default class Routes extends Component {
   //     user: newUser,
   //   });
   // }
-  render() {
+  async render() {
     let currentUser;
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        currentUser = user;
-      }
-    });
+    await function newFunction() {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          console.log("User: ", user);
+          currentUser = user;
+          console.log("---CurrentUser: ", currentUser);
+        }
+      });
+    };
+    console.log("CurrentUser: ", currentUser);
     return (
       <Switch>
         {currentUser && (
