@@ -11,12 +11,12 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      user: {}
+      // user: {},
     };
   }
-  componentDidMount() {
-    this.props.getUser();
-  }
+  // componentDidMount() {
+  //   this.props.getUser();
+  // }
 
   render() {
     //const user = this.props.user;
@@ -50,19 +50,21 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    user: state.user.currentUser
-  };
-};
+// const mapStateToProps = state => {
+//   return {
+//     user: state.user.currentUser,
+//   };
+// };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getUser: () => dispatch(gotUser())
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     getUser: () => dispatch(gotUser()),
+//   };
+// };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(App);
+
+export default App;
