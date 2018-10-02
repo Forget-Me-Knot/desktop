@@ -12,6 +12,7 @@ const GOT_USER = "GOT_USER";
 
 export const gotUser = () => {
   const newUser = firebase.auth().currentUser;
+  console.log("Action User: ", newUser);
   return {
     type: GOT_USER,
     user: newUser

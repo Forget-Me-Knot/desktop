@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import Routes from './routes';
-import NavBar from './Components/Navbar';
-import ProjectBar from './Components/ProjectBar';
-import Grid from '@material-ui/core/Grid';
-import { gotUser } from './store/user';
-//import firebase from "./firebase";
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import Routes from "./routes";
+import NavBar from "./Components/Navbar";
+import ProjectBar from "./Components/ProjectBar";
+import Grid from "@material-ui/core/Grid";
+import { gotUser } from "./store/user";
+import firebase from "./firebase";
+import { connect } from "react-redux";
 
 class App extends Component {
   constructor() {
@@ -19,8 +19,8 @@ class App extends Component {
   // }
 
   render() {
-    const user = this.props.user;
-    console.log('User: ', user);
+    //const user = this.props.user;
+    //console.log("User: ", user);
     return (
       <div>
         <Grid container>
@@ -30,7 +30,14 @@ class App extends Component {
                 <NavBar />
               </Grid>
               <Grid item xs={2}>
-                <ProjectBar />
+                {firebase.auth().onAuthStateChanged(user => {
+                  console.log("App User: ", user);
+                  if (user && user) {
+                    return <ProjectBar />;
+                  } else {
+                    return null;
+                  }
+                })}
               </Grid>
             </Grid>
           </Grid>
