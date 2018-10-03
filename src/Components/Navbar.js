@@ -67,7 +67,7 @@ class MiniDrawer extends React.Component {
   render() {
     const { classes } = this.props;
     const user = firebase.auth().currentUser;
-    console.log("User: ", user);
+    console.log('User: ', user);
     return (
       <div className={classes.root}>
         <Drawer variant="permanent" className={classes.paper}>
@@ -83,7 +83,11 @@ class MiniDrawer extends React.Component {
               </Button>
             )}
             <Divider />
-            <Button size="small">CALENDAR</Button>
+            <Button size="small">
+              <Link to="/calendar" style={{ textDecoration: 'none' }}>
+                CALENDAR
+              </Link>
+            </Button>
             {this.state.projects
               ? this.state.projects.map(project => {
                   <ListItem>{project.name}</ListItem>;

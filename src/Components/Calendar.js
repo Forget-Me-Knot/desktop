@@ -1,108 +1,51 @@
-// import { Calendar, Agenda } from 'react-native-calendars';
-// import { View, Text, StyleSheet } from 'react-native-electron';
-// import React from 'react';
+import React from 'react';
+import BigCalendar from 'react-big-calendar';
+import moment from 'moment';
+import events from './events';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-// export default class FullCalendar extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       items: {},
-//     };
-//   }
+const localizer = BigCalendar.momentLocalizer(moment);
 
-//   render() {
-//     return (
-//       <Agenda
-//         items={this.state.items}
-//         loadItemsForMonth={this.loadItems.bind(this)}
-//         selected={'2017-05-16'}
-//         renderItem={this.renderItem.bind(this)}
-//         renderEmptyDate={this.renderEmptyDate.bind(this)}
-//         rowHasChanged={this.rowHasChanged.bind(this)}
-//         // markingType={'period'}
-//         // markedDates={{
-//         //   '2017-05-08': { textColor: '#666' },
-//         //   '2017-05-09': { textColor: '#666' },
-//         //   '2017-05-14': { startingDay: true, endingDay: true, color: 'blue' },
-//         //   '2017-05-21': { startingDay: true, color: 'blue' },
-//         //   '2017-05-22': { endingDay: true, color: 'gray' },
-//         //   '2017-05-24': { startingDay: true, color: 'gray' },
-//         //   '2017-05-25': { color: 'gray' },
-//         //   '2017-05-26': { endingDay: true, color: 'gray' },
-//         // }}
-//         // monthFormat={'yyyy'}
-//         // theme={{ calendarBackground: 'red', agendaKnobColor: 'green' }}
-//         // renderDay={(day, item) => <Text>{day ? day.day : 'item'}</Text>}
-//       />
-//     );
-//   }
+const allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
 
-//   loadItems(day) {
-//     setTimeout(() => {
-//       for (let i = -15; i < 85; i++) {
-//         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-//         const strTime = this.timeToString(time);
-//         if (!this.state.items[strTime]) {
-//           this.state.items[strTime] = [];
-//           const numItems = Math.floor(Math.random() * 5);
-//           for (let j = 0; j < numItems; j++) {
-//             this.state.items[strTime].push({
-//               name: 'Item for ' + strTime,
-//               height: Math.max(50, Math.floor(Math.random() * 150)),
-//             });
-//           }
-//         }
-//       }
-//       //console.log(this.state.items);
-//       const newItems = {};
-//       Object.keys(this.state.items).forEach(key => {
-//         newItems[key] = this.state.items[key];
-//       });
-//       this.setState({
-//         items: newItems,
-//       });
-//     }, 1000);
-//     // console.log(`Load Items for ${day.year}-${day.month}`);
-//   }
+class Calendar extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      view: 'month',
+      date: new Date(),
+      width: 500,
+    };
+  }
 
-//   renderItem(item) {
-//     return (
-//       <View style={[styles.item, { height: item.height }]}>
-//         <Text>{item.name}</Text>
-//       </View>
-//     );
-//   }
+  componentDidMount() {
+    window.addEventListener('resize', () => {
+      this.setState({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    });
+  }
+  render() {
+    return (
+      <div>
+        <button onClick={() => this.setState({ view: 'day' })}>Day</button>
+        <button onClick={() => this.setState({ view: 'month' })}>Month</button>
+        <BigCalendar
+          localizer={localizer}
+          style={{ height: 500, width: this.state.width }}
+          toolbar={false}
+          events={events}
+          step={60}
+          views={allViews}
+          view={this.state.view}
+          onView={() => {}}
+          date={this.state.date}
+          onNavigate={date => this.setState({ date })}
+        />
+      </div>
+    );
+  }
+}
 
-//   renderEmptyDate() {
-//     return (
-//       <View style={styles.emptyDate}>
-//         <Text>This is empty date!</Text>
-//       </View>
-//     );
-//   }
-
-//   rowHasChanged(r1, r2) {
-//     return r1.name !== r2.name;
-//   }
-
-//   timeToString(time) {
-//     const date = new Date(time);
-//     return date.toISOString().split('T')[0];
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   item: {
-//     backgroundColor: 'white',
-//     flex: 1,
-//     borderRadius: 5,
-//     padding: 10,
-//     marginRight: 10,
-//     marginTop: 17,
-//   },
-//   emptyDate: {
-//     height: 15,
-//     flex: 1,
-//     paddingTop: 30,
-//   },
-// });
+export default Calendar;
