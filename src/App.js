@@ -11,38 +11,44 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      // user: {},
+      user: {},
+      login: false
     };
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
-  // componentDidMount() {
-  //   this.props.getUser();
-  // }
+
+  handleLogin(user) {
+    this.setState({
+      user: user,
+      login: true
+    });
+  }
+
+  handleLogout() {
+    this.setState({
+      user: {},
+      login: false
+    });
+  }
 
   render() {
-    //const user = this.props.user;
-    //console.log("User: ", user);
+    const user = this.state.user;
     return (
       <div>
         <Grid container>
           <Grid item xs={3}>
             <Grid container>
               <Grid item xs={2}>
-                <NavBar />
+                <NavBar handleLogout={this.handleLogout} />
               </Grid>
               <Grid item xs={2}>
-                {firebase.auth().onAuthStateChanged(user => {
-                  console.log("App User: ", user);
-                  if (user) {
-                    return <ProjectBar />;
-                  } else {
-                    return null;
-                  }
-                })}
+                {this.state.login && <ProjectBar />}
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={9}>
-            <Routes />
+            <Routes handleLogin={this.handleLogin} />
           </Grid>
         </Grid>
       </div>

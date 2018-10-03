@@ -8,6 +8,7 @@ import ListItem from "@material-ui/core/ListItem";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import firebase from "../firebase";
+import Project from "./Projects";
 
 const styles = theme => ({
   icon: {
@@ -18,30 +19,27 @@ const styles = theme => ({
   }
 });
 
-const getProjects = () => {
-  let projectsVal;
-  let projectsArr;
-  const ref = firebase.database().ref("projects/");
-  ref.on("value", snap => {
-    projectsArr = [];
-    projectsVal = snap.val();
-    console.log("ProjectVal: ", projectsVal);
-    for (var key in projectsVal) {
-      projectsArr.push(projectsVal[key].name);
-    }
-    console.log("Projects Array: ", projectsArr);
-  });
-
-  return projectsArr;
-};
-
 class MiniDrawer extends React.Component {
   constructor() {
     super();
     this.logOut = this.logOut.bind(this);
     this.state = {
-      projects: []
+      projects: [] || null,
+      user: {},
+      login: null
     };
+  }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({
+          user
+        });
+      } else {
+        return null;
+      }
+    });
   }
 
   logOut() {
@@ -57,39 +55,45 @@ class MiniDrawer extends React.Component {
           console.error(error);
         }
       );
+    this.setState({
+      user: {}
+    });
+    this.props.handleLogout();
   }
+
   render() {
     const { classes } = this.props;
-    console.log("Projects: ", getProjects());
-    if (!this.state.projects.length) {
-      const projectArray = getProjects();
-      console.log("Project Array in Render: ", projectArray);
-      // this.setState({
-      //   project: projectArray
-      // });
-    }
+    const { handleUser } = this.props;
+    console.log("Navbar user: ", this.state.user);
     return (
       <div className={classes.root}>
         <Drawer variant="permanent" className={classes.paper}>
           <List>
             <ListItem>
-              <Link to="/login" style={{ textDecoration: "none" }}>
+              <Link
+                to={{ pathname: "/login", state: { handleUser: handleUser } }}
+                style={{ textDecoration: "none" }}
+              >
                 <img className={classes.icon} src="reminder.png" alt="home" />
               </Link>
             </ListItem>
-            {this.state.projects && (
+            {this.state.user ? (
               <Button size="small" onClick={this.logOut}>
                 LOGOUT
               </Button>
-            )}
+            ) : null}
             <Divider />
             <Button size="small">CALENDAR</Button>
-
-            {this.state.projects
-              ? this.state.projects.map(project => {
-                  <ListItem>{project}</ListItem>;
-                })
-              : null}
+            {/* <div>
+              {firebase.auth().onAuthStateChanged(user => {
+                if (user.uid) {
+                  console.log("Project Component: ", user);
+                  return <Project />;
+                } else {
+                  return null;
+                }
+              })}
+            </div> */}
           </List>
         </Drawer>
       </div>

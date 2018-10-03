@@ -11,30 +11,25 @@ import ProjectBar from "./Components/ProjectBar";
 import firebase from "./firebase";
 
 export default class Routes extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     user: {},
-  //   };
-  // }
-  // componentDidMount() {
-  //   const newUser = firebase.auth().currentUser;
-  //   this.setState({
-  //     user: newUser,
-  //   });
-  // }
-  async render() {
-    let currentUser;
-    await function newFunction() {
-      firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          console.log("User: ", user);
-          currentUser = user;
-          console.log("---CurrentUser: ", currentUser);
-        }
-      });
+  constructor() {
+    super();
+    this.state = {
+      user: {}
     };
-    console.log("CurrentUser: ", currentUser);
+  }
+  componentDidMount() {
+    const newUser = firebase.auth().currentUser;
+    this.setState({
+      user: newUser
+    });
+  }
+  render() {
+    let currentUser;
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        currentUser = user;
+      }
+    });
     return (
       <Switch>
         {currentUser && (
@@ -47,7 +42,11 @@ export default class Routes extends Component {
             <Route path="/projectbar" component={ProjectBar} />
           </Switch>
         )}
-        <Route path="/login" component={LoginForm} />
+        <Route
+          path="/login"
+          render={() => <LoginForm handleLogin={this.props.handleLogin} />}
+          // component={LoginForm}
+        />
         <Route path="/signup" component={SignUpForm} />
       </Switch>
     );
