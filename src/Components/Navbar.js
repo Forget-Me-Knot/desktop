@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+import { ListItem, ListItemText } from "@material-ui/core/";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import firebase from "../firebase";
@@ -20,8 +20,8 @@ const styles = theme => ({
 });
 
 class Navbar extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.logOut = this.logOut.bind(this);
     this.state = {
       projects: [] || null,
@@ -63,27 +63,38 @@ class Navbar extends React.Component {
 
   render() {
     const { classes } = this.props;
-    console.log("Navbar user: ", this.state.user);
+    const { handleUser } = this.props;
+    // console.log("Navbar user: ", this.state.user);
     return (
       <div className={classes.root}>
         <Drawer variant="permanent" className={classes.paper}>
           <List>
             <ListItem>
-              <Link
-                to={{
-                  pathname: "/login",
-                  state: { handleLogin: this.props.handleLogin }
-                }}
-                style={{ textDecoration: "none" }}
-              >
-                <img className={classes.icon} src="reminder.png" alt="home" />
-              </Link>
+              <img
+                className={classes.icon}
+                src="reminder.png"
+                alt="home"
+                centered={"true"}
+              />
             </ListItem>
-            {this.state.user ? (
-              <Button size="small" onClick={this.logOut}>
-                LOGOUT
-              </Button>
-            ) : null}
+
+            {firebase.auth().currentUser ? (
+              <ListItem>
+                {/* <Link
+                  to={{ pathname: "/login", state: { handleUser: handleUser } }}
+                  style={{ textDecoration: "none" }}
+                /> */}
+                <Button onClick={this.logOut}> logout </Button>
+              </ListItem>
+            ) : (
+              <ListItem component={Link} to="/login">
+                {/* <ListItemIcon>
+                <BookIcon />
+              </ListItemIcon> */}
+                <ListItemText primary="Login" />
+              </ListItem>
+            )}
+
             <Divider />
             <Button size="small">
               <Link to="/calendar" style={{ textDecoration: "none" }}>

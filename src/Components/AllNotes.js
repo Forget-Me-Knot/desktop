@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import firebase from '../firebase';
-import NoteGrids from './NoteGrids';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
+import React, { Component } from "react";
+import firebase from "../firebase";
+import NoteGrids from "./NoteGrids";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import TextField from "@material-ui/core/TextField";
 
 // Only loads current logged in user's notes
 export default class AllNotes extends Component {
@@ -15,8 +15,8 @@ export default class AllNotes extends Component {
     super();
     this.state = {
       myNotes: [],
-      curNote: '',
-      open: false,
+      curNote: "",
+      open: false
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
@@ -26,42 +26,42 @@ export default class AllNotes extends Component {
   }
 
   componentDidMount() {
-    let myNotes;
-    var ref = firebase.database().ref('notes');
-    var self = this;
-    ref.on('value', function(snapshot) {
-      myNotes = [];
-      let notes = snapshot.val();
-      for (var key in notes) {
-        const user = firebase.auth().currentUser;
-        if (notes[key].author === user.uid) {
-          myNotes.push(notes[key]);
-        }
-      }
-      self.setState({ myNotes });
-    });
+    // let myNotes;
+    // var ref = firebase.database().ref("notes/");
+    // var self = this;
+    // ref.on("value", function(snapshot) {
+    //   myNotes = [];
+    //   let notes = snapshot.val();
+    //   for (var key in notes) {
+    //     const user = firebase.auth().currentUser;
+    //     if (notes[key].author === user.uid) {
+    //       myNotes.push(notes[key]);
+    //     }
+    //   }
+    //   self.setState({ myNotes });
+    // });
   }
 
   handleOpen() {
     this.setState({
-      open: true,
+      open: true
     });
   }
 
   handleClose() {
     this.setState({
-      open: false,
+      open: false
     });
   }
 
   handleChange(event) {
     if (!firebase.auth().currentUser) {
-      console.log('NOT LOGGED IN');
+      console.log("NOT LOGGED IN");
     } else {
       console.log(firebase.auth().currentUser.displayName);
     }
     this.setState({
-      curNote: event.target.value,
+      curNote: event.target.value
     });
   }
 
@@ -71,21 +71,21 @@ export default class AllNotes extends Component {
     const noteid = new Date().getTime();
     firebase
       .database()
-      .ref('notes/' + noteid)
+      .ref("notes/" + noteid)
       .set({
         author: user.uid,
-        content: this.state.curNote,
+        content: this.state.curNote
       });
     this.setState({
-      open: false,
+      open: false
     });
   }
 
   handleDelete(id) {
-    console.log('IN DELETE');
+    console.log("IN DELETE");
     firebase
       .database()
-      .ref('notes/' + id)
+      .ref("notes/" + id)
       .remove();
   }
 
