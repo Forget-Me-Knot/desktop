@@ -1,22 +1,22 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
-import firebase from "../firebase";
-import Project from "./Projects";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import firebase from '../firebase';
+import Project from './Projects';
 
 const styles = theme => ({
   icon: {
-    height: "30px"
+    height: '30px',
   },
   paper: {
-    width: 90
-  }
+    width: 90,
+  },
 });
 
 class MiniDrawer extends React.Component {
@@ -26,7 +26,7 @@ class MiniDrawer extends React.Component {
     this.state = {
       projects: [] || null,
       user: {},
-      login: null
+      login: null,
     };
   }
 
@@ -34,7 +34,7 @@ class MiniDrawer extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({
-          user
+          user,
         });
       } else {
         return null;
@@ -48,7 +48,7 @@ class MiniDrawer extends React.Component {
       .signOut()
       .then(
         function() {
-          console.log("Sign out!");
+          console.log('Sign out!');
           console.log(firebase.auth().currentUser);
         },
         function(error) {
@@ -56,7 +56,7 @@ class MiniDrawer extends React.Component {
         }
       );
     this.setState({
-      user: {}
+      user: {},
     });
     this.props.handleLogout();
   }
@@ -64,15 +64,15 @@ class MiniDrawer extends React.Component {
   render() {
     const { classes } = this.props;
     const { handleUser } = this.props;
-    console.log("Navbar user: ", this.state.user);
+    console.log('Navbar user: ', this.state.user);
     return (
       <div className={classes.root}>
         <Drawer variant="permanent" className={classes.paper}>
           <List>
             <ListItem>
               <Link
-                to={{ pathname: "/login", state: { handleUser: handleUser } }}
-                style={{ textDecoration: "none" }}
+                to={{ pathname: '/login', state: { handleUser: handleUser } }}
+                style={{ textDecoration: 'none' }}
               >
                 <img className={classes.icon} src="reminder.png" alt="home" />
               </Link>
@@ -83,7 +83,17 @@ class MiniDrawer extends React.Component {
               </Button>
             ) : null}
             <Divider />
-            <Button size="small">CALENDAR</Button>
+            <Button size="small">
+              <Link to="/calendar" style={{ textDecoration: 'none' }}>
+                CALENDAR
+              </Link>
+            </Button>
+            {this.state.projects
+              ? this.state.projects.map(project => {
+                  <ListItem>{project.name}</ListItem>;
+                })
+              : null}
+
             {/* <div>
               {firebase.auth().onAuthStateChanged(user => {
                 if (user.uid) {
@@ -103,7 +113,7 @@ class MiniDrawer extends React.Component {
 
 MiniDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(MiniDrawer);

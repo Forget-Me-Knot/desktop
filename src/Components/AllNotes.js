@@ -35,7 +35,7 @@ export default class AllNotes extends Component {
       for (var key in notes) {
         const user = firebase.auth().currentUser;
         if (notes[key].author === user.uid) {
-          myNotes.push(notes);
+          myNotes.push(notes[key]);
         }
       }
       self.setState({ myNotes });
@@ -77,12 +77,12 @@ export default class AllNotes extends Component {
         content: this.state.curNote,
       });
     this.setState({
-      myNotes: [...this.state.myNotes, this.state.curNote],
       open: false,
     });
   }
 
   handleDelete(id) {
+    console.log('IN DELETE');
     firebase
       .database()
       .ref('notes/' + id)
@@ -95,6 +95,7 @@ export default class AllNotes extends Component {
       <div>
         <Button
           variant="fab"
+          mini
           color="primary"
           aria-label="Add"
           onClick={this.handleOpen}

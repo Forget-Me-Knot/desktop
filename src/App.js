@@ -1,18 +1,18 @@
-import React, { Component } from "react";
-import Routes from "./routes";
-import NavBar from "./Components/Navbar";
-import ProjectBar from "./Components/ProjectBar";
-import Grid from "@material-ui/core/Grid";
-import { gotUser } from "./store/user";
-import firebase from "./firebase";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import Routes from './routes';
+import NavBar from './Components/Navbar';
+import ProjectBar from './Components/ProjectBar';
+import Grid from '@material-ui/core/Grid';
+//import { gotUser } from './store/user';
+//import firebase from './firebase';
+//import { connect } from 'react-redux';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       user: {},
-      login: false
+      login: false,
     };
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
@@ -21,14 +21,14 @@ class App extends Component {
   handleLogin(user) {
     this.setState({
       user: user,
-      login: true
+      login: true,
     });
   }
 
   handleLogout() {
     this.setState({
       user: {},
-      login: false
+      login: false,
     });
   }
 

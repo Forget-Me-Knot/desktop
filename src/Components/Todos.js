@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import firebase from '../firebase';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -18,11 +19,18 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
 
 let counter = 0;
-function createData(name, assigned, date) {
+function createData(name, assigned) {
   counter += 1;
-  return { id: counter, name, assigned, date };
+  return { id: counter, name, assigned };
 }
 
 function desc(a, b, orderBy) {
@@ -59,7 +67,6 @@ const rows = [
     label: 'Task',
   },
   { id: 'assigned', numeric: false, disablePadding: false, label: 'Assigned' },
-  { id: 'date', numeric: false, disablePadding: false, label: 'Date' },
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -166,7 +173,7 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
-            Nutrition
+            To-Do List
           </Typography>
         )}
       </div>
@@ -215,18 +222,29 @@ class EnhancedTable extends React.Component {
     order: 'asc',
     orderBy: 'calories',
     selected: [],
-    data: [
-      createData('Cupcake', 305, 3.7),
-      createData('Donut', 452, 25.0),
-      createData('Eclair', 262, 16.0),
-      createData('Frozen yoghurt', 159, 6.0),
-      createData('Gingerbread', 356, 16.0),
-      createData('Honeycomb', 408, 3.2),
-      createData('Ice cream sandwich', 237, 9.0),
-    ],
+    data: [createData()],
     page: 0,
     rowsPerPage: 10,
+    task: '',
+    assigned: '',
+    open: false,
   };
+
+  componentDidMount() {
+    let myTasks;
+    var ref = firebase.database().ref('tasks');
+    var self = this;
+    ref.on('value', function(snapshot) {
+      myTasks = [];
+      let tasks = snapshot.val();
+      for (var key in tasks) {
+        myTasks.push(tasks[key]);
+      }
+      myTasks.map(task => {
+        self.setState({ data: [createData(task.content, task.assigned)] });
+      });
+    });
+  }
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
@@ -276,6 +294,37 @@ class EnhancedTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: [event.target.value],
+    });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    const assigned = this.state.assigned[0];
+    const content = this.state.task[0];
+    const taskid = new Date().getTime();
+    firebase
+      .database()
+      .ref('tasks/' + taskid)
+      .set({
+        assigned: assigned,
+        content: content,
+      });
+    this.setState({
+      open: false,
+    });
+  };
+
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
@@ -285,67 +334,113 @@ class EnhancedTable extends React.Component {
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
-      <Paper className={classes.root}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby="tableTitle">
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={this.handleSelectAllClick}
-              onRequestSort={this.handleRequestSort}
-              rowCount={data.length}
-            />
-            <TableBody>
-              {stableSort(data, getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(n => {
-                  const isSelected = this.isSelected(n.id);
-                  return (
-                    <TableRow
-                      hover
-                      onClick={event => this.handleClick(event, n.id)}
-                      role="checkbox"
-                      aria-checked={isSelected}
-                      tabIndex={-1}
-                      key={n.id}
-                      selected={isSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected} />
-                      </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
-                        {n.name}
-                      </TableCell>
-                      <TableCell numeric>{n.assigned}</TableCell>
-                      <TableCell numeric>{n.date}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 49 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-        <TablePagination
-          component="div"
-          count={data.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          backIconButtonProps={{
-            'aria-label': 'Previous Page',
-          }}
-          nextIconButtonProps={{
-            'aria-label': 'Next Page',
-          }}
-          onChangePage={this.handleChangePage}
-          onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        />
-      </Paper>
+      <div>
+        <Button
+          variant="fab"
+          mini
+          color="primary"
+          aria-label="Add"
+          onClick={this.handleOpen}
+        >
+          <AddIcon />
+        </Button>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Add a new task</DialogTitle>
+          <DialogContent>
+            <form onChange={this.handleChange}>
+              <TextField
+                autoFocus
+                margin="dense"
+                name="task"
+                type="text"
+                placeholder="task"
+                fullWidth
+              />
+              <TextField
+                autoFocus
+                margin="dense"
+                name="assigned"
+                type="text"
+                placeholder="assigned"
+                fullWidth
+              />
+            </form>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.handleSubmit} color="primary">
+              Post
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Paper className={classes.root}>
+          <EnhancedTableToolbar numSelected={selected.length} />
+          <div className={classes.tableWrapper}>
+            <Table className={classes.table} aria-labelledby="tableTitle">
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={this.handleSelectAllClick}
+                onRequestSort={this.handleRequestSort}
+                rowCount={data.length}
+              />
+              <TableBody>
+                {stableSort(data, getSorting(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map(n => {
+                    const isSelected = this.isSelected(n.id);
+                    return (
+                      <TableRow
+                        hover
+                        onClick={event => this.handleClick(event, n.id)}
+                        role="checkbox"
+                        aria-checked={isSelected}
+                        tabIndex={-1}
+                        key={n.id}
+                        selected={isSelected}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox checked={isSelected} />
+                        </TableCell>
+                        <TableCell component="th" scope="row" padding="none">
+                          {n.name}
+                        </TableCell>
+                        {/* <TableCell numeric>{n.assigned}</TableCell>
+                        <TableCell numeric>{n.date}</TableCell> */}
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 49 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          <TablePagination
+            component="div"
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            backIconButtonProps={{
+              'aria-label': 'Previous Page',
+            }}
+            nextIconButtonProps={{
+              'aria-label': 'Next Page',
+            }}
+            onChangePage={this.handleChangePage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          />
+        </Paper>
+      </div>
     );
   }
 }

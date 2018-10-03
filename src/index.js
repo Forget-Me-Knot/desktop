@@ -9,11 +9,11 @@ import store from './store';
 
 //material ui
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { purple, green } from '@material-ui/core/colors';
+import { blue, green } from '@material-ui/core/colors';
 
 const theme = createMuiTheme({
   palette: {
-    primary: purple,
+    primary: blue,
     secondary: green,
   },
   status: {
