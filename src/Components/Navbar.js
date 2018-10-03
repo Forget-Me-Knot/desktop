@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import firebase from "../firebase";
 import Project from "./Projects";
+import ProjectBar from "./ProjectBar";
 
 const styles = theme => ({
   icon: {
@@ -101,11 +102,12 @@ class Navbar extends React.Component {
                 CALENDAR
               </Link>
             </Button>
-            {this.state.projects
+            {firebase.auth().currentUser ? <ProjectBar /> : <h3>hi</h3>}
+            {/* {this.state.projects
               ? this.state.projects.map(project => {
                   <ListItem>{project.name}</ListItem>;
                 })
-              : null}
+              : null} */}
 
             {/* <div>
               {firebase.auth().onAuthStateChanged(user => {
