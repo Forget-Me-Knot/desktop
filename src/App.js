@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import Routes from './routes';
-import NavBar from './Components/Navbar';
-import ProjectBar from './Components/ProjectBar';
-import Grid from '@material-ui/core/Grid';
+import React, { Component } from "react";
+import Routes from "./routes";
+import Navbar from "./Components/Navbar";
+import ProjectBar from "./Components/ProjectBar";
+import Grid from "@material-ui/core/Grid";
 //import { gotUser } from './store/user';
 //import firebase from './firebase';
 //import { connect } from 'react-redux';
@@ -12,7 +12,7 @@ class App extends Component {
     super();
     this.state = {
       user: {},
-      login: false,
+      login: false
     };
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
@@ -21,14 +21,14 @@ class App extends Component {
   handleLogin(user) {
     this.setState({
       user: user,
-      login: true,
+      login: true
     });
   }
 
   handleLogout() {
     this.setState({
       user: {},
-      login: false,
+      login: false
     });
   }
 
@@ -40,7 +40,10 @@ class App extends Component {
           <Grid item xs={3}>
             <Grid container>
               <Grid item xs={2}>
-                <NavBar handleLogout={this.handleLogout} />
+                <Navbar
+                  handleLogout={this.handleLogout}
+                  handleLogin={this.handleLogin}
+                />
               </Grid>
               <Grid item xs={2}>
                 {this.state.login && <ProjectBar />}

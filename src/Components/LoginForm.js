@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import firebase from '../firebase';
-import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import Card from '@material-ui/core/Card';
+import React, { Component } from "react";
+import firebase from "../firebase";
+import { Link } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import Card from "@material-ui/core/Card";
 
 export default class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,7 +21,7 @@ export default class LoginForm extends Component {
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     });
   }
 
@@ -29,7 +29,7 @@ export default class LoginForm extends Component {
     event.preventDefault();
     const email = this.state.email;
     const pass = this.state.password;
-    if (email !== '' && pass !== '') {
+    if (email !== "" && pass !== "") {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, pass)
@@ -45,18 +45,18 @@ export default class LoginForm extends Component {
   render() {
     // const { handleUser } = this.props.location.state;
     return (
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: "relative" }}>
         <div
           style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, 50%)',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, 50%)"
           }}
         >
           <Card>
             <form onChange={this.handleChange}>
-              <FormGroup style={{ margin: '1em' }}>
+              <FormGroup style={{ margin: "1em" }}>
                 <FormControl>
                   <InputLabel>E-mail</InputLabel>
                   <Input name="email" type="email" required />
@@ -70,7 +70,7 @@ export default class LoginForm extends Component {
                   LOGIN
                 </Button>
                 <Button>
-                  <Link style={{ textDecoration: 'none' }} to="/signup" replace>
+                  <Link style={{ textDecoration: "none" }} to="/signup" replace>
                     Sign up as a new user
                   </Link>
                 </Button>
