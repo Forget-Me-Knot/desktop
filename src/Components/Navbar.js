@@ -8,6 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import firebase from '../firebase';
+import Project from './Projects';
 
 const styles = theme => ({
   icon: {
@@ -23,31 +24,22 @@ class MiniDrawer extends React.Component {
     super();
     this.logOut = this.logOut.bind(this);
     this.state = {
-      projects: [],
+      projects: [] || null,
+      user: {},
+      login: null,
     };
   }
+
   componentDidMount() {
-    const user = firebase.auth().currentUser;
-    var self = this;
-    if (user) {
-      var ref = firebase.database().ref('projects/');
-      ref.on(
-        'value',
-        function(snapshot) {
-          let projectsArr = [];
-          let projects = snapshot.val();
-          for (var key in projects) {
-            if (projects[key].name) {
-              projectsArr.push(projects[key]);
-            }
-          }
-          self.setState({ projects: projectsArr });
-        },
-        function(error) {
-          console.log('Error: ', error.code);
-        }
-      );
-    }
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({
+          user,
+        });
+      } else {
+        return null;
+      }
+    });
   }
 
   logOut() {
@@ -63,25 +55,33 @@ class MiniDrawer extends React.Component {
           console.error(error);
         }
       );
+    this.setState({
+      user: {},
+    });
+    this.props.handleLogout();
   }
+
   render() {
     const { classes } = this.props;
-    const user = firebase.auth().currentUser;
-    console.log('User: ', user);
+    const { handleUser } = this.props;
+    console.log('Navbar user: ', this.state.user);
     return (
       <div className={classes.root}>
         <Drawer variant="permanent" className={classes.paper}>
           <List>
             <ListItem>
-              <Link to="/login" style={{ textDecoration: 'none' }}>
+              <Link
+                to={{ pathname: '/login', state: { handleUser: handleUser } }}
+                style={{ textDecoration: 'none' }}
+              >
                 <img className={classes.icon} src="reminder.png" alt="home" />
               </Link>
             </ListItem>
-            {user && (
+            {this.state.user ? (
               <Button size="small" onClick={this.logOut}>
                 LOGOUT
               </Button>
-            )}
+            ) : null}
             <Divider />
             <Button size="small">
               <Link to="/calendar" style={{ textDecoration: 'none' }}>
@@ -93,6 +93,17 @@ class MiniDrawer extends React.Component {
                   <ListItem>{project.name}</ListItem>;
                 })
               : null}
+
+            {/* <div>
+              {firebase.auth().onAuthStateChanged(user => {
+                if (user.uid) {
+                  console.log("Project Component: ", user);
+                  return <Project />;
+                } else {
+                  return null;
+                }
+              })}
+            </div> */}
           </List>
         </Drawer>
       </div>

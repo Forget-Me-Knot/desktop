@@ -11,18 +11,18 @@ import ProjectBar from './Components/ProjectBar';
 //import firebase from './firebase';
 
 export default class Routes extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     user: {},
-  //   };
-  // }
-  // componentDidMount() {
-  //   const newUser = firebase.auth().currentUser;
-  //   this.setState({
-  //     user: newUser,
-  //   });
-  // }
+  constructor() {
+    super();
+    this.state = {
+      user: {}
+    };
+  }
+  componentDidMount() {
+    const newUser = firebase.auth().currentUser;
+    this.setState({
+      user: newUser
+    });
+  }
   render() {
     // let currentUser;
     // firebase.auth().onAuthStateChanged(user => {
@@ -35,17 +35,21 @@ export default class Routes extends Component {
       // <Switch>
       //   {currentUser && (
       <Switch>
-        {/* <Route path="/login" component={LoginForm} />
-            <Route path="/signup" component={SignUpForm} /> */}
-        <Route path="/notes" component={AllNotes} />
-        <Route path="/home" component={Home} />
-        <Route path="/writenote" component={NoteForm} />
-        <Route path="/projectbar" component={ProjectBar} />
-        <Route path="/calendar" component={Calendar} />
-        <Route path="/todos" component={Todos} />
-        {/* </Switch>
-        )} */}
+
         <Route path="/login" component={LoginForm} />
+            <Route path="/notes" component={AllNotes} />
+            <Route path="/home" component={Home} />
+            <Route path="/writenote" component={NoteForm} />
+            <Route path="/projectbar" component={ProjectBar} />
+            <Route path="/calendar" component={Calendar} />
+        <Route path="/todos" component={Todos} />
+          </Switch>
+        )}
+        <Route
+          path="/login"
+          render={() => <LoginForm handleLogin={this.props.handleLogin} />}
+          // component={LoginForm}
+        />
         <Route path="/signup" component={SignUpForm} />
       </Switch>
     );
