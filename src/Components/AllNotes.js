@@ -26,20 +26,20 @@ export default class AllNotes extends Component {
   }
 
   componentDidMount() {
-    // let myNotes;
-    // var ref = firebase.database().ref("notes/");
-    // var self = this;
-    // ref.on("value", function(snapshot) {
-    //   myNotes = [];
-    //   let notes = snapshot.val();
-    //   for (var key in notes) {
-    //     const user = firebase.auth().currentUser;
-    //     if (notes[key].author === user.uid) {
-    //       myNotes.push(notes[key]);
-    //     }
-    //   }
-    //   self.setState({ myNotes });
-    // });
+    let myNotes;
+    var ref = firebase.database().ref("notes/");
+    var self = this;
+    ref.on("value", function(snapshot) {
+      myNotes = [];
+      let notes = snapshot.val();
+      for (var key in notes) {
+        const user = firebase.auth().currentUser;
+        if (notes[key].author === user.uid) {
+          myNotes.push(notes[key]);
+        }
+      }
+      self.setState({ myNotes });
+    });
   }
 
   handleOpen() {
