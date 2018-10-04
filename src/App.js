@@ -4,7 +4,7 @@ import Navbar from "./Components/Navbar";
 import ProjectBar from "./Components/ProjectBar";
 import Grid from "@material-ui/core/Grid";
 //import { gotUser } from './store/user';
-//import firebase from './firebase';
+import firebase from "./firebase";
 //import { connect } from 'react-redux';
 
 class App extends Component {
@@ -46,7 +46,11 @@ class App extends Component {
                 />
               </Grid>
               <Grid item xs={2}>
-                {this.state.login && <ProjectBar />}
+                {firebase.auth().currentUser ? (
+                  <ProjectBar />
+                ) : (
+                  <h1>Login for the love!</h1>
+                )}
               </Grid>
             </Grid>
           </Grid>

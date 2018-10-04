@@ -1,24 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { HashRouter } from 'react-router-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-import store from './store';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { HashRouter } from "react-router-dom";
+import "./index.css";
+import App from "./App";
+import registerServiceWorker from "./registerServiceWorker";
+import store from "./store";
 
 //material ui
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { blue, green } from '@material-ui/core/colors';
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { blue, green, pink } from "@material-ui/core/colors";
 
 const theme = createMuiTheme({
   palette: {
     primary: blue,
-    secondary: green,
+    secondary: green
   },
   status: {
-    danger: 'orange',
-  },
+    danger: "orange"
+  }
 });
 
 ReactDOM.render(
@@ -29,6 +29,6 @@ ReactDOM.render(
       </HashRouter>
     </MuiThemeProvider>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 registerServiceWorker();
