@@ -129,7 +129,7 @@ export default class ProjectBar extends React.Component {
                 <Avatar
                   rounded
                   style={{
-                    backgroundColor: `${item.color}`,
+                    backgroundColor: `#${item.color}`,
                     width: "30px",
                     height: "30px"
                   }}
