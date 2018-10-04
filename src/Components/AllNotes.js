@@ -43,9 +43,10 @@ export default class AllNotes extends Component {
   }
 
   handleOpen() {
-    this.setState({
-      open: true
-    });
+    // this.setState({
+    //   open: true
+    // });
+    this.props.history.push("/writenote");
   }
 
   handleClose() {
