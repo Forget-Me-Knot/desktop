@@ -65,6 +65,13 @@ export default class AllNotes extends Component {
     });
   }
 
+  //   author:
+  // "EVj0tqHZEsVjsf4qh7FrWWJJKTg2"
+  // content:
+  // "Clean house"
+  // projectId:
+  // "534"
+
   handleSubmit(event) {
     event.preventDefault();
     const user = firebase.auth().currentUser;
