@@ -6,8 +6,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import AddIcon from "@material-ui/icons/Add";
 import LensOutlined from "@material-ui/icons/LensOutlined";
 import Lens from "@material-ui/icons/Lens";
+import { Avatar, Button } from "@material-ui/core";
 
 export default class ProjectBar extends React.Component {
   constructor(props) {
@@ -32,7 +34,14 @@ export default class ProjectBar extends React.Component {
               const members = projects[key].members;
               const name = projects[key].name;
               if (members.includes(user.email)) {
-                userProjects.push({ name, key });
+                userProjects.push(projects[key]);
+                // if (this.state.projects) {
+                //   if (this.state.projects.indexOf(projects[key]) < 0) {
+                //     userProjects.push(projects[key]);
+                //   }
+                // } else {
+                //   userProjects.push(projects[key]);
+                // }
               }
             }
           }
@@ -67,6 +76,7 @@ export default class ProjectBar extends React.Component {
   }
   render() {
     const projects = this.state.projects;
+    console.log(projects[0]);
     return (
       <div
         style={{
@@ -96,13 +106,34 @@ export default class ProjectBar extends React.Component {
             <ListItemText primary="Projects" />
           </ListItem>
           <Divider />
+          <ListItem>
+            <Button
+              variant="fab"
+              text="add a project"
+              // color="primary"
+              aria-label="Add"
+              style={{
+                backgroundColor: `mediumslateblue`,
+                width: "40px",
+                height: "40px"
+              }}
+              onClick={() => console.log("hi there")}
+            >
+              <AddIcon />
+            </Button>
+            <ListItemText primary="Add a Project" />
+          </ListItem>
           {projects ? (
             projects.map(item => (
-              <ListItem style={{ color: `${item.color}` }}>
-                <ListItemIcon color={item.color}>
-                  {/* <LensOutlined color={item.color} /> */}
-                  <Lens color={item.color} />
-                </ListItemIcon>
+              <ListItem>
+                <Avatar
+                  rounded
+                  style={{
+                    backgroundColor: `${item.color}`,
+                    width: "30px",
+                    height: "30px"
+                  }}
+                />
                 <ListItemText primary={item.name} />
               </ListItem>
             ))
