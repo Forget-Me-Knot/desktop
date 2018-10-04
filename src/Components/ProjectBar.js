@@ -10,6 +10,7 @@ import AddIcon from "@material-ui/icons/Add";
 import LensOutlined from "@material-ui/icons/LensOutlined";
 import Lens from "@material-ui/icons/Lens";
 import { Avatar, Button } from "@material-ui/core";
+import NoteForm from "./NoteForm";
 
 export default class ProjectBar extends React.Component {
   constructor(props) {
@@ -76,7 +77,7 @@ export default class ProjectBar extends React.Component {
   }
   render() {
     const projects = this.state.projects;
-    console.log(projects[0]);
+    console.log("Project Bar: ", projects);
     return (
       <div
         style={{
@@ -86,7 +87,13 @@ export default class ProjectBar extends React.Component {
         }}
       >
         <List>
-          <ListItem component={Link} to="/writenote">
+          <ListItem
+            component={Link}
+            to={{
+              pathname: "/writenote",
+              state: { projects: this.state.projects }
+            }}
+          >
             <ListItemText primary="Write" />
           </ListItem>
           <Divider />
@@ -123,7 +130,7 @@ export default class ProjectBar extends React.Component {
             </Button>
             <ListItemText primary="Add a Project" />
           </ListItem>
-          {projects ? (
+          {projects && projects ? (
             projects.map(item => (
               <ListItem>
                 <Avatar
