@@ -42,13 +42,13 @@ class App extends Component {
               <Grid item xs={2}>
                 <NavBar handleLogout={this.handleLogout} />
               </Grid>
-              <Grid item xs={2}>
-                {firebase.auth().currentUser ? (
+              {/* <Grid item xs={2}> */}
+              {/* {firebase.auth().currentUser ? (
                   <ProjectBar />
                 ) : (
                   <h1>Login for the love!</h1>
-                )}
-              </Grid>
+                )} */}
+              {/* </Grid> */}
             </Grid>
           </Grid>
           <Grid item xs={9}>
