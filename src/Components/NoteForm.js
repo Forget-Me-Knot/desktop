@@ -11,6 +11,7 @@ import FilledInput from "@material-ui/core/FilledInput";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import Select from "@material-ui/core/Select";
+import { TextField } from "@material-ui/core";
 
 export default class NoteForm extends Component {
   constructor(props) {
@@ -82,7 +83,7 @@ export default class NoteForm extends Component {
             position: "absolute",
             top: "50%",
             left: "50%",
-            transform: "translate(-50%, 50%)"
+            transform: "translate(-50%, 20%)"
           }}
         >
           <Card
@@ -92,12 +93,27 @@ export default class NoteForm extends Component {
             }}
           >
             <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
-              <FormGroup style={{ margin: "1em", float: "button" }}>
+              <FormGroup style={{ margin: "1.5em", float: "button" }}>
                 <FormControl>
                   <InputLabel>New Note:</InputLabel>
-                  <Input name="note" type="text" required />
+                  <TextField
+                    name="note"
+                    type="text"
+                    style={{ marginTop: "2.5em" }}
+                    required
+                  />
                 </FormControl>
-                <br />
+              </FormGroup>
+              {/* <br /> */}
+              <FormGroup
+                style={{
+                  margin: "17em 3em 0"
+                  // display: "flex",
+                  // flexDirection: "column",
+                  // justifyContent: "center",
+                  // alignContent: "flex-end"
+                }}
+              >
                 <InputLabel htmlFor="age-simple">Project</InputLabel>
                 <Select
                   // value={this.state.age}
@@ -125,7 +141,8 @@ export default class NoteForm extends Component {
             style={{
               backgroundColor: "pink",
               marginTop: "20px",
-              display: "flex"
+              display: "flex",
+              marginBottom: "10%"
             }}
           >
             POST NOTE

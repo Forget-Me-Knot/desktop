@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import firebase from "../firebase";
-import { Link } from "react-router-dom";
+import { Link, withRouter, Redirect, Route } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -40,6 +40,7 @@ export default class LoginForm extends Component {
     const user = firebase.auth().currentUser;
     this.props.handleLogin(user);
     // this.props.history.push("/home");
+    return <Redirect to={"/home"} />;
   }
 
   render() {

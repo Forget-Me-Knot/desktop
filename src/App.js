@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Routes from "./routes";
-import NavBar from "./Components/Navbar";
+import Navbar from "./Components/Navbar";
 import ProjectBar from "./Components/ProjectBar";
 import Grid from "@material-ui/core/Grid";
 //import { gotUser } from './store/user';
@@ -40,7 +40,10 @@ class App extends Component {
           <Grid item xs={3}>
             <Grid container>
               <Grid item xs={2}>
-                <NavBar handleLogout={this.handleLogout} />
+                <Navbar
+                  handleLogout={this.handleLogout}
+                  handleLogin={this.handleLogin}
+                />
               </Grid>
               {/* <Grid item xs={2}> */}
               {/* {firebase.auth().currentUser ? (
