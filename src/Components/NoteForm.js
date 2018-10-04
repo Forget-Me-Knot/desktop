@@ -34,13 +34,14 @@ export default class NoteForm extends Component {
       ref.on("value", function(snapshot) {
         let projects = snapshot.val();
         for (let key in projects) {
-          if (projects[key].members) {
-            const members = projects[key].members;
-            const name = projects[key].name;
-            userProjects.push(name);
-          }
+          // if (projects[key].members.includes(user.email)) {
+          const members = projects[key].members;
+          const name = projects[key].name;
+          userProjects.push(name);
+          //}
         }
       });
+      console.log("User Projects: ", userProjects);
       self.setState({ projects: userProjects });
     }
   }
@@ -76,6 +77,8 @@ export default class NoteForm extends Component {
   }
 
   render() {
+    const state = this.props.location.state;
+    console.log("Projects: ", state);
     return (
       <div style={{ position: "relative" }}>
         <div
@@ -116,19 +119,23 @@ export default class NoteForm extends Component {
               >
                 <InputLabel htmlFor="age-simple">Project</InputLabel>
                 <Select
-                  // value={this.state.age}
-                  // onChange={this.handleChange}
-                  inputProps={{
-                    name: "project",
-                    id: "age-simple"
-                  }}
+                // value={this.state.age}
+                // onChange={this.handleChange}
+                // inputProps={{
+                //   name: "project",
+                //   id: "age-simple"
+                // }}
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {state &&
+                    state.projects.map(project => (
+                      <MenuItem value={project}>{project.name}</MenuItem>
+                    ))}
+                  {/* // <MenuItem value="">
+                  //   <em>None</em>
+                  // </MenuItem>
+                  // <MenuItem value={10}>Ten</MenuItem>
+                  // <MenuItem value={20}>Twenty</MenuItem>
+                  // <MenuItem value={30}>Thirty</MenuItem> */}
                 </Select>
               </FormGroup>
             </form>
