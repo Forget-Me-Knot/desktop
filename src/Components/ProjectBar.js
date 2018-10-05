@@ -9,7 +9,11 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import AddIcon from "@material-ui/icons/Add";
 import LensOutlined from "@material-ui/icons/LensOutlined";
 import Lens from "@material-ui/icons/Lens";
+import SupervisedUserCircle from "@material-ui/icons/SupervisedUserCircle";
+import PersonOutlined from "@material-ui/icons/PersonOutlined";
+import PeopleOutline from "@material-ui/icons/PeopleOutline";
 import { Avatar, Button } from "@material-ui/core";
+import NoteForm from "./NoteForm";
 
 export default class ProjectBar extends React.Component {
   constructor(props) {
@@ -76,7 +80,7 @@ export default class ProjectBar extends React.Component {
   }
   render() {
     const projects = this.state.projects;
-    console.log(projects[0]);
+    console.log("Project Bar: ", projects);
     return (
       <div
         style={{
@@ -86,7 +90,13 @@ export default class ProjectBar extends React.Component {
         }}
       >
         <List>
-          <ListItem component={Link} to="/writenote">
+          <ListItem
+            component={Link}
+            to={{
+              pathname: "/writenote",
+              state: { projects: this.state.projects }
+            }}
+          >
             <ListItemText primary="Write" />
           </ListItem>
           <Divider />
@@ -98,11 +108,11 @@ export default class ProjectBar extends React.Component {
             <ListItemText primary="To-do List" />
           </ListItem>
           <Divider />
-          <ListItem button>
+          <ListItem component={Link} to="/photoBook">
             <ListItemText primary="Photos" />
           </ListItem>
           <Divider />
-          <ListItem button>
+          <ListItem component={Link} to="/project">
             <ListItemText primary="Projects" />
           </ListItem>
           <Divider />
@@ -123,13 +133,18 @@ export default class ProjectBar extends React.Component {
             </Button>
             <ListItemText primary="Add a Project" />
           </ListItem>
-          {projects ? (
+          <ListItem>
+            <ListItemText primary="Group Projects" />
+            {/* <SupervisedUserCircle /> */}
+            <PeopleOutline />
+          </ListItem>
+          {projects && projects ? (
             projects.map(item => (
               <ListItem>
                 <Avatar
                   rounded
                   style={{
-                    backgroundColor: `${item.color}`,
+                    backgroundColor: `#${item.color}`,
                     width: "30px",
                     height: "30px"
                   }}
@@ -142,6 +157,10 @@ export default class ProjectBar extends React.Component {
               <ListItemText primary="Projects ForthComing" />
             </ListItem>
           )}
+          <ListItem>
+            <ListItemText primary="Personal Projects" />
+            <PersonOutlined />
+          </ListItem>
         </List>
       </div>
     );

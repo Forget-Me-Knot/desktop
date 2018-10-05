@@ -1,7 +1,9 @@
+
 import React from 'react'
 import dateFns from 'date-fns'
 import './calendar.css'
 import firebase from '../firebase'
+
 
 class Calendar extends React.Component {
   constructor() {
@@ -44,11 +46,13 @@ class Calendar extends React.Component {
 
     let startDate = dateFns.startOfWeek(this.state.currentMonth)
 
+
     for (let i = 0; i < 7; i++) {
       days.push(
         <div className="col col-center" key={i}>
           {dateFns.format(dateFns.addDays(startDate, i), dateFormat)}
         </div>
+
       )
     }
 
@@ -149,6 +153,7 @@ class Calendar extends React.Component {
     })
   }
 
+
   render() {
     return (
       <div className="calendar">
@@ -161,3 +166,4 @@ class Calendar extends React.Component {
 }
 
 export default Calendar
+
