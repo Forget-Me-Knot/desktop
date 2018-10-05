@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import firebase from "../firebase";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import CommentIcon from '@material-ui/icons/Comment';
+import CreateTodo from './CreateTodo'
 
 export default class ToDo extends Component {
   constructor(props) {
@@ -60,7 +59,8 @@ export default class ToDo extends Component {
 					checked={this.state[task.key]}
 					onClick={() => this.handleClick(task.key)}
 				/>
-				<ListItemText primary={task.content} />
+				<ListItemText primary={task.content} style={ this.state[task.key] ? {textDecoration: 'line-through'} : null} />
+				<Avatar style={{backgroundColor: '#'+task.color, fontSize: '0.8rem'}} >{task.assigned}</Avatar>
 			</ListItem>
 		))
 	}
@@ -68,9 +68,12 @@ export default class ToDo extends Component {
   render() {
 		const tasks = this.state.tasks
     return (
-			<List>
-				{tasks ? this.makeList(tasks) : null}
-			</List>
+			<div>
+				<CreateTodo />
+				<List>
+					{tasks ? this.makeList(tasks) : null}
+				</List>
+			</div>
     );
   }
 }
