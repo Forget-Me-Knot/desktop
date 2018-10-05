@@ -171,6 +171,7 @@ main {
 
 .calendar .body .selected {
   border-left: 20px solid;
+
   border-image-slice: 1;
 }
 
@@ -232,3 +233,14 @@ main {
   right: 2px;
   left: 2px;
 }
+
+
+.eventtext {
+  position: absolute;
+  font-size: 70%;
+  line-height: 1;
+  top: 2.5em;
+	right: 2px;
+	left: 2px;
+}
+

@@ -1,25 +1,27 @@
-import React from "react";
-import dateFns from "date-fns";
-import "./calendar.css";
-import firebase from "../firebase";
+
+import React from 'react'
+import dateFns from 'date-fns'
+import './calendar.css'
+import firebase from '../firebase'
+
 
 class Calendar extends React.Component {
   constructor() {
-    super();
+    super()
     this.state = {
       currentMonth: new Date(),
       selectedDate: new Date()
-    };
-    this.renderHeader = this.renderHeader.bind(this);
-    this.renderCells = this.renderCells.bind(this);
-    this.renderDays = this.renderDays.bind(this);
-    // this.onDateClick = this.onDateClick.bind(this);
-    this.nextMonth = this.nextMonth.bind(this);
-    this.prevMonth = this.prevMonth.bind(this);
+    }
+    this.renderHeader = this.renderHeader.bind(this)
+    this.renderCells = this.renderCells.bind(this)
+    this.renderDays = this.renderDays.bind(this)
+    this.onDateClick = this.onDateClick.bind(this)
+    this.nextMonth = this.nextMonth.bind(this)
+    this.prevMonth = this.prevMonth.bind(this)
   }
 
   renderHeader() {
-    const dateFormat = "MMMM YYYY";
+    const dateFormat = 'MMMM YYYY'
 
     return (
       <div className="header row flex-middle">
@@ -35,24 +37,26 @@ class Calendar extends React.Component {
           <div className="icon">chevron_right</div>
         </div>
       </div>
-    );
+    )
   }
 
   renderDays() {
-    const dateFormat = "dddd";
-    const days = [];
+    const dateFormat = 'dddd'
+    const days = []
 
-    let startDate = dateFns.startOfWeek(this.state.currentMonth);
+    let startDate = dateFns.startOfWeek(this.state.currentMonth)
+
 
     for (let i = 0; i < 7; i++) {
       days.push(
         <div className="col col-center" key={i}>
           {dateFns.format(dateFns.addDays(startDate, i), dateFormat)}
         </div>
-      );
+
+      )
     }
 
-    return <div className="days row">{days}</div>;
+    return <div className="days row">{days}</div>
   }
 
   renderCells() {
@@ -131,27 +135,29 @@ class Calendar extends React.Component {
     } else {
       return this.state.div;
     }
+
   }
 
-  // onDateClick = day => {
-  //   this.setState({
-  //     selectedDate: day
-  //   });
-  // };
+  onDateClick = day => {
+    this.setState({
+      selectedDate: day
+    })
+  }
 
   nextMonth = () => {
     this.setState({
-      currentMonth: dateFns.addMonths(this.state.currentMonth, 1),
-      div: null
-    });
-  };
+			currentMonth: dateFns.addMonths(this.state.currentMonth, 1),
+			div: null
+    })
+  }
 
   prevMonth = () => {
     this.setState({
-      currentMonth: dateFns.subMonths(this.state.currentMonth, 1),
-      div: null
-    });
-  };
+			currentMonth: dateFns.subMonths(this.state.currentMonth, 1),
+			div: null
+    })
+  }
+
 
   render() {
     return (
@@ -160,8 +166,9 @@ class Calendar extends React.Component {
         {this.renderDays()}
         {this.renderCells()}
       </div>
-    );
+    )
   }
 }
 
-export default Calendar;
+export default Calendar
+
