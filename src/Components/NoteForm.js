@@ -18,10 +18,11 @@ export default class NoteForm extends Component {
     super(props);
     this.state = {
       projects: [],
-      selectedProject: ""
+      selectedProject: {}
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleMenuChange = this.handleMenuChange.bind(this);
     // this.handleClick = this.handleClick.bind(this);
   }
 
@@ -37,7 +38,7 @@ export default class NoteForm extends Component {
           // if (projects[key].members.includes(user.email)) {
           const members = projects[key].members;
           const name = projects[key].name;
-          userProjects.push(name);
+          userProjects.push({ name, key });
           //}
         }
       });
@@ -52,16 +53,19 @@ export default class NoteForm extends Component {
     } else {
       console.log(firebase.auth().currentUser.displayName);
     }
+    console.log("Event: ", event.target.value);
     this.setState({
       [event.target.name]: event.target.value
     });
   }
-  //   author:
-  // "EVj0tqHZEsVjsf4qh7FrWWJJKTg2"
-  // content:
-  // "Clean house"
-  // projectId:
-  // "534"
+
+  handleMenuChange(event) {
+    this.setState({
+      selectedProject: event.target.value
+    });
+    console.log("Selected Project: ", this.state.selectedProject);
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     const user = firebase.auth().currentUser;
@@ -71,7 +75,8 @@ export default class NoteForm extends Component {
       .ref("notes/" + noteid)
       .set({
         author: user.uid,
-        content: this.state.note
+        content: this.state.note,
+        project: this.state.selectedProject
       });
     this.props.history.push("/notes");
   }
@@ -107,35 +112,26 @@ export default class NoteForm extends Component {
                   />
                 </FormControl>
               </FormGroup>
-              {/* <br /> */}
               <FormGroup
                 style={{
                   margin: "17em 3em 0"
-                  // display: "flex",
-                  // flexDirection: "column",
-                  // justifyContent: "center",
-                  // alignContent: "flex-end"
                 }}
               >
-                <InputLabel htmlFor="age-simple">Project</InputLabel>
+                <InputLabel>Project</InputLabel>
                 <Select
-                // value={this.state.age}
-                // onChange={this.handleChange}
-                // inputProps={{
-                //   name: "project",
-                //   id: "age-simple"
-                // }}
+                  value={this.state.selectedProject}
+                  onChange={this.handleMenuChange}
+                  // inputProps={{
+                  //   name: "project",
+                  //   id: "age-simple"
+                  // }}
                 >
                   {state &&
                     state.projects.map(project => (
-                      <MenuItem value={project}>{project.name}</MenuItem>
+                      <MenuItem name="selectedProject" value={project}>
+                        {project.name}
+                      </MenuItem>
                     ))}
-                  {/* // <MenuItem value="">
-                  //   <em>None</em>
-                  // </MenuItem>
-                  // <MenuItem value={10}>Ten</MenuItem>
-                  // <MenuItem value={20}>Twenty</MenuItem>
-                  // <MenuItem value={30}>Thirty</MenuItem> */}
                 </Select>
               </FormGroup>
             </form>

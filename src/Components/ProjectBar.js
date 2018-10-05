@@ -37,15 +37,9 @@ export default class ProjectBar extends React.Component {
             if (projects[key].members) {
               const members = projects[key].members;
               const name = projects[key].name;
+              const color = projects[key].color;
               if (members.includes(user.email)) {
-                userProjects.push(projects[key]);
-                // if (this.state.projects) {
-                //   if (this.state.projects.indexOf(projects[key]) < 0) {
-                //     userProjects.push(projects[key]);
-                //   }
-                // } else {
-                //   userProjects.push(projects[key]);
-                // }
+                userProjects.push({ name, key, color });
               }
             }
           }
