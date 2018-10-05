@@ -1,83 +1,88 @@
-import React, { Component } from "react";
-import Routes from "./routes";
-import Navbar from "./Components/Navbar";
-import ProjectBar from "./Components/ProjectBar";
-import Grid from "@material-ui/core/Grid";
-//import { gotUser } from './store/user';
-import firebase from "./firebase";
-//import { connect } from 'react-redux';
+import React, {Component} from 'react'
+import Button from '@material-ui/core/Button'
+import Calendar from './Components/Calendar.js'
+import firebase from './firebase'
 
 class App extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       user: {},
       login: false
-    };
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
-  }
+    }
+    this.handleLogin = this.handleLogin.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
+	}
 
   handleLogin(user) {
     this.setState({
       user: user,
       login: true
-    });
+    })
   }
 
   handleLogout() {
     this.setState({
       user: {},
       login: false
-    });
+    })
   }
 
   render() {
-    const user = this.state.user;
+    const user = this.state.user
     return (
       <div>
-        <Grid container>
-          <Grid item xs={3}>
-            <Grid container>
-              <Grid item xs={2}>
-                <Navbar
-                  handleLogout={this.handleLogout}
-                  handleLogin={this.handleLogin}
-                />
-              </Grid>
-              {/* <Grid item xs={2}> */}
-              {/* {firebase.auth().currentUser ? (
-                  <ProjectBar />
-                ) : (
-                  <h1>Login for the love!</h1>
-                )} */}
-              {/* </Grid> */}
-            </Grid>
-          </Grid>
-          <Grid item xs={9}>
-            <Routes handleLogin={this.handleLogin} />
-          </Grid>
-        </Grid>
+        <div
+          style={{
+            width: 80,
+            height: '100%',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            overflowX: 'hidden',
+            backgroundColor: 'white'
+          }}
+        >
+          <div>
+						<Button style={{fontWeight: 'bold', fontSize: '1rem', textTransform: 'none'}}>
+							Nav 1
+						</Button>
+						<Button style={{fontWeight: 'bold', fontSize: '1rem', textTransform: 'none'}}>
+							Nav 2
+						</Button>
+						<Button style={{fontWeight: 'bold', fontSize: '1rem', textTransform: 'none'}}>
+							Nav 3
+						</Button>
+					</div>
+        </div>
+        <div
+          style={{
+            width: 80,
+            height: '100%',
+            position: 'fixed',
+            top: 0,
+						marginLeft: 80,
+						padding: 0,
+            overflowX: 'hidden',
+            backgroundColor: 'lightgray'
+          }}
+        >
+          <ul style={{listStyle: 'none'}}>
+            <li>A</li>
+            <li>A</li>
+            <li>A</li>
+          </ul>
+        </div>
+        <div
+          style={{
+            marginLeft: 160
+          }}
+        >
+					<Calendar />
+        </div>
       </div>
-    );
+    )
   }
 }
 
-// const mapStateToProps = state => {
-//   return {
-//     user: state.user.currentUser,
-//   };
-// };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     getUser: () => dispatch(gotUser()),
-//   };
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(App);
-
-export default App;
+export default App

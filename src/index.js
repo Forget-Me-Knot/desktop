@@ -27,7 +27,7 @@ const theme = createMuiTheme({
 ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
-      <HashRouter history={history}>
+      <HashRouter>
         <App />
       </HashRouter>
     </MuiThemeProvider>
