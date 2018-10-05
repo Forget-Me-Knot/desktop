@@ -14,7 +14,7 @@ import AddIcon from "@material-ui/icons/Add";
 
 const styles = theme => ({
   icon: {
-    height: "30px"
+    height: "50px"
   },
   paper: {
     width: 90
@@ -66,7 +66,7 @@ class Navbar extends React.Component {
   render() {
     const { classes } = this.props;
     const { handleUser } = this.props;
-		// console.log("Navbar user: ", this.state.user);
+    // console.log("Navbar user: ", this.state.user);
     return (
       <div className={classes.root}>
         <Drawer variant="permanent" className={classes.paper}>
@@ -86,7 +86,9 @@ class Navbar extends React.Component {
                   to={{ pathname: "/login", state: { handleUser: handleUser } }}
                   style={{ textDecoration: "none" }}
                 /> */}
-                <Button onClick={this.logOut}> logout </Button>
+                <Button onClick={this.logOut} variant="raised">
+                  logout
+                </Button>
               </ListItem>
             ) : (
               <ListItem component={Link} to="/login">
@@ -98,11 +100,9 @@ class Navbar extends React.Component {
             )}
 
             <Divider />
-            <Button size="small">
-              <Link to="/calendar" style={{ textDecoration: "none" }}>
-                CALENDAR
-              </Link>
-            </Button>
+            <ListItem component={Link} to="/calendar">
+              <ListItemText primary="Calendar" />
+            </ListItem>
 
             <Divider />
             <ListItem component={Link} to="/project">
@@ -121,7 +121,32 @@ class Navbar extends React.Component {
               >
                 <AddIcon />
               </Button>
-              {/* <ListItemText primary="Add a Project" /> */}
+            </ListItem>
+            <Divider />
+            <ListItem
+              component={Link}
+              to={{
+                pathname: "/writenote",
+                state: { projects: this.state.projects }
+              }}
+            >
+              <ListItemText primary="Write" />
+            </ListItem>
+            <Divider />
+            <ListItem component={Link} to="/notes">
+              <ListItemText primary="All Notes" />
+            </ListItem>
+            <Divider />
+            <ListItem component={Link} to="/todos">
+              <ListItemText primary="To-do List" />
+            </ListItem>
+            <Divider />
+            <ListItem component={Link} to="/photoBook">
+              <ListItemText primary="Photos" />
+            </ListItem>
+            <Divider />
+            <ListItem component={Link} to="/project">
+              <ListItemText primary="Projects" />
             </ListItem>
             <Divider />
             {firebase.auth().currentUser ? <ProjectBar /> : <h3>hi</h3>}
@@ -130,17 +155,6 @@ class Navbar extends React.Component {
                   <ListItem>{project.name}</ListItem>;
                 })
               : null} */}
-
-            {/* <div>
-              {firebase.auth().onAuthStateChanged(user => {
-                if (user.uid) {
-                  console.log("Project Component: ", user);
-                  return <Project />;
-                } else {
-                  return null;
-                }
-              })}
-            </div> */}
           </List>
         </Drawer>
       </div>

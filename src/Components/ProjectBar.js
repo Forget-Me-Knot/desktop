@@ -83,32 +83,6 @@ export default class ProjectBar extends React.Component {
         }}
       >
         <List>
-          <ListItem
-            component={Link}
-            to={{
-              pathname: "/writenote",
-              state: { projects: this.state.projects }
-            }}
-          >
-            <ListItemText primary="Write" />
-          </ListItem>
-          <Divider />
-          <ListItem component={Link} to="/notes">
-            <ListItemText primary="All Notes" />
-          </ListItem>
-          <Divider />
-          <ListItem component={Link} to="/todos">
-            <ListItemText primary="To-do List" />
-          </ListItem>
-          <Divider />
-          <ListItem component={Link} to="/photoBook">
-            <ListItemText primary="Photos" />
-          </ListItem>
-          <Divider />
-          <ListItem component={Link} to="/project">
-            <ListItemText primary="Projects" />
-          </ListItem>
-          <Divider />
           <ListItem>
             <ListItemText primary="Add a Project" />
             <Button
@@ -125,9 +99,8 @@ export default class ProjectBar extends React.Component {
             >
               <AddIcon />
             </Button>
-            {/* <ListItemText primary="Add a Project" /> */}
           </ListItem>
-          <Divider />
+          {/* <Divider /> */}
           <ListItem>
             <ListItemText primary="Group Projects" />
             {/* <SupervisedUserCircle /> */}
