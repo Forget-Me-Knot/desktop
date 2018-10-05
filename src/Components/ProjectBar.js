@@ -108,9 +108,8 @@ export default class ProjectBar extends React.Component {
           </ListItem>
           {projects && projects ? (
             projects.map(item => (
-              <ListItem>
+              <ListItem key={item.key}>
                 <Avatar
-                  rounded
                   style={{
                     backgroundColor: `#${item.color}`,
                     width: "30px",
