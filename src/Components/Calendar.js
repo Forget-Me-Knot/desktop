@@ -13,7 +13,6 @@ class Calendar extends React.Component {
     this.renderHeader = this.renderHeader.bind(this);
     this.renderCells = this.renderCells.bind(this);
     this.renderDays = this.renderDays.bind(this);
-    // this.onDateClick = this.onDateClick.bind(this);
     this.nextMonth = this.nextMonth.bind(this);
     this.prevMonth = this.prevMonth.bind(this);
   }
@@ -90,12 +89,11 @@ class Calendar extends React.Component {
         while (day <= endDate) {
           for (let i = 0; i < 7; i++) {
             formattedDate = dateFns.format(day, dateFormat);
-            const cloneDay = day;
             const stringDay = JSON.stringify(day);
             const color = eventsObj[stringDay]
               ? eventsObj[stringDay].color
-              : null;
-            console.log(color);
+							: null;
+						const eventName = eventsObj[stringDay] ? eventsObj[stringDay].name : ''
             days.push(
               <div
                 className={`col cell ${
@@ -107,8 +105,8 @@ class Calendar extends React.Component {
                 }`}
                 style={color ? { borderLeftColor: `#${color}` } : null}
                 key={day}
-                onClick={() => this.onDateClick(dateFns.parse(cloneDay))}
               >
+								<span className="eventtext">{eventName}</span>
                 <span className="number">{formattedDate}</span>
                 <span className="bg">{formattedDate}</span>
               </div>
@@ -128,12 +126,6 @@ class Calendar extends React.Component {
       return this.state.div;
     }
   }
-
-  // onDateClick = day => {
-  //   this.setState({
-  //     selectedDate: day
-  //   });
-  // };
 
   nextMonth = () => {
     this.setState({
