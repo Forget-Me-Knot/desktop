@@ -1,124 +1,196 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
-import ListSubheader from "@material-ui/core/ListSubheader";
+import classnames from "classnames";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Collapse from "@material-ui/core/Collapse";
+import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
-import InfoIcon from "@material-ui/icons/Info";
+import Typography from "@material-ui/core/Typography";
+import red from "@material-ui/core/colors/red";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import ShareIcon from "@material-ui/icons/Share";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 const styles = theme => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-    backgroundColor: theme.palette.background.paper
+  card: {
+    maxWidth: 400
   },
-  gridList: {
-    width: 500,
-    height: 450
+  media: {
+    height: 0,
+    paddingTop: "56.25%" // 16:9
   },
-  icon: {
-    color: "rgba(255, 255, 255, 0.54)"
+  actions: {
+    display: "flex"
+  },
+  expand: {
+    transform: "rotate(0deg)",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest
+    }),
+    marginLeft: "auto",
+    [theme.breakpoints.up("sm")]: {
+      marginRight: -8
+    }
+  },
+  expandOpen: {
+    transform: "rotate(180deg)"
+  },
+  avatar: {
+    backgroundColor: red[500]
   }
 });
 
-const tileData = [
-  {
-    img: "https://material-ui.com/static/images/grid-list/breakfast.jpg",
-    title: "Breakfast",
-    author: "jill111",
-    cols: 2,
-    featured: true
-  },
-  {
-    img: "https://material-ui.com/static/images/grid-list/burgers.jpg",
-    title: "Tasty burger",
-    author: "director90"
-  },
-  {
-    img: "https://material-ui.com/static/images/grid-list/camera.jpg",
-    title: "Camera",
-    author: "Danson67"
-  },
-  {
-    img: "https://material-ui.com/static/images/grid-list/morning.jpg",
-    title: "Morning",
-    author: "fancycrave1",
-    featured: true
-  },
-  {
-    img: "https://material-ui.com/static/images/grid-list/hats.jpg",
-    title: "Hats",
-    author: "Hans"
-  },
-  {
-    img: "https://material-ui.com/static/images/grid-list/honey.jpg",
-    title: "Honey",
-    author: "fancycravel"
-  },
-  {
-    img: "https://material-ui.com/static/images/grid-list/vegetables.jpg",
-    title: "Vegetables",
-    author: "jill111",
-    cols: 2
-  },
-  {
-    img: "https://material-ui.com/static/images/grid-list/plant.jpg",
-    title: "Water plant",
-    author: "BkrmadtyaKarki"
-  },
-  {
-    img: "https://material-ui.com/static/images/grid-list/mushroom.jpg",
-    title: "Mushrooms",
-    author: "PublicDomainPictures"
-  },
-  {
-    img: "https://material-ui.com/static/images/grid-list/olive.jpg",
-    title: "Olive oil",
-    author: "congerdesign"
-  },
-  {
-    img: "https://material-ui.com/static/images/grid-list/star.jpg",
-    title: "Sea star",
-    cols: 2,
-    author: "821292"
-  },
-  {
-    img: "https://material-ui.com/static/images/grid-list/bike.jpg",
-    title: "Bike",
-    author: "danfador"
+class PhotoGrid extends React.Component {
+  state = { expanded: false };
+
+  handleExpandClick = () => {
+    this.setState(state => ({ expanded: !state.expanded }));
+  };
+
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <div>
+        <Card
+          className={classes.card}
+          style={{ marginTop: 10, marginBottom: 10 }}
+        >
+          <CardHeader
+            avatar={
+              <Avatar
+                rounded
+                style={{
+                  // backgroundColor: `#${item.color}`,
+                  backgroundColor: "aqua",
+                  width: "30px",
+                  height: "30px"
+                }}
+              />
+            }
+            action={
+              <IconButton>
+                <MoreVertIcon />
+              </IconButton>
+            }
+            title="Forget Me Knot"
+            subheader="October 5, 2018"
+          />
+          <CardMedia
+            className={classes.media}
+            image="https://img.crocdn.co.uk/images/products2/pl/20/00/01/88/pl2000018820.jpg?width=940&height=940"
+            title="flowers"
+          />
+          <CardContent>
+            <Typography component="p">
+              This is where your notes on the photo would go
+            </Typography>
+          </CardContent>
+          <CardActions className={classes.actions} disableActionSpacing>
+            <IconButton aria-label="Add to favorites">
+              <FavoriteIcon />
+            </IconButton>
+            <IconButton aria-label="Share">
+              <ShareIcon />
+            </IconButton>
+            <IconButton
+              className={classnames(classes.expand, {
+                [classes.expandOpen]: this.state.expanded
+              })}
+              onClick={this.handleExpandClick}
+              aria-expanded={this.state.expanded}
+              aria-label="Show more"
+            >
+              <ExpandMoreIcon />
+            </IconButton>
+          </CardActions>
+          <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+            <CardContent>
+              <Typography paragraph variant="body2">
+                Method:
+              </Typography>
+              <Typography paragraph>Here would be more details</Typography>
+              <Typography paragraph>
+                Maybe a link to the item you saw or a question to the group
+              </Typography>
+              <Typography paragraph>Maybe some notes to yourself</Typography>
+            </CardContent>
+          </Collapse>
+        </Card>
+        <Card
+          className={classes.card}
+          style={{ marginTop: 10, marginBottom: 10 }}
+        >
+          <CardHeader
+            avatar={
+              <Avatar
+                rounded
+                style={{
+                  // backgroundColor: `#${item.color}`,
+                  backgroundColor: "plum",
+                  width: "30px",
+                  height: "30px"
+                }}
+              />
+            }
+            action={
+              <IconButton>
+                <MoreVertIcon />
+              </IconButton>
+            }
+            title="Testing photo view"
+            subheader="October 5, 2018"
+          />
+          <CardMedia
+            className={classes.media}
+            image="https://cdn141.picsart.com/276254907029201.png?c256x256"
+            title="flowers"
+          />
+          <CardContent>
+            <Typography component="p">
+              This is where your notes on the photo would go
+            </Typography>
+          </CardContent>
+          <CardActions className={classes.actions} disableActionSpacing>
+            <IconButton aria-label="Add to favorites">
+              <FavoriteIcon />
+            </IconButton>
+            <IconButton aria-label="Share">
+              <ShareIcon />
+            </IconButton>
+            <IconButton
+              className={classnames(classes.expand, {
+                [classes.expandOpen]: this.state.expanded
+              })}
+              onClick={this.handleExpandClick}
+              aria-expanded={this.state.expanded}
+              aria-label="Show more"
+            >
+              <ExpandMoreIcon />
+            </IconButton>
+          </CardActions>
+          <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+            <CardContent>
+              <Typography paragraph variant="body2">
+                Method:
+              </Typography>
+              <Typography paragraph>Here would be more details</Typography>
+              <Typography paragraph>
+                Maybe a link to the item you saw or a question to the group
+              </Typography>
+              <Typography paragraph>Maybe some notes to yourself</Typography>
+            </CardContent>
+          </Collapse>
+        </Card>
+      </div>
+    );
   }
-];
-
-function PhotoGrid(props) {
-  const { classes } = props;
-
-  return (
-    <div className={classes.root}>
-      <GridList cellHeight={180} className={classes.gridList}>
-        <GridListTile key="Subheader" cols={2} style={{ height: "auto" }}>
-          <ListSubheader component="div">December</ListSubheader>
-        </GridListTile>
-        {tileData.map(tile => (
-          <GridListTile key={tile.img}>
-            <img src={tile.img} alt={tile.title} />
-            <GridListTileBar
-              title={tile.title}
-              subtitle={<span>by: {tile.author}</span>}
-              actionIcon={
-                <IconButton className={classes.icon}>
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
-          </GridListTile>
-        ))}
-      </GridList>
-    </div>
-  );
 }
 
 PhotoGrid.propTypes = {
