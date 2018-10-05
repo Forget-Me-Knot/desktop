@@ -44,7 +44,8 @@ export default class LoginForm extends Component {
   }
 
   render() {
-    // const { handleUser } = this.props.location.state;
+    // const user = firebase.auth().currentUser;
+    // console.log("User: ", user);
     return (
       <div style={{ position: "relative" }}>
         <div
@@ -68,7 +69,9 @@ export default class LoginForm extends Component {
                 </FormControl>
                 <br />
                 <Button onClick={this.handleSubmit} type="submit">
-                  LOGIN
+                  <Link style={{ textDecoration: "none" }} to="/home" replace>
+                    LOGIN
+                  </Link>
                 </Button>
                 <Button>
                   <Link style={{ textDecoration: "none" }} to="/signup" replace>
