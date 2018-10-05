@@ -93,7 +93,8 @@ class Calendar extends React.Component {
 						const cloneDay = day
 						const stringDay = JSON.stringify(day)
 						const color = eventsObj[stringDay] ? eventsObj[stringDay].color : null
-						console.log(color)
+						const eventName = eventsObj[stringDay] ? eventsObj[stringDay].name : ''
+						console.log(eventsObj[stringDay])
 						days.push(
 							<div
 								className={`col cell ${
@@ -107,6 +108,7 @@ class Calendar extends React.Component {
 								key={day}
 								onClick={() => this.onDateClick(dateFns.parse(cloneDay))}
 							>
+								<span className="eventtext">{eventName}</span>
 								<span className="number">{formattedDate}</span>
 								<span className="bg">{formattedDate}</span>
 							</div>
