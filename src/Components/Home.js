@@ -1,53 +1,33 @@
 import React, { Component } from "react";
 import firebase from "../firebase";
-// import { connect } from 'react-redux';
-// import getUser from '../store';
 
 class Home extends Component {
   constructor() {
     super();
-    this.state = {
-      user: "",
-      message: ""
-    };
+    this.state = {};
   }
 
   componentDidMount() {
-    let message;
-    const date = new Date();
-    const hour = date.getHours();
-    if (hour >= 6 && hour < 12) {
-      message = "Good morning.";
-    } else if (hour >= 12 && hour <= 14) {
-      message = "Lunch time!";
-    } else if (hour > 14 && hour <= 17) {
-      message = "Good afternoon.";
-    } else if (hour >= 18) {
-      message = "Good night.";
-    }
-    this.setState({ message });
-
     const self = this;
-    const user = firebase.auth().currentUser;
-    const ref = firebase.database().ref("users/");
-    ref.on("value", function(snapshot) {
-      const users = snapshot.val();
-      console.log("User: ", users);
-      for (var key in users) {
-        if (key === user.uid) {
-          self.setState({ user: users[key].displayName });
+    const ref = firebase.database().ref("users");
+    firebase.auth().onAuthStateChanged(function(user) {
+      ref.on("value", function(snapshot) {
+        const users = snapshot.val();
+        for (var key in users) {
+          if (key === user.uid) {
+            self.setState({ userName: users[key].displayName });
+          }
         }
-      }
+      });
     });
   }
+
   render() {
+    const name = this.state.userName;
     return (
       <div>
-        <h1>
-          Welcome!
-          {this.state.user}
-        </h1>
-        <h2>{this.state.message}</h2>
+        <h1>HOME</h1>
+        <p>{name ? name : null}</p>
       </div>
     );
   }
