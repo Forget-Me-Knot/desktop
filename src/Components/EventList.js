@@ -6,6 +6,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import firebase from "../firebase";
 import IconButton from "@material-ui/core/IconButton";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
+import Divider from "@material-ui/core/Divider";
+import Checkbox from "@material-ui/core/Checkbox";
 
 class EventList extends React.Component {
   constructor(props) {
@@ -52,34 +54,56 @@ class EventList extends React.Component {
     });
   }
   render() {
+    const months = [
+      "nothing",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
     return (
-      <ScrollView>
-        <View>
-          <List containerStyle={{ marginBottom: 20 }}>
-            {this.state.events.map(l => (
-              <ListItem
-                //needs delete button
-                leftIcon={{ name: "lens", color: `#${l.color}` }}
-                key={l.key}
-                title={l.name}
-                hideChevron
+      <div>
+        <List containerStyle={{ marginBottom: 20 }}>
+          {this.state.events.map(l => (
+            <ListItem
+              //needs delete button
+              leftIcon={{ name: "lens", color: `#${l.color}` }}
+              key={l.key}
+              title={l.name}
+              hideChevron
+            >
+              <Checkbox
+              // checked={this.state[event.key]}
+              // onClick={() => this.handleClick(event.key)}
+              />
+              {/* <ListItemText> {l.name}</ListItemText> */}
+              <ListItemText>
+                {" "}
+                {months[l.date.month]} {l.date.day}, {l.date.year}
+              </ListItemText>
+              <ListItemText> {l.name}</ListItemText>
+              {/* <ListItemText> {l.projectId}</ListItemText> */}
+              <IconButton
+                aria-label="Delete"
+                color="grey"
+                style={{ float: "right" }}
+                // onClick={() => this.delete(task.key)}
               >
-                <ListItemText> {l.name}</ListItemText>
-                <ListItemText> {l.date.dateString}</ListItemText>
-                {/* <ListItemText> {l.projectId}</ListItemText> */}
-                <IconButton
-                  aria-label="Delete"
-                  color="grey"
-                  style={{ float: "right" }}
-                  // onClick={() => this.delete(task.key)}
-                >
-                  <RemoveCircle />
-                </IconButton>
-              </ListItem>
-            ))}
-          </List>
-        </View>
-      </ScrollView>
+                <RemoveCircle />
+              </IconButton>
+            </ListItem>
+            // <Divider/>
+          ))}
+        </List>
+      </div>
     );
   }
 }

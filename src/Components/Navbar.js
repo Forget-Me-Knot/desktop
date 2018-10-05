@@ -82,19 +82,12 @@ class Navbar extends React.Component {
 
             {firebase.auth().currentUser ? (
               <ListItem>
-                {/* <Link
-                  to={{ pathname: "/login", state: { handleUser: handleUser } }}
-                  style={{ textDecoration: "none" }}
-                /> */}
                 <Button onClick={this.logOut} variant="raised">
                   logout
                 </Button>
               </ListItem>
             ) : (
               <ListItem component={Link} to="/login">
-                {/* <ListItemIcon>
-                <BookIcon />
-              </ListItemIcon> */}
                 <ListItemText primary="Login" />
               </ListItem>
             )}
@@ -133,28 +126,23 @@ class Navbar extends React.Component {
               <ListItemText primary="Write" />
             </ListItem>
             <Divider />
-            <ListItem component={Link} to="/notes">
+            {/* <ListItem component={Link} to="/notes">
               <ListItemText primary="All Notes" />
             </ListItem>
-            <Divider />
-            <ListItem component={Link} to="/todos">
+            <Divider /> */}
+            {/* <ListItem component={Link} to="/todos">
               <ListItemText primary="To-do List" />
             </ListItem>
-            <Divider />
-            <ListItem component={Link} to="/photoBook">
+            <Divider /> */}
+            {/* <ListItem component={Link} to="/photoBook">
               <ListItemText primary="Photos" />
             </ListItem>
-            <Divider />
+            <Divider /> */}
             <ListItem component={Link} to="/project">
-              <ListItemText primary="Projects" />
+              <ListItemText primary="DemoTabs" />
             </ListItem>
             <Divider />
             {firebase.auth().currentUser ? <ProjectBar /> : <h3>hi</h3>}
-            {/* {this.state.projects
-              ? this.state.projects.map(project => {
-                  <ListItem>{project.name}</ListItem>;
-                })
-              : null} */}
           </List>
         </Drawer>
       </div>
