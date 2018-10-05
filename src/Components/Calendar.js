@@ -1,178 +1,163 @@
 import React from "react";
-import moment from "moment";
-// import BigCalendar from "react-big-calendar";
-// import events from "./events";
-// import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Avatar } from "@material-ui/core";
+import dateFns from "date-fns";
+import "./calendar.css";
+import firebase from "../firebase";
 
-import InfiniteCalendar, {
-  Calendar,
-  defaultMultipleDateInterpolation,
-  withMultipleDates
-} from "react-infinite-calendar";
-import "react-infinite-calendar/styles.css";
-var firebase = require("firebase");
-
-// const localizer = BigCalendar.momentLocalizer(moment);
-
-// const allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
-
-const eventStyleGetter = function(event) {
-  console.log(event);
-  var backgroundColor = `#{event.bgColor}`;
-  var style = {
-    backgroundColor: backgroundColor,
-    borderRadius: "0px",
-    opacity: 0.8,
-    color: "black",
-    border: "0px",
-    display: "block"
-  };
-  return {
-    style: style
-  };
-};
-
-class EventCalendar extends React.Component {
-  constructor(props) {
-    super(props);
+class Calendar extends React.Component {
+  constructor() {
+    super();
     this.state = {
-      items: [],
-      selected: {},
-      view: "month",
-      date: new Date() // nothing happens here, empty date will be rendered
+      currentMonth: new Date(),
+      selectedDate: new Date()
     };
-    // this.state = {
-    //   view: "month",
-    //   date: new Date(),
-    //   width: 500
-    // };
+    this.renderHeader = this.renderHeader.bind(this);
+    this.renderCells = this.renderCells.bind(this);
+    this.renderDays = this.renderDays.bind(this);
+    // this.onDateClick = this.onDateClick.bind(this);
+    this.nextMonth = this.nextMonth.bind(this);
+    this.prevMonth = this.prevMonth.bind(this);
   }
-  componentDidMount() {
-    const user = firebase.auth().currentUser;
-    var self = this;
-    var ref = firebase.database().ref("events");
-    ref.on("value", function(snapshot) {
-      var myEvents = [];
-      let marked = {};
-      let events = snapshot.val();
 
-      for (var key in events) {
-        // let people = events[key].members.includes(user.email);
-        // 'title': 'Just for one day',
-        // 'bgColor': 'red',
-        // 'allDay': true,
-        // 'start': new Date(2018, 9, 2),
-        // 'end': new Date(2018, 9, 2)
-        // if (people) {
-        // myEvents.push(events[key]);
-        let marker = {};
-        let str = events[key].date.dateString;
-        // console.log("my events", myEvents);
-        // console.log("this user id", user.email);
-        (marker.title = events[key].name),
-          // (marker.bgColor = `#${events[key].color}`),
-          (marker.color = `#${events[key].color}`),
-          (marker.allDay = true),
-          (marker.start = new Date(str)),
-          (marker.end = new Date(str));
-        // (marker.title = events[key].name),
-        //   (marker.color = `#${events[key].color}`)
-        //   (marker.date = new Date(str)),
-        // console.log("marker", marker);
-        // console.log("Events", events[key]);
-        myEvents.push(marker);
-        // }
-      }
+  renderHeader() {
+    const dateFormat = "MMMM YYYY";
 
-      console.log("MY EVENTS", myEvents);
-      self.setState({ items: myEvents });
-      // self.setState({ selected: marked });
+    return (
+      <div className="header row flex-middle">
+        <div className="col col-start">
+          <div className="icon" onClick={this.prevMonth}>
+            chevron_left
+          </div>
+        </div>
+        <div className="col col-center">
+          <span>{dateFns.format(this.state.currentMonth, dateFormat)}</span>
+        </div>
+        <div className="col col-end" onClick={this.nextMonth}>
+          <div className="icon">chevron_right</div>
+        </div>
+      </div>
+    );
+  }
+
+  renderDays() {
+    const dateFormat = "dddd";
+    const days = [];
+
+    let startDate = dateFns.startOfWeek(this.state.currentMonth);
+
+    for (let i = 0; i < 7; i++) {
+      days.push(
+        <div className="col col-center" key={i}>
+          {dateFns.format(dateFns.addDays(startDate, i), dateFormat)}
+        </div>
+      );
+    }
+
+    return <div className="days row">{days}</div>;
+  }
+
+  renderCells() {
+    if (!this.state.div) {
+      const { currentMonth } = this.state;
+      const monthStart = dateFns.startOfMonth(currentMonth);
+      const monthEnd = dateFns.endOfMonth(monthStart);
+      const startDate = dateFns.startOfWeek(monthStart);
+      const endDate = dateFns.endOfWeek(monthEnd);
+
+      const dateFormat = "D";
+      const rows = [];
+
+      let days = [];
+      let day = startDate;
+      let formattedDate = "";
+
+      const ref = firebase.database().ref("events");
+      const self = this;
+      ref.on("value", function(snapshot) {
+        const events = snapshot.val();
+        let eventsObj = {};
+        let eventDates = [];
+        for (var key in events) {
+          if (events[key]) {
+            const day = events[key].date.day;
+            const month = events[key].date.month - 1;
+            const year = events[key].date.year;
+            let date = new Date(year, month, day);
+            eventsObj[JSON.stringify(date)] = events[key];
+            eventDates.push(JSON.stringify(date));
+          }
+        }
+
+        while (day <= endDate) {
+          for (let i = 0; i < 7; i++) {
+            formattedDate = dateFns.format(day, dateFormat);
+            const cloneDay = day;
+            const stringDay = JSON.stringify(day);
+            const color = eventsObj[stringDay]
+              ? eventsObj[stringDay].color
+              : null;
+            console.log(color);
+            days.push(
+              <div
+                className={`col cell ${
+                  !dateFns.isSameMonth(day, monthStart)
+                    ? "disabled"
+                    : eventDates.includes(stringDay)
+                      ? "selected"
+                      : ""
+                }`}
+                style={color ? { borderLeftColor: `#${color}` } : null}
+                key={day}
+                onClick={() => this.onDateClick(dateFns.parse(cloneDay))}
+              >
+                <span className="number">{formattedDate}</span>
+                <span className="bg">{formattedDate}</span>
+              </div>
+            );
+            day = dateFns.addDays(day, 1);
+          }
+          rows.push(
+            <div className="row" key={day}>
+              {days}
+            </div>
+          );
+          days = [];
+        }
+        self.setState({ div: <div className="body">{rows}</div> });
+      });
+    } else {
+      return this.state.div;
+    }
+  }
+
+  // onDateClick = day => {
+  //   this.setState({
+  //     selectedDate: day
+  //   });
+  // };
+
+  nextMonth = () => {
+    this.setState({
+      currentMonth: dateFns.addMonths(this.state.currentMonth, 1),
+      div: null
     });
-  }
+  };
+
+  prevMonth = () => {
+    this.setState({
+      currentMonth: dateFns.subMonths(this.state.currentMonth, 1),
+      div: null
+    });
+  };
 
   render() {
-    const today = Date.now();
-    console.log("this state events in render methods of cal", this.state.items);
     return (
-      <div>
-        {/* <button onClick={() => this.setState({ view: "day" })}>Day</button>
-        <button onClick={() => this.setState({ view: "month" })}>Month</button> */}
-        <InfiniteCalendar
-          Component={withMultipleDates(Calendar)}
-          interpolateSelection={defaultMultipleDateInterpolation}
-          theme={{
-            layout: "portrait",
-            flexGrow: 1,
-            width: "500px",
-            marginLeft: "auto",
-            marginRight: "auto",
-            shouldHeaderAnimate: false,
-            backgrounColor: "#D2D2E4",
-            accentColor: "#8E56C6",
-            headerColor: "#7F3FBF",
-            // selectionColor: "#C656C6",
-            todayColor: "#F64A4D",
-            floatingNav: {
-              background: "#73C8AF",
-              chevron: "#FFA726",
-              color: "#FFF"
-            },
-            textColor: {
-              active: "#0E0000",
-              default: "#0E0000"
-            },
-            weekdayColor: "#AF73C8",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-          width={"800px"}
-          disabledDate={(2018, 9, 24)}
-          selected={this.state.items}
-          highlightedDates={this.state.items}
-          theme={{
-            selectionColor: date => {
-              return this.getColor.date;
-            }
-          }}
-          minDate={new Date(2018, 0, 1)}
-          maxDate={new Date(2020, 0, 1)}
-        />
-        {/* <Calendar
-          items={this.state.items}
-          minDate="2018-07-10"
-          maxDate="2019-01-30"
-          // renderKnob={() => {
-          //   return <View />;
-          // }}
-          rowHasChanged={(r1, r2) => {
-            return r1.name !== r2.name;
-          }}
-          markedDates={this.state.selected}
-        /> */}
-
-        {/* <BigCalendar
-          localizer={localizer}
-          style={{ height: 500, width: this.state.width }}
-          // toolbar={false}
-          events={this.state.items}
-          step={60}
-          // views={allViews}
-          view={this.state.view}
-          onView={() => {}}
-          date={this.state.date}
-          onNavigate={date => this.setState({ date })}
-          eventPropGetter={this.eventStyleGetter}
-        /> */}
-        <ul>
-          {this.state.items.map(item => (
-            <li key={item.date}> {item.title}</li>
-          ))}
-        </ul>
+      <div className="calendar">
+        {this.renderHeader()}
+        {this.renderDays()}
+        {this.renderCells()}
       </div>
     );
   }
 }
 
-export default EventCalendar;
+export default Calendar;
