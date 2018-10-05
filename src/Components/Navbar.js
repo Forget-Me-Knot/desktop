@@ -102,7 +102,7 @@ class Navbar extends React.Component {
                 CALENDAR
               </Link>
             </Button>
-            {firebase.auth().currentUser ? <ProjectBar /> : <h3>hi</h3>}
+            {firebase.auth().currentUser ? <ProjectBar /> : null}
             {/* {this.state.projects
               ? this.state.projects.map(project => {
                   <ListItem>{project.name}</ListItem>;
