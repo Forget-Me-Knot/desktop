@@ -9,6 +9,9 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import AddIcon from "@material-ui/icons/Add";
 import LensOutlined from "@material-ui/icons/LensOutlined";
 import Lens from "@material-ui/icons/Lens";
+import SupervisedUserCircle from "@material-ui/icons/SupervisedUserCircle";
+import PersonOutlined from "@material-ui/icons/PersonOutlined";
+import PeopleOutline from "@material-ui/icons/PeopleOutline";
 import { Avatar, Button } from "@material-ui/core";
 import NoteForm from "./NoteForm";
 
@@ -105,11 +108,11 @@ export default class ProjectBar extends React.Component {
             <ListItemText primary="To-do List" />
           </ListItem>
           <Divider />
-          <ListItem button>
+          <ListItem component={Link} to="/photoBook">
             <ListItemText primary="Photos" />
           </ListItem>
           <Divider />
-          <ListItem button>
+          <ListItem component={Link} to="/project">
             <ListItemText primary="Projects" />
           </ListItem>
           <Divider />
@@ -130,6 +133,11 @@ export default class ProjectBar extends React.Component {
             </Button>
             <ListItemText primary="Add a Project" />
           </ListItem>
+          <ListItem>
+            <ListItemText primary="Group Projects" />
+            {/* <SupervisedUserCircle /> */}
+            <PeopleOutline />
+          </ListItem>
           {projects && projects ? (
             projects.map(item => (
               <ListItem>
@@ -149,6 +157,10 @@ export default class ProjectBar extends React.Component {
               <ListItemText primary="Projects ForthComing" />
             </ListItem>
           )}
+          <ListItem>
+            <ListItemText primary="Personal Projects" />
+            <PersonOutlined />
+          </ListItem>
         </List>
       </div>
     );
