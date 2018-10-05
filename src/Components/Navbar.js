@@ -10,6 +10,7 @@ import Divider from "@material-ui/core/Divider";
 import firebase from "../firebase";
 import Project from "./Projects";
 import ProjectBar from "./ProjectBar";
+import AddIcon from "@material-ui/icons/Add";
 
 const styles = theme => ({
   icon: {
@@ -102,6 +103,27 @@ class Navbar extends React.Component {
                 CALENDAR
               </Link>
             </Button>
+
+            <Divider />
+            <ListItem component={Link} to="/project">
+              <ListItemText primary="Add an event" />
+              <Button
+                variant="fab"
+                text="add an event"
+                // color="primary"
+                aria-label="Add"
+                style={{
+                  backgroundColor: `mediumaquamarine`,
+                  width: "30px",
+                  height: "30px"
+                }}
+                onClick={() => console.log("hi there")}
+              >
+                <AddIcon />
+              </Button>
+              {/* <ListItemText primary="Add a Project" /> */}
+            </ListItem>
+            <Divider />
             {firebase.auth().currentUser ? <ProjectBar /> : <h3>hi</h3>}
             {/* {this.state.projects
               ? this.state.projects.map(project => {

@@ -111,22 +111,24 @@ export default class ProjectBar extends React.Component {
           </ListItem>
           <Divider />
           <ListItem>
+            <ListItemText primary="Add a Project" />
             <Button
               variant="fab"
               text="add a project"
               // color="primary"
               aria-label="Add"
               style={{
-                backgroundColor: `mediumslateblue`,
-                width: "40px",
-                height: "40px"
+                backgroundColor: "mediumpurple",
+                width: "30px",
+                height: "30px"
               }}
               onClick={() => console.log("hi there")}
             >
               <AddIcon />
             </Button>
-            <ListItemText primary="Add a Project" />
+            {/* <ListItemText primary="Add a Project" /> */}
           </ListItem>
+          <Divider />
           <ListItem>
             <ListItemText primary="Group Projects" />
             {/* <SupervisedUserCircle /> */}
