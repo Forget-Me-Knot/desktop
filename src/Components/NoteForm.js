@@ -18,7 +18,7 @@ export default class NoteForm extends Component {
     super(props);
     this.state = {
       projects: [],
-      selectedProject: {}
+      selectedProject: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -63,7 +63,6 @@ export default class NoteForm extends Component {
     this.setState({
       selectedProject: event.target.value
     });
-    console.log("Selected Project: ", this.state.selectedProject);
   }
 
   handleSubmit(event) {
@@ -76,7 +75,7 @@ export default class NoteForm extends Component {
       .set({
         author: user.uid,
         content: this.state.note,
-        project: this.state.selectedProject
+        projectId: this.state.selectedProject.key
       });
     this.props.history.push("/notes");
   }
@@ -121,10 +120,6 @@ export default class NoteForm extends Component {
                 <Select
                   value={this.state.selectedProject}
                   onChange={this.handleMenuChange}
-                  // inputProps={{
-                  //   name: "project",
-                  //   id: "age-simple"
-                  // }}
                 >
                   {state &&
                     state.projects.map(project => (

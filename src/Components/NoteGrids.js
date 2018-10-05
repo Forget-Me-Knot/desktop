@@ -110,6 +110,8 @@ class NoteGrids extends React.Component {
   render() {
     const notes = this.state.notes;
     console.log("this state notes", this.state.notes);
+    // const notes = this.state.myNotes;
+    // console.log("Database: ", firebase.database().ref("users/"));
     return (
       <div style={{ position: "relative" }}>
         <div

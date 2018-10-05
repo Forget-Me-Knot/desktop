@@ -74,7 +74,6 @@ export default class ProjectBar extends React.Component {
   }
   render() {
     const projects = this.state.projects;
-    console.log("Project Bar: ", projects);
     return (
       <div
         style={{

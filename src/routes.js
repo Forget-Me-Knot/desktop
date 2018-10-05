@@ -28,19 +28,14 @@ export default class Routes extends Component {
     });
   }
   render() {
-    // let currentUser;
     // firebase.auth().onAuthStateChanged(user => {
     //   if (user) {
+    //     console.log("User: ", user);
     //     currentUser = user;
     //   }
     // });
-    // console.log('CURRENT USER', currentUser);
     return (
       <Switch>
-        {/* {currentUser && ( */}
-        {/* <Switch> */}
-
-        {/* <Route path="/notes" component={AllNotes} />  */}
         <Route path="/notes" component={NoteGrids} />
         <Route path="/home" component={Home} />
         <Route path="/writenote" component={NoteForm} />
@@ -49,15 +44,11 @@ export default class Routes extends Component {
         <Route path="/todos" component={Todos} />
         <Route path="/project" component={SingleProject} />
         <Route path="/photoBook" component={PhotoGrid} />
-        {/* will need to be :project.name eventually */}
-        {/* </Switch> */}
-        {/* )} */}
         <Route
           path="/login"
           render={() => (
             <LoginForm handleLogin={this.props.handleLogin} test="test" />
           )}
-          // component={LoginForm}
         />
         <Route path="/signup" component={SignUpForm} />
       </Switch>
