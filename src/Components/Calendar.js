@@ -1,63 +1,161 @@
-import React from "react";
-import BigCalendar from "react-big-calendar";
-import moment from "moment";
-import events from "./events";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Avatar } from "@material-ui/core";
-
-const localizer = BigCalendar.momentLocalizer(moment);
-
-const allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
+import React from 'react'
+import dateFns from 'date-fns'
+import './calendar.css'
+import firebase from '../firebase'
 
 class Calendar extends React.Component {
   constructor() {
-    super();
+    super()
     this.state = {
-      view: "month",
-      date: new Date(),
-      width: 500
-    };
+      currentMonth: new Date(),
+      selectedDate: new Date()
+    }
+    this.renderHeader = this.renderHeader.bind(this)
+    this.renderCells = this.renderCells.bind(this)
+    this.renderDays = this.renderDays.bind(this)
+    this.onDateClick = this.onDateClick.bind(this)
+    this.nextMonth = this.nextMonth.bind(this)
+    this.prevMonth = this.prevMonth.bind(this)
   }
 
-  componentDidMount() {
-    window.addEventListener("resize", () => {
-      this.setState({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
-    });
+  renderHeader() {
+    const dateFormat = 'MMMM YYYY'
+
+    return (
+      <div className="header row flex-middle">
+        <div className="col col-start">
+          <div className="icon" onClick={this.prevMonth}>
+            chevron_left
+          </div>
+        </div>
+        <div className="col col-center">
+          <span>{dateFns.format(this.state.currentMonth, dateFormat)}</span>
+        </div>
+        <div className="col col-end" onClick={this.nextMonth}>
+          <div className="icon">chevron_right</div>
+        </div>
+      </div>
+    )
   }
+
+  renderDays() {
+    const dateFormat = 'dddd'
+    const days = []
+
+    let startDate = dateFns.startOfWeek(this.state.currentMonth)
+
+    for (let i = 0; i < 7; i++) {
+      days.push(
+        <div className="col col-center" key={i}>
+          {dateFns.format(dateFns.addDays(startDate, i), dateFormat)}
+        </div>
+      )
+    }
+
+    return <div className="days row">{days}</div>
+  }
+
+  renderCells() {
+		if (!this.state.div) {
+			const {currentMonth} = this.state
+			const monthStart = dateFns.startOfMonth(currentMonth)
+			const monthEnd = dateFns.endOfMonth(monthStart)
+			const startDate = dateFns.startOfWeek(monthStart)
+			const endDate = dateFns.endOfWeek(monthEnd)
+
+			const dateFormat = 'D'
+			const rows = []
+
+			let days = []
+			let day = startDate
+			let formattedDate = ''
+
+			const ref = firebase.database().ref('events')
+			const self = this
+			ref.on('value', function(snapshot) {
+				const events = snapshot.val()
+				let eventsObj = {}
+				let eventDates = []
+				for (var key in events) {
+					if (events[key]) {
+						const day = events[key].date.day
+						const month = events[key].date.month - 1
+						const year = events[key].date.year
+						let date = new Date(year, month, day)
+						eventsObj[JSON.stringify(date)] = events[key]
+						eventDates.push(JSON.stringify(date))
+					}
+				}
+
+				while (day <= endDate) {
+					for (let i = 0; i < 7; i++) {
+						formattedDate = dateFns.format(day, dateFormat)
+						const cloneDay = day
+						const stringDay = JSON.stringify(day)
+						const color = eventsObj[stringDay] ? eventsObj[stringDay].color : null
+						console.log(color)
+						days.push(
+							<div
+								className={`col cell ${
+									!dateFns.isSameMonth(day, monthStart)
+										? 'disabled'
+										: eventDates.includes(stringDay)
+											? 'selected'
+											: ''
+								}`}
+								style={ color ? {borderLeftColor: `#${color}`} : null}
+								key={day}
+								onClick={() => this.onDateClick(dateFns.parse(cloneDay))}
+							>
+								<span className="number">{formattedDate}</span>
+								<span className="bg">{formattedDate}</span>
+							</div>
+						)
+						day = dateFns.addDays(day, 1)
+					}
+					rows.push(
+						<div className="row" key={day}>
+							{days}
+						</div>
+					)
+					days = []
+				}
+				self.setState({div: <div className="body">{rows}</div>})
+			})
+		} else {
+			return this.state.div
+		}
+  }
+
+  onDateClick = day => {
+    this.setState({
+      selectedDate: day
+    })
+  }
+
+  nextMonth = () => {
+    this.setState({
+			currentMonth: dateFns.addMonths(this.state.currentMonth, 1),
+			div: null
+    })
+  }
+
+  prevMonth = () => {
+    this.setState({
+			currentMonth: dateFns.subMonths(this.state.currentMonth, 1),
+			div: null
+    })
+  }
+
   render() {
     return (
-      <div>
-        <button onClick={() => this.setState({ view: "day" })}>Day</button>
-        <button onClick={() => this.setState({ view: "month" })}>Month</button>
-        <BigCalendar
-          localizer={localizer}
-          style={{ height: 500, width: this.state.width }}
-          toolbar={false}
-          events={events}
-          step={60}
-          views={allViews}
-          view={this.state.view}
-          onView={() => {}}
-          date={this.state.date}
-          onNavigate={date => this.setState({ date })}
-        />
+      <div className="calendar">
+        {this.renderHeader()}
+        {this.renderDays()}
+        {this.renderCells()}
       </div>
-    );
+    )
   }
 }
 
-export default Calendar;
-
-{
-  /* <Avatar
-rounded
-style={{
-  backgroundColor: `${item.color}`,
-  width: "30px",
-  height: "30px"
-}}
-/> */
-}
+export default Calendar

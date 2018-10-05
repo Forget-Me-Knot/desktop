@@ -80,18 +80,10 @@ class Navbar extends React.Component {
             </ListItem>
 
             {firebase.auth().currentUser ? (
-              <ListItem>
-                {/* <Link
-                  to={{ pathname: "/login", state: { handleUser: handleUser } }}
-                  style={{ textDecoration: "none" }}
-                /> */}
-                <Button onClick={this.logOut}> logout </Button>
+                <Button size="small" onClick={this.logOut}> logout </Button>
               </ListItem>
             ) : (
               <ListItem component={Link} to="/login">
-                {/* <ListItemIcon>
-                <BookIcon />
-              </ListItemIcon> */}
                 <ListItemText primary="Login" />
               </ListItem>
             )}
@@ -103,22 +95,6 @@ class Navbar extends React.Component {
               </Link>
             </Button>
             {firebase.auth().currentUser ? <ProjectBar /> : <h3>hi</h3>}
-            {/* {this.state.projects
-              ? this.state.projects.map(project => {
-                  <ListItem>{project.name}</ListItem>;
-                })
-              : null} */}
-
-            {/* <div>
-              {firebase.auth().onAuthStateChanged(user => {
-                if (user.uid) {
-                  console.log("Project Component: ", user);
-                  return <Project />;
-                } else {
-                  return null;
-                }
-              })}
-            </div> */}
           </List>
         </Drawer>
       </div>
