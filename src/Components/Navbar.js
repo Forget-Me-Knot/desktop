@@ -65,7 +65,7 @@ class Navbar extends React.Component {
   render() {
     const { classes } = this.props;
     const { handleUser } = this.props;
-    // console.log("Navbar user: ", this.state.user);
+		// console.log("Navbar user: ", this.state.user);
     return (
       <div className={classes.root}>
         <Drawer variant="permanent" className={classes.paper}>

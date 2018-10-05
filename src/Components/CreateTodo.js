@@ -8,8 +8,6 @@ import Input from '@material-ui/core/Input'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 
-const initialState = {}
-
 export default class CreateTodo extends Component {
   constructor() {
     super()
