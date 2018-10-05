@@ -12,34 +12,34 @@ class Home extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   let message;
-  //   const date = new Date();
-  //   const hour = date.getHours();
-  //   if (hour >= 6 && hour < 12) {
-  //     message = "Good morning.";
-  //   } else if (hour >= 12 && hour <= 14) {
-  //     message = "Lunch time!";
-  //   } else if (hour > 14 && hour <= 17) {
-  //     message = "Good afternoon.";
-  //   } else if (hour >= 18) {
-  //     message = "Good night.";
-  //   }
-  //   this.setState({ message });
+  componentDidMount() {
+    let message;
+    const date = new Date();
+    const hour = date.getHours();
+    if (hour >= 6 && hour < 12) {
+      message = "Good morning.";
+    } else if (hour >= 12 && hour <= 14) {
+      message = "Lunch time!";
+    } else if (hour > 14 && hour <= 17) {
+      message = "Good afternoon.";
+    } else if (hour >= 18) {
+      message = "Good night.";
+    }
+    this.setState({ message });
 
-  //   const self = this;
-  //   const user = firebase.auth().currentUser;
-  //   const ref = firebase.database().ref("users/");
-  //   ref.on("value", function(snapshot) {
-  //     const users = snapshot.val();
-  //     console.log("User: ", users);
-  //     for (var key in users) {
-  //       if (key === user.uid) {
-  //         self.setState({ user: users[key].displayName });
-  //       }
-  //     }
-  //   });
-  // }
+    const self = this;
+    const user = firebase.auth().currentUser;
+    const ref = firebase.database().ref("users/");
+    ref.on("value", function(snapshot) {
+      const users = snapshot.val();
+      console.log("User: ", users);
+      for (var key in users) {
+        if (key === user.uid) {
+          self.setState({ user: users[key].displayName });
+        }
+      }
+    });
+  }
   render() {
     return (
       <div>
