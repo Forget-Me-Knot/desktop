@@ -38,7 +38,8 @@ export default class LoginForm extends Component {
         });
     }
     const user = firebase.auth().currentUser;
-    this.props.handleLogin(user);
+		this.props.handleLogin(user);
+		console.log(this.props)
     // this.props.history.push("/home");
     return <Redirect to={"/home"} />;
   }
@@ -69,9 +70,9 @@ export default class LoginForm extends Component {
                 </FormControl>
                 <br />
                 <Button onClick={this.handleSubmit} type="submit">
-                  <Link style={{ textDecoration: "none" }} to="/home" replace>
-                    LOGIN
-                  </Link>
+
+									<Link to='/home' replace>LOGIN</Link>
+
                 </Button>
                 <Button>
                   <Link style={{ textDecoration: "none" }} to="/signup" replace>
