@@ -83,49 +83,24 @@ export default class ProjectBar extends React.Component {
         }}
       >
         <List>
-          <ListItem
-            component={Link}
-            to={{
-              pathname: "/writenote",
-              state: { projects: this.state.projects }
-            }}
-          >
-            <ListItemText primary="Write" />
-          </ListItem>
-          <Divider />
-          <ListItem component={Link} to="/notes">
-            <ListItemText primary="All Notes" />
-          </ListItem>
-          <Divider />
-          <ListItem component={Link} to="/todos">
-            <ListItemText primary="To-do List" />
-          </ListItem>
-          <Divider />
-          <ListItem component={Link} to="/photoBook">
-            <ListItemText primary="Photos" />
-          </ListItem>
-          <Divider />
-          <ListItem component={Link} to="/project">
-            <ListItemText primary="Projects" />
-          </ListItem>
-          <Divider />
           <ListItem>
+            <ListItemText primary="Add a Project" />
             <Button
               variant="fab"
               text="add a project"
               // color="primary"
               aria-label="Add"
               style={{
-                backgroundColor: `mediumslateblue`,
-                width: "40px",
-                height: "40px"
+                backgroundColor: "mediumpurple",
+                width: "30px",
+                height: "30px"
               }}
               onClick={() => console.log("hi there")}
             >
               <AddIcon />
             </Button>
-            <ListItemText primary="Add a Project" />
           </ListItem>
+          {/* <Divider /> */}
           <ListItem>
             <ListItemText primary="Group Projects" />
             {/* <SupervisedUserCircle /> */}

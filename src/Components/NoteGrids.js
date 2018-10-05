@@ -20,49 +20,41 @@ import CardContent from "@material-ui/core/CardContent";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import { Avatar, Button } from "@material-ui/core";
 
-//CANT GET NOTES TO WRAP
-// const styles = theme => ({
-//   root: {
-//     ...theme.mixins.gutters(),
-//     paddingTop: theme.spacing.unit * 2,
-//     paddingBottom: theme.spacing.unit * 2,
-//     margin: 20,
-//     width: 400,
-//     heigth: 400
-//   },
-//   button: {
-//     margin: theme.spacing.unit
-//   },
-//   box: {
-//     display: "flex"
-//   }
-// });
-
 class NoteGrids extends React.Component {
   constructor() {
     super();
     this.state = {
-      myNotes: [],
-      curNote: "",
+      notes: [],
       open: false
     };
     this.deleteNote = this.deleteNote.bind(this);
   }
-
   componentDidMount() {
-    let myNotes;
-    var ref = firebase.database().ref("notes/");
     var self = this;
-    ref.on("value", function(snapshot) {
-      myNotes = [];
-      let notes = snapshot.val();
-      for (var key in notes) {
-        const user = firebase.auth().currentUser;
-        if (notes[key].author === user.uid) {
-          myNotes.push(notes[key]);
-        }
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        const ref = firebase.database().ref();
+        ref.on("value", function(snapshot) {
+          let myNotes = [];
+          const notes = snapshot.val().notes;
+          const projects = snapshot.val().projects;
+
+          for (var key in notes) {
+            if (notes[key].author === user.uid) {
+              const projectId = notes[key].projectId;
+              for (var id in projects) {
+                if (id === projectId) {
+                  const color = projects[id].color;
+                  myNotes.push({ ...notes[key], key, color });
+                }
+              }
+            }
+          }
+          self.setState({ notes: myNotes });
+        });
+      } else {
+        console.log("not logged in");
       }
-      self.setState({ myNotes });
     });
   }
   deleteNote(key) {
@@ -72,9 +64,54 @@ class NoteGrids extends React.Component {
       .child(key)
       .remove();
   }
+
+  // componentDidMount() {
+  //   var self = this;
+  //   firebase.auth().onAuthStateChanged(function(user) {
+  //     if (user) {
+  //       const ref = firebase.database().ref();
+  //       ref.on("value", function(snapshot) {
+  //         let myNotes = [];
+  //         const notes = snapshot.val().notes;
+  //         const projects = snapshot.val().projects;
+  //         const users = snapshot.val().users;
+  //         // const member = projects.members.includes(user.uid);
+  //         // for (var id in projects) {
+  //         for (var key in notes) {
+  //           const NoteProj = projects[notes[key].projectId];
+  //           const color = NoteProj.color;
+  //           console.log("color", color);
+  //           console.log("note project id", NoteProj);
+  //           const authorId = notes[key].author;
+  //           console.log("authorId", authorId);
+  //           const authorName = users[authorId].displayName;
+  //           console.log("author name", authorName);
+  //           const member = NoteProj.members.includes(user.email);
+  //           // const authorId = notes[key].author;
+  //           if (member) {
+  //             myNotes.push({ ...notes[key], authorName, color });
+  //             console.log("author name", authorName);
+  //           }
+  //         }
+
+  //       });
+  //     } else {
+  //       console.log("not logged in");
+  //     }
+  //   });
+  // }
+  // deleteNote(key) {
+  //   return firebase
+  //     .database()
+  //     .ref("notes")
+  //     .child(key)
+  //     .remove();
+  // }
   render() {
-    const notes = this.state.myNotes;
-    console.log("Database: ", firebase.database().ref("users/"));
+    const notes = this.state.notes;
+    console.log("this state notes", this.state.notes);
+    // const notes = this.state.myNotes;
+    // console.log("Database: ", firebase.database().ref("users/"));
     return (
       <div style={{ position: "relative" }}>
         <div
@@ -99,20 +136,15 @@ class NoteGrids extends React.Component {
                 <Typography variant="headline" centered>
                   "{note.content}"
                 </Typography>
-                <Typography variant="subheading" centered>
+                {/* <Typography variant="subheading" centered>
                   -{note.author}
-                </Typography>
-
-                {/* <Typography variant="body2" centered>
-                  Project:
-                  {note.project}
                 </Typography> */}
               </CardContent>
               <Avatar
                 rounded
                 style={{
-                  // backgroundColor: `#${project.color}`,
-                  backgroundColor: "lightgreen",
+                  backgroundColor: `#${note.color}`,
+                  // backgroundColor: "lightgreen",
                   width: "15px",
                   height: "15px",
                   marginRight: "auto",
