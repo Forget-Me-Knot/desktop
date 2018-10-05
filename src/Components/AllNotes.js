@@ -8,6 +8,10 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
 
 // Only loads current logged in user's notes
 export default class AllNotes extends Component {
@@ -101,7 +105,8 @@ export default class AllNotes extends Component {
     const notes = this.state.myNotes;
     return (
       <div>
-        <Button
+        <Card>
+          {/* <Button
           variant="fab"
           mini
           color="primary"
@@ -109,37 +114,13 @@ export default class AllNotes extends Component {
           onClick={this.handleOpen}
         >
           <AddIcon />
-        </Button>
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Add a new note</DialogTitle>
-          <DialogContent>
-            <form onChange={this.handleChange}>
-              <TextField
-                autoFocus
-                margin="dense"
-                name="note"
-                type="text"
-                fullWidth
-              />
-            </form>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleSubmit} color="primary">
-              Post
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        {notes ? (
-          <NoteGrids notes={notes} handleDelete={this.handleDelete} />
-        ) : null}
+        </Button> */}
+          <CardContent open={this.state.open} onClose={this.handleClose}>
+            {notes ? (
+              <NoteGrids notes={notes} handleDelete={this.handleDelete} />
+            ) : null}
+          </CardContent>
+        </Card>
       </div>
     );
   }
