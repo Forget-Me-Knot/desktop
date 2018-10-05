@@ -23,28 +23,23 @@ export default class NoteForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleMenuChange = this.handleMenuChange.bind(this);
-    // this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
-    const self = this;
-    const user = firebase.auth().currentUser;
-    if (user) {
-      let userProjects = [];
+		const self = this;
+		firebase.auth().onAuthStateChanged(function(user){
+			let userProjects = [];
       var ref = firebase.database().ref("projects");
       ref.on("value", function(snapshot) {
-        let projects = snapshot.val();
+				let projects = snapshot.val();
         for (let key in projects) {
-          // if (projects[key].members.includes(user.email)) {
           const members = projects[key].members;
           const name = projects[key].name;
-          userProjects.push({ name, key });
-          //}
-        }
+          if(members.includes(user.email)) userProjects.push({ name, key });
+				}
+				self.setState({ projects: userProjects });
       });
-      console.log("User Projects: ", userProjects);
-      self.setState({ projects: userProjects });
-    }
+		})
   }
 
   handleChange(event) {
@@ -66,23 +61,23 @@ export default class NoteForm extends Component {
   }
 
   handleSubmit(event) {
-    event.preventDefault();
-    const user = firebase.auth().currentUser;
-    const noteid = Math.floor(Math.random() * 100000);
-    firebase
+		event.preventDefault();
+		const self = this
+		const noteid = firebase.database().ref('notes/').push().key
+		firebase.auth().onAuthStateChanged(function(user){
+			firebase
       .database()
       .ref("notes/" + noteid)
       .set({
         author: user.uid,
-        content: this.state.note,
-        projectId: this.state.selectedProject.key
+        content: self.state.note,
+        projectId: self.state.selectedProject
       });
-    this.props.history.push("/notes");
+		})
   }
 
   render() {
-    const state = this.props.location.state;
-    console.log("Projects: ", state);
+		const projects = this.state.projects
     return (
       <div style={{ position: "relative" }}>
         <div
@@ -121,12 +116,13 @@ export default class NoteForm extends Component {
                   value={this.state.selectedProject}
                   onChange={this.handleMenuChange}
                 >
-                  {state &&
-                    state.projects.map(project => (
-                      <MenuItem name="selectedProject" value={project}>
-                        {project.name}
-                      </MenuItem>
-                    ))}
+									{projects ?
+									projects.map(project => (
+										<MenuItem key={project.key} name="selectedProject" value={project.key}>
+										{project.name}
+									 </MenuItem>
+									)) : null
+                  }
                 </Select>
               </FormGroup>
             </form>
@@ -134,7 +130,6 @@ export default class NoteForm extends Component {
 
           <Button
             onClick={this.handleSubmit}
-            raised
             type="submit"
             style={{
               backgroundColor: "pink",

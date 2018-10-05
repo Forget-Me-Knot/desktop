@@ -10,11 +10,11 @@ import Divider from "@material-ui/core/Divider";
 import firebase from "../firebase";
 import Project from "./Projects";
 import ProjectBar from "./ProjectBar";
+import AddIcon from "@material-ui/icons/Add";
 
 const styles = theme => ({
   icon: {
-    height: "6em",
-    justify: "center"
+    height: "50px"
   },
   paper: {
     width: 90
@@ -86,7 +86,9 @@ class Navbar extends React.Component {
                   to={{ pathname: "/login", state: { handleUser: handleUser } }}
                   style={{ textDecoration: "none" }}
                 /> */}
-                <Button onClick={this.logOut}> logout </Button>
+                <Button onClick={this.logOut} variant="raised">
+                  logout
+                </Button>
               </ListItem>
             ) : (
               <ListItem component={Link} to="/login">
@@ -98,28 +100,61 @@ class Navbar extends React.Component {
             )}
 
             <Divider />
-            <Button size="small">
-              <Link to="/calendar" style={{ textDecoration: "none" }}>
-                CALENDAR
-              </Link>
-            </Button>
-            {firebase.auth().currentUser ? <ProjectBar /> : null}
+            <ListItem component={Link} to="/calendar">
+              <ListItemText primary="Calendar" />
+            </ListItem>
+
+            <Divider />
+            <ListItem component={Link} to="/project">
+              <ListItemText primary="Add an event" />
+              <Button
+                variant="fab"
+                text="add an event"
+                // color="primary"
+                aria-label="Add"
+                style={{
+                  backgroundColor: `mediumaquamarine`,
+                  width: "30px",
+                  height: "30px"
+                }}
+                onClick={() => console.log("hi there")}
+              >
+                <AddIcon />
+              </Button>
+            </ListItem>
+            <Divider />
+            <ListItem
+              component={Link}
+              to={{
+                pathname: "/writenote",
+                state: { projects: this.state.projects }
+              }}
+            >
+              <ListItemText primary="Write" />
+            </ListItem>
+            <Divider />
+            <ListItem component={Link} to="/notes">
+              <ListItemText primary="All Notes" />
+            </ListItem>
+            <Divider />
+            <ListItem component={Link} to="/todos">
+              <ListItemText primary="To-do List" />
+            </ListItem>
+            <Divider />
+            <ListItem component={Link} to="/photoBook">
+              <ListItemText primary="Photos" />
+            </ListItem>
+            <Divider />
+            <ListItem component={Link} to="/project">
+              <ListItemText primary="Projects" />
+            </ListItem>
+            <Divider />
+            {firebase.auth().currentUser ? <ProjectBar /> : <h3>hi</h3>}
             {/* {this.state.projects
               ? this.state.projects.map(project => {
                   <ListItem>{project.name}</ListItem>;
                 })
               : null} */}
-
-            {/* <div>
-              {firebase.auth().onAuthStateChanged(user => {
-                if (user.uid) {
-                  console.log("Project Component: ", user);
-                  return <Project />;
-                } else {
-                  return null;
-                }
-              })}
-            </div> */}
           </List>
         </Drawer>
       </div>
