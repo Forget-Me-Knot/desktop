@@ -5,6 +5,8 @@ import ListItem from '@material-ui/core/ListItem';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from "@material-ui/core/IconButton";
+import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import CreateTodo from './CreateTodo'
 
 export default class ToDo extends Component {
@@ -13,6 +15,7 @@ export default class ToDo extends Component {
 		this.state = {};
 		this.makeList = this.makeList.bind(this)
 		this.handleClick = this.handleClick.bind(this)
+		this.delete = this.delete.bind(this)
 	}
 
 	componentDidMount(){
@@ -45,6 +48,10 @@ export default class ToDo extends Component {
 		})
 	}
 
+	delete(key){
+		return firebase.database().ref('tasks').child(key).remove()
+	}
+
 	handleClick(key){
 		firebase.database().ref('tasks/' + key).update({
 			completed: !this.state[key]
@@ -60,6 +67,11 @@ export default class ToDo extends Component {
 					onClick={() => this.handleClick(task.key)}
 				/>
 				<ListItemText primary={task.content} style={ this.state[task.key] ? {textDecoration: 'line-through'} : null} />
+				<IconButton
+					aria-label="Delete" color="grey" style={{float: 'right'}} onClick={() => this.delete(task.key)}
+				>
+					<RemoveCircle />
+				</IconButton>
 				<Avatar style={{backgroundColor: '#'+task.color, fontSize: '0.8rem'}} >{task.assigned}</Avatar>
 			</ListItem>
 		))

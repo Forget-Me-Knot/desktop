@@ -74,6 +74,9 @@ export default class CreateTodo extends Component {
 				}
 			}
 			firebase.database().ref('tasks').child(newKey).set(task)
+			self.setState({
+				todo: "", assignMember: "", assignProject: ""
+			})
 		})
 	}
 
