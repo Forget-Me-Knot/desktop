@@ -22,6 +22,7 @@ export default class NoteForm extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleMenuChange = this.handleMenuChange.bind(this);
     // this.handleClick = this.handleClick.bind(this);
   }
 
@@ -52,8 +53,15 @@ export default class NoteForm extends Component {
     } else {
       console.log(firebase.auth().currentUser.displayName);
     }
+    console.log("Event: ", event.target.value);
     this.setState({
       [event.target.name]: event.target.value
+    });
+  }
+
+  handleMenuChange(event) {
+    this.setState({
+      selectedProject: event.target.value
     });
     console.log("Selected Project: ", this.state.selectedProject);
   }
@@ -68,7 +76,7 @@ export default class NoteForm extends Component {
       .set({
         author: user.uid,
         content: this.state.note,
-        projectId: this.state.selectedProject.key
+        project: this.state.selectedProject
       });
     this.props.history.push("/notes");
   }
@@ -112,7 +120,7 @@ export default class NoteForm extends Component {
                 <InputLabel>Project</InputLabel>
                 <Select
                   value={this.state.selectedProject}
-                  onChange={this.handleChange}
+                  onChange={this.handleMenuChange}
                   // inputProps={{
                   //   name: "project",
                   //   id: "age-simple"
