@@ -10,6 +10,8 @@ import { log } from "util";
 import Calendar from "./Components/Calendar";
 import Todos from "./Components/Todos";
 import ProjectBar from "./Components/ProjectBar";
+import SingleProject from "./Components/SingleProject";
+import PhotoGrid from "./Components/PhotoGrid";
 import firebase from "./firebase";
 
 export default class Routes extends Component {
@@ -45,6 +47,9 @@ export default class Routes extends Component {
         <Route path="/projectbar" component={ProjectBar} />
         <Route path="/calendar" component={Calendar} />
         <Route path="/todos" component={Todos} />
+        <Route path="/project" component={SingleProject} />
+        <Route path="/photoBook" component={PhotoGrid} />
+        {/* will need to be :project.name eventually */}
         {/* </Switch> */}
         {/* )} */}
         <Route

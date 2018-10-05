@@ -108,11 +108,11 @@ export default class ProjectBar extends React.Component {
             <ListItemText primary="To-do List" />
           </ListItem>
           <Divider />
-          <ListItem button>
+          <ListItem component={Link} to="/photoBook">
             <ListItemText primary="Photos" />
           </ListItem>
           <Divider />
-          <ListItem button>
+          <ListItem component={Link} to="/project">
             <ListItemText primary="Projects" />
           </ListItem>
           <Divider />
