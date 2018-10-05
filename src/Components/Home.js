@@ -1,37 +1,36 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-// import getUser from '../store';
+import firebase from '../firebase'
 
 class Home extends Component {
-  // componentDidMount() {
-  //   this.props.fetchUser();
-  // }
+  constructor(){
+		super()
+		this.state = {}
+	}
+
+	componentDidMount(){
+		const self = this
+		const ref = firebase.database().ref('users')
+		firebase.auth().onAuthStateChanged(function(user){
+			ref.on('value', function(snapshot){
+				const users = snapshot.val()
+				for (var key in users) {
+					if (key === user.uid) {
+						self.setState({userName: users[key].displayName})
+					}
+				}
+			})
+		})
+	}
 
   render() {
-    console.log('PROPS', this.props);
+    const name = this.state.userName
     return (
       <div>
         <h1>HOME</h1>
+				<p>{name ? name : null}</p>
       </div>
     );
   }
 }
-
-// const mapStateToProps = state => {
-//   return {
-//     user: state.user.currentUser,
-//   };
-// };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     fetchUser: () => dispatch(getUser()),
-//   };
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(Home);
 
 export default Home;

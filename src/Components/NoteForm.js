@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import firebase from "../firebase";
+import { Link } from 'react-router-dom'
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -138,7 +139,9 @@ export default class NoteForm extends Component {
               marginBottom: "10%"
             }}
           >
+					<Link to='/notes' replace>
             POST NOTE
+						</Link>
           </Button>
         </div>
       </div>
