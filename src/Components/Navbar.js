@@ -13,7 +13,8 @@ import ProjectBar from "./ProjectBar";
 
 const styles = theme => ({
   icon: {
-    height: "30px"
+    height: "6em",
+    justify: "center"
   },
   paper: {
     width: 90

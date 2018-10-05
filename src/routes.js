@@ -28,16 +28,10 @@ export default class Routes extends Component {
     });
   }
   render() {
-    // firebase.auth().onAuthStateChanged(user => {
-    //   if (user) {
-    //     console.log("User: ", user);
-    //     currentUser = user;
-    //   }
-    // });
     return (
       <Switch>
         <Route path="/notes" component={NoteGrids} />
-        <Route path="/home" component={Home} />
+        <Route path="/home" render={() => <Home />} />
         <Route path="/writenote" component={NoteForm} />
         <Route path="/projectbar" component={ProjectBar} />
         <Route path="/calendar" component={Calendar} />
