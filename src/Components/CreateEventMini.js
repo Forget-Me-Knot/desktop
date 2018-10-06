@@ -24,7 +24,7 @@ const styles = theme => ({
   }
 });
 
-class CreateEvent extends React.Component {
+class CreateEventMini extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,34 +35,24 @@ class CreateEvent extends React.Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   componentDidMount() {
     const self = this;
-    firebase.auth().onAuthStateChanged(function(user) {
-      const ref = firebase.database().ref();
-      ref.on("value", function(snapshot) {
-        const projects = snapshot.val().projects;
-        let myProjects = [];
-        for (var key in projects) {
-          if (projects[key].members.includes(user.email)) {
-            const name = projects[key].name;
-            const members = projects[key].members;
-            myProjects.push({ name, members, key });
-          }
-        }
-        self.setState({ projects: myProjects });
-      });
-    });
+    const projectKey = this.props.projects[0].key;
+    // const projMembers = this.props.projects[0].members;
+    self.setState({ projectId: projectKey });
   }
+
   handleSubmit() {
     const self = this;
     const eventName = this.state.eventName;
     const projectId = parseInt(this.state.project);
     const eventDate = this.state.date;
     const eventTime = this.state.time;
-    const newKey = firebase;
-    //   .database()
-    //   .ref("events/")
-    //   .push().key;
+    const newKey = firebase
+      .database()
+      .ref("events/")
+      .push().key;
     // const ref = firebase.database().ref("users");
     // ref.on("value", function(snapshot) {
     //   const users = snapshot.val();
@@ -75,8 +65,8 @@ class CreateEvent extends React.Component {
       eventDate,
       eventTime
     };
-    // }
-    //   }
+    //}
+    //  }
     firebase
       .database()
       .ref("events")
@@ -86,9 +76,9 @@ class CreateEvent extends React.Component {
       date: "",
       time: "",
       eventName: "",
-      project: []
+      projectId: ""
     });
-    // });
+    //  });
   }
   render() {
     console.log("this props projects in create eevetn", this.props.projects);
@@ -104,7 +94,6 @@ class CreateEvent extends React.Component {
               Tell us about this new thing!
             </Typography>
             <div>
-              {/* <InputLabel>What's this thing called?</InputLabel> */}
               <TextField
                 required
                 // id="standard-required"
@@ -117,7 +106,6 @@ class CreateEvent extends React.Component {
               />
             </div>
             <div>
-              {/* <InputLabel>When's it going down?</InputLabel> */}
               <TextField
                 id="datetime-local"
                 label="Event date and time"
@@ -129,30 +117,6 @@ class CreateEvent extends React.Component {
                 }}
               />
             </div>
-            {!projectId ? (
-              <div style={{ marginBottom: 10 }}>
-                <InputLabel>
-                  What project is this event associated with?
-                </InputLabel>
-                <Select
-                  fullWidth
-                  // onChange={function(event) {
-                  //   self.getMembers(event);
-                  // }}
-                  value={this.state.project}
-                >
-                  {projects ? (
-                    projects.map(project => (
-                      <MenuItem key={project.key} value={project.name}>
-                        {project.name}
-                      </MenuItem>
-                    ))
-                  ) : (
-                    <MenuItem>No project available.</MenuItem>
-                  )}
-                </Select>
-              </div>
-            ) : null}
           </div>
           <Button variant="outlined" onClick={() => this.handleSubmit()}>
             SUBMIT
@@ -163,8 +127,8 @@ class CreateEvent extends React.Component {
   }
 }
 
-CreateEvent.propTypes = {
+CreateEventMini.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(CreateEvent);
+export default withStyles(styles)(CreateEventMini);
