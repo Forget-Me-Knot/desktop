@@ -24,7 +24,7 @@ const styles = theme => ({
   }
 });
 
-class CreateEvent extends React.Component {
+class CreateEventMini extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -163,8 +163,8 @@ class CreateEvent extends React.Component {
   }
 }
 
-CreateEvent.propTypes = {
+CreateEventMini.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(CreateEvent);
+export default withStyles(styles)(CreateEventMini);
