@@ -12,6 +12,7 @@ import Todos from "./Components/Todos";
 import ProjectBar from "./Components/ProjectBar";
 import SingleProject from "./Components/SingleProject";
 import PhotoGrid from "./Components/PhotoGrid";
+import CreateProject from './Components/CreateProject'
 import firebase from "./firebase";
 import CreateEvent from "./Components/CreateEvent";
 
@@ -46,6 +47,7 @@ export default class Routes extends Component {
         <Route path="/todos" component={Todos} />
         <Route path="/project" component={SingleProject} />
         <Route path="/photoBook" component={PhotoGrid} />
+				<Route path='/addproject' component={CreateProject} />
         <Route
           path="/login"
           render={() => (
