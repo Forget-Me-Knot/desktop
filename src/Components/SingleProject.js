@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import Todos from "./Todos";
 import PhotoGrid from "./PhotoGrid";
 import EventList from "./EventList";
+import Members from "./Members";
 
 function TabContainer(props) {
   return (
@@ -73,7 +74,11 @@ class SingleProject extends React.Component {
             <NoteGrids />
           </TabContainer>
         )}
-        {value === 1 && <TabContainer>Item Two</TabContainer>}
+        {value === 1 && (
+          <TabContainer>
+            <Members />
+          </TabContainer>
+        )}
         {value === 2 && (
           <TabContainer>
             <Todos />
