@@ -57,6 +57,7 @@ export default class AllNotes extends Component {
   }
 
   render() {
+		console.log(this.props.projectKey)
     const notes = this.state.myNotes;
     return (
       <div>

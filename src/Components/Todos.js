@@ -19,33 +19,18 @@ export default class ToDo extends Component {
 	}
 
 	componentDidMount(){
-		var self = this
-		firebase.auth().onAuthStateChanged(function(user){
-			if (user) {
-				const ref = firebase.database().ref()
-				ref.on('value', function(snapshot) {
-					const tasks = snapshot.val().tasks
-					const projects = snapshot.val().projects
+		if (this.props.tasks) this.setState({tasks: this.props.tasks})
+		if (this.props.projects) this.setState({projects: this.props.projects})
+	}
 
-					let myProjects = []
-					let colors = {}
-					let myTasks = []
-					for (var key in projects) {
-						if (projects[key].members.includes(user.email)) {
-							myProjects.push(key)
-							colors[key] = projects[key].color
-						}
-					}
-					for (var id in tasks) {
-						if (myProjects.includes(tasks[id].projectId + '')) {
-							myTasks.push({...tasks[id], key: id, color: colors[tasks[id].projectId]})
-							self.setState({[id]: tasks[id].completed})
-						}
-					}
-					self.setState({tasks: myTasks})
-				})
-			}
-		})
+	componentDidUpdate(prevProps){
+		const props = this.props
+		if (prevProps.tasks !== props.tasks || prevProps.projects !== props.projects) {
+			this.setState({
+				projects: props.projects,
+				tasks: props.tasks
+			})
+		}
 	}
 
 	delete(key){
@@ -68,7 +53,7 @@ export default class ToDo extends Component {
 				/>
 				<ListItemText primary={task.content} style={ this.state[task.key] ? {textDecoration: 'line-through'} : null} />
 				<IconButton
-					aria-label="Delete" color="grey" style={{float: 'right'}} onClick={() => this.delete(task.key)}
+					aria-label="Delete" style={{float: 'right'}} onClick={() => this.delete(task.key)}
 				>
 					<RemoveCircle />
 				</IconButton>
@@ -78,7 +63,7 @@ export default class ToDo extends Component {
 	}
 
   render() {
-		const tasks = this.state.tasks
+		const tasks = this.props.tasks
     return (
 			<div>
 				<CreateTodo />

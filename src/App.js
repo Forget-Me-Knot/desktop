@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import Routes from "./routes";
 import Navbar from "./Components/Navbar";
-import ProjectBar from "./Components/ProjectBar";
 import Grid from "@material-ui/core/Grid";
-//import { gotUser } from './store/user';
 import firebase from "./firebase";
-//import { connect } from 'react-redux';
+import NewNavbar from './Components/NewNavbar'
 
 class App extends Component {
   constructor() {
@@ -15,7 +13,8 @@ class App extends Component {
       login: false
     };
     this.handleLogin = this.handleLogin.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
+		this.handleLogout = this.handleLogout.bind(this);
+		this.setProject = this.setProject.bind(this)
   }
 
   handleLogin(user) {
@@ -30,7 +29,11 @@ class App extends Component {
       user: {},
       login: false
     });
-  }
+	}
+
+	setProject(key){
+		this.setState({key})
+	}
 
   render() {
 		const user = this.state.user;
@@ -38,46 +41,22 @@ class App extends Component {
       <div>
         <Grid container>
           <Grid item xs={3}>
-            <Grid container>
-              <Grid item xs={2}>
-                <Navbar
+                <NewNavbar
                   handleLogout={this.handleLogout}
-                  handleLogin={this.handleLogin}
+									handleLogin={this.handleLogin}
+									setProject={this.setProject}
                 />
-              </Grid>
-              {/* <Grid item xs={2}> */}
-              {/* {firebase.auth().currentUser ? (
-                  <ProjectBar />
-                ) : (
-                  <h1>Login for the love!</h1>
-                )} */}
-              {/* </Grid> */}
-            </Grid>
           </Grid>
           <Grid item xs={9}>
-            <Routes handleLogin={this.handleLogin} />
+            <Routes
+							projectKey={this.state.key}
+							handleLogin={this.handleLogin}
+						/>
           </Grid>
         </Grid>
       </div>
     );
   }
 }
-
-// const mapStateToProps = state => {
-//   return {
-//     user: state.user.currentUser,
-//   };
-// };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     getUser: () => dispatch(gotUser()),
-//   };
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(App);
 
 export default App;
