@@ -94,6 +94,8 @@ export default class ToDo extends Component {
 
   render() {
     const tasks = this.props.tasks;
+    const project = this.props.projects;
+    console.log("this props project key in todos", this.props.projects);
     return (
       <div>
         <div>
@@ -109,7 +111,7 @@ export default class ToDo extends Component {
             Add a Task
           </Button>
           {this.state.formOpen ? (
-            <CreateTodo projectId={this.state.projectId} />
+            <CreateTodo projects={this.props.projects} />
           ) : null}
         </div>
         <List>{tasks ? this.makeList(tasks) : null}</List>

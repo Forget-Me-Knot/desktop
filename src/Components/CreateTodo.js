@@ -13,52 +13,23 @@ export default class CreateTodo extends Component {
     super(props);
     this.state = {
       members: [],
-      projectId: props.projectId,
+      projectId: "",
       assignMember: ""
     };
-    // this.getMembers = this.getMembers.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     const self = this;
-    firebase.auth().onAuthStateChanged(function(user) {
-      const ref = firebase.database().ref();
-      ref.on("value", function(snapshot) {
-        const projects = snapshot.val().projects;
-        let projMembers = [];
-        for (var key in projects) {
-          if (projects[key].members.includes(user.email)) {
-            // const name = projects[key].name;
-            const members = projects[key].members;
-            projMembers.push({ members });
-          }
-        }
-        self.setState({ members: projMembers });
-      });
-    });
+    const projectKey = this.props.projects[0].key;
+    const projMembers = this.props.projects[0].members;
+    self.setState({ projectId: projectKey, members: projMembers });
   }
-
-  // getMembers(event) {
-  //   this.setState({ loadMembers: true });
-  //   this.setState({ assignProject: event.target.value });
-  //   const self = this;
-  //   let members;
-  //   const projects = this.state.projects;
-  //   const name = event.target.value;
-  //   projects.forEach(project => {
-  //     if (name === project.name) {
-  //       members = project.members;
-  //       self.setState({ assignProjectId: project.key });
-  //     }
-  //   });
-  //   this.setState({ members });
-  // }
 
   handleSubmit() {
     const self = this;
     const assigned = this.state.assignMember;
-    const projectId = parseInt(this.state.assignProjectId);
+    const projectId = parseInt(this.state.projectId);
     const content = this.state.todo;
     const newKey = firebase
       .database()
@@ -85,14 +56,14 @@ export default class CreateTodo extends Component {
         .set(task);
       self.setState({
         todo: "",
-        assignMember: ""
-        // projectId: ""
+        assignMember: "",
+        projectId: ""
       });
     });
   }
 
   render() {
-    // const projects = this.state.projects;
+    const projectId = this.state.projectId;
     const members = this.state.members;
     const self = this;
     return (
@@ -105,27 +76,7 @@ export default class CreateTodo extends Component {
               onChange={event => this.setState({ todo: event.target.value })}
             />
           </div>
-          {/* <div style={{ marginBottom: 10 }}>
-            <InputLabel>Project</InputLabel>
-            <Select
-              fullWidth
-              onChange={function(event) {
-                self.getMembers(event);
-              }}
-              value={this.state.assignProject}
-            >
-              {projects ? (
-                projects.map(project => (
-                  <MenuItem key={project.key} value={project.name}>
-                    {project.name}
-                  </MenuItem>
-                ))
-              ) : (
-                <MenuItem>No project available.</MenuItem>
-              )}
-            </Select>
-          </div> */}
-          {/* {this.state.loadMembers ? ( */}
+
           <div style={{ marginBottom: 10 }}>
             <InputLabel>Assign to</InputLabel>
             <Select
@@ -146,7 +97,6 @@ export default class CreateTodo extends Component {
               )}
             </Select>
           </div>
-
           <Button onClick={() => this.handleSubmit()}>SUBMIT</Button>
         </FormGroup>
       </Card>
