@@ -97,8 +97,8 @@ class Navbar extends React.Component {
               <ListItemText primary="Calendar" />
             </ListItem>
 
-            <Divider />
-            <ListItem component={Link} to="/project">
+            {/* <Divider />
+            <ListItem component={Link} to="/AddEvent">
               <ListItemText primary="Add an event" />
               <Button
                 variant="fab"
@@ -114,7 +114,7 @@ class Navbar extends React.Component {
               >
                 <AddIcon />
               </Button>
-            </ListItem>
+            </ListItem> */}
             <Divider />
             <ListItem
               component={Link}

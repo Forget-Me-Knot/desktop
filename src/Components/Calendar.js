@@ -174,17 +174,18 @@ class Calendar extends React.Component {
         </div>
         <div>
           <Button
-            variant="fab"
+            // variant="fab"
             text="add an event"
-            aria-label="Add"
+            // aria-label="Add"
             style={{
               backgroundColor: `mediumaquamarine`,
-              width: "30px",
-              height: "30px",
+              // width: "30px",
+              // height: "30px",
               marginTop: 35
             }}
             onClick={() => console.log("hi there")}
           >
+            Add Event
             <AddIcon />
           </Button>
         </div>

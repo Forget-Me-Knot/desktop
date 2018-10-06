@@ -8,16 +8,30 @@ import IconButton from "@material-ui/core/IconButton";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import Divider from "@material-ui/core/Divider";
 import Checkbox from "@material-ui/core/Checkbox";
+import CreateEvent from "./CreateEvent";
+import AddIcon from "@material-ui/icons/Add";
+import Button from "@material-ui/core/Button";
+import { Typography } from "@material-ui/core";
+import Icon from "@material-ui/core/Icon";
 
 class EventList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: []
+      events: [],
+      formOpen: false
     };
     // this.makeList = this.makeList.bind(this)
     // this.handleClick = this.handleClick.bind(this);
     // this.delete = this.delete.bind(this);
+    this.openForm = this.openForm.bind(this);
+  }
+  openForm() {
+    if (!this.state.formOpen) {
+      this.setState({ formOpen: true });
+    } else {
+      this.setState({ formOpen: false });
+    }
   }
 
   componentDidMount() {
@@ -103,6 +117,22 @@ class EventList extends React.Component {
             // <Divider/>
           ))}
         </List>
+        <Divider />
+        <Button
+          // variant="fab"
+          text="add a project"
+          // color="primary"
+          aria-label="Add"
+          style={{
+            backgroundColor: "mediumpurple",
+            marginTop: 12
+          }}
+          onClick={() => this.openForm()}
+        >
+          <AddIcon />
+          add an event
+        </Button>
+        {this.state.formOpen ? <CreateEvent /> : null}
       </div>
     );
   }
