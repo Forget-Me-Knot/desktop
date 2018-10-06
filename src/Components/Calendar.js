@@ -2,6 +2,9 @@ import React from "react";
 import dateFns from "date-fns";
 import "./calendar.css";
 import firebase from "../firebase";
+import AddIcon from "@material-ui/icons/Add";
+import Button from "@material-ui/core/Button";
+import { Typography } from "@material-ui/core";
 
 class Calendar extends React.Component {
   constructor() {
@@ -32,7 +35,24 @@ class Calendar extends React.Component {
         </div>
         <div className="col col-end" onClick={this.nextMonth}>
           <div className="icon">chevron_right</div>
+          {/* </div> */}
         </div>
+        {/* <div>
+          <Button
+            variant="fab"
+            text="add an event"
+            // color="primary"
+            aria-label="Add"
+            style={{
+              backgroundColor: `mediumaquamarine`,
+              width: "30px",
+              height: "30px"
+            }}
+            onClick={() => console.log("hi there")}
+          >
+            <AddIcon />
+          </Button>
+        </div> */}
       </div>
     );
   }
@@ -92,9 +112,10 @@ class Calendar extends React.Component {
             const stringDay = JSON.stringify(day);
             const color = eventsObj[stringDay]
               ? eventsObj[stringDay].color
-
-							: null;
-						const eventName = eventsObj[stringDay] ? eventsObj[stringDay].name : ''
+              : null;
+            const eventName = eventsObj[stringDay]
+              ? eventsObj[stringDay].name
+              : "";
 
             days.push(
               <div
@@ -107,9 +128,8 @@ class Calendar extends React.Component {
                 }`}
                 style={color ? { borderLeftColor: `#${color}` } : null}
                 key={day}
-
               >
-								<span className="eventtext">{eventName}</span>
+                <span className="eventtext">{eventName}</span>
                 <span className="number">{formattedDate}</span>
                 <span className="bg">{formattedDate}</span>
               </div>
@@ -146,10 +166,29 @@ class Calendar extends React.Component {
 
   render() {
     return (
-      <div className="calendar">
-        {this.renderHeader()}
-        {this.renderDays()}
-        {this.renderCells()}
+      <div>
+        <div className="calendar">
+          {this.renderHeader()}
+          {this.renderDays()}
+          {this.renderCells()}
+        </div>
+        <div>
+          <Button
+            // variant="fab"
+            text="add an event"
+            // aria-label="Add"
+            style={{
+              backgroundColor: `mediumaquamarine`,
+              // width: "30px",
+              // height: "30px",
+              marginTop: 35
+            }}
+            onClick={() => console.log("hi there")}
+          >
+            Add Event
+            <AddIcon />
+          </Button>
+        </div>
       </div>
     );
   }

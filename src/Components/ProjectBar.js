@@ -31,7 +31,7 @@ export default class ProjectBar extends React.Component {
       if (user) {
         var ref = firebase.database().ref("projects");
         ref.on("value", function(snapshot) {
-					let userProjects = [];
+          let userProjects = [];
           let projects = snapshot.val();
           for (let key in projects) {
             if (projects[key].members) {
@@ -70,7 +70,7 @@ export default class ProjectBar extends React.Component {
       .ref("projects/" + proj)
       .child("notes")
       .update(updates);
-	}
+  }
 
   render() {
     const projects = this.state.projects;
@@ -85,21 +85,21 @@ export default class ProjectBar extends React.Component {
         <List>
           <ListItem>
             <ListItemText primary="Add a Project" />
-						<Link to ='/addproject' replace>
-            <Button
-              variant="fab"
-              text="add a project"
-              aria-label="Add"
-              style={{
-                backgroundColor: "mediumpurple",
-                width: "30px",
-                height: "30px"
-              }}
-              onClick={() => console.log("hi there")}
-            >
-              <AddIcon />
-            </Button>
-						</Link>
+            <Link to="/addproject" replace>
+              <Button
+                variant="fab"
+                text="add a project"
+                aria-label="Add"
+                style={{
+                  backgroundColor: "mediumpurple",
+                  width: "30px",
+                  height: "30px"
+                }}
+                onClick={() => console.log("hi there")}
+              >
+                <AddIcon />
+              </Button>
+            </Link>
           </ListItem>
           {/* <Divider /> */}
           <ListItem>
@@ -129,6 +129,24 @@ export default class ProjectBar extends React.Component {
             <ListItemText primary="Personal Projects" />
             <PersonOutlined />
           </ListItem>
+          <ListItem>
+            <ListItemText primary="Add a Project" />
+            <Button
+              variant="fab"
+              text="add a project"
+              // color="primary"
+              aria-label="Add"
+              style={{
+                backgroundColor: "mediumpurple",
+                width: "30px",
+                height: "30px"
+              }}
+              onClick={() => console.log("hi there")}
+            >
+              <AddIcon />
+            </Button>
+          </ListItem>
+          <Divider />
         </List>
       </div>
     );
