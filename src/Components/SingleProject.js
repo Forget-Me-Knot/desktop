@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import Todos from "./Todos";
 import PhotoGrid from "./PhotoGrid";
 import EventList from "./EventList";
+import Members from "./Members";
 
 function TabContainer(props) {
   return (
@@ -74,18 +75,18 @@ class SingleProject extends React.Component {
 		})
 	}
 
-	componentDidUpdate(prevProps){
-		const self = this
-		const projectKey = this.props.projectKey
-		if (projectKey !== prevProps.projectKey) {
-			firebase.auth().onAuthStateChanged(function(user) {
-				if (user) {
-					const ref = firebase.database().ref()
-					ref.on('value', function(snapshot) {
-						const projdatas = snapshot.val().projects
-						const taskdatas = snapshot.val().tasks
-						const notedatas = snapshot.val().notes
-						const eventdatas = snapshot.val().events
+  componentDidUpdate(prevProps) {
+    const self = this;
+    const projectKey = this.props.projectKey;
+    if (projectKey !== prevProps.projectKey) {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          const ref = firebase.database().ref();
+          ref.on("value", function(snapshot) {
+            const projdatas = snapshot.val().projects;
+            const taskdatas = snapshot.val().tasks;
+            const notedatas = snapshot.val().notes;
+            const eventdatas = snapshot.val().events;
 
             let projects = [];
             let tasks = [];
@@ -114,6 +115,7 @@ class SingleProject extends React.Component {
   }
 
   render() {
+
     const { classes, projectKey } = this.props;
 		const { value, projects, tasks, notes, events } = this.state;
     return (
@@ -138,7 +140,11 @@ class SingleProject extends React.Component {
             <NoteGrids notes={notes} projectKey={projectKey} />
           </TabContainer>
         )}
-        {value === 1 && <TabContainer>Item Two</TabContainer>}
+        {value === 1 && (
+          <TabContainer>
+            <Members projects={projects} />
+          </TabContainer>
+        )}
         {value === 2 && (
           <TabContainer>
             <Todos projects={projects} tasks={tasks} />

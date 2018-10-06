@@ -10,25 +10,25 @@ import Todos from "./Components/Todos";
 import ProjectBar from "./Components/ProjectBar";
 import SingleProject from "./Components/SingleProject";
 import PhotoGrid from "./Components/PhotoGrid";
-import CreateProject from './Components/CreateProject'
+import CreateProject from "./Components/CreateProject";
 import firebase from "./firebase";
 import CreateEvent from "./Components/CreateEvent";
 
 const renderMergedProps = (component, ...rest) => {
-	const finalprops = Object.assign({}, ...rest)
-	return (
-		React.createElement(component, finalprops)
-	)
-}
+  const finalprops = Object.assign({}, ...rest);
+  return React.createElement(component, finalprops);
+};
 
-const PropsRoute = ({component, ...rest}) => {
-	return (
-		<Route {...rest} render={routeProps => {
-			return renderMergedProps(component, routeProps, rest)
-		}}
-		/>
-	)
-}
+const PropsRoute = ({ component, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={routeProps => {
+        return renderMergedProps(component, routeProps, rest);
+      }}
+    />
+  );
+};
 
 export default class Routes extends Component {
   constructor(props) {
@@ -44,19 +44,31 @@ export default class Routes extends Component {
     });
   }
   render() {
-		const key = this.props.projectKey
+    const key = this.props.projectKey;
     return (
       <Switch>
         <PropsRoute path="/notes" component={NoteGrids} projectKey={key} />
-        <PropsRoute  path="/home" component={Home} projectKey={key} />
+        <PropsRoute path="/home" component={Home} projectKey={key} />
         <PropsRoute path="/writenote" component={NoteForm} projectKey={key} />
-        <PropsRoute path="/projectbar" component={ProjectBar} projectKey={key} />
-        <PropsRoute  path="/calendar" component={Calendar} projectKey={key} />
-        <PropsRoute  path="/AddEvent" component={CreateEvent} projectKey={key} />
-        <PropsRoute  path="/todos" component={Todos} projectKey={key} />
-        <PropsRoute  path="/project" component={SingleProject} projectKey={key} />
-        <PropsRoute  path="/photoBook" component={PhotoGrid} projectKey={key} />
-				<PropsRoute path='/addproject' component={CreateProject} projectKey={key} />
+        <PropsRoute
+          path="/projectbar"
+          component={ProjectBar}
+          projectKey={key}
+        />
+        <PropsRoute path="/calendar" component={Calendar} projectKey={key} />
+        <PropsRoute path="/AddEvent" component={CreateEvent} projectKey={key} />
+        <PropsRoute path="/todos" component={Todos} projectKey={key} />
+        <PropsRoute
+          path="/project"
+          component={SingleProject}
+          projectKey={key}
+        />
+        <PropsRoute path="/photoBook" component={PhotoGrid} projectKey={key} />
+        <PropsRoute
+          path="/addproject"
+          component={CreateProject}
+          projectKey={key}
+        />
         <Route
           path="/login"
           render={() => (
