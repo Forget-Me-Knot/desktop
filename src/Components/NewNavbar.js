@@ -9,14 +9,21 @@ import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import firebase from "../firebase";
 import Avatar from "@material-ui/core/Avatar"
+import Tooltip from '@material-ui/core/Tooltip';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = theme => ({
   icon: {
     height: "50px"
   },
   paper: {
-    width: 90
-  }
+		width: 50,
+		whiteSpace: 'nowrap'
+	},
+	popup: {
+		fontSize: 13
+	}
 });
 
 class Navbar extends React.Component {
@@ -119,12 +126,14 @@ class Navbar extends React.Component {
 							projects ?
 							projects.map(project => (
 								<ListItem key={project.key}>
-									<ListItemText primary={project.name}
-									onClick={() => this.clickNav(project.key)} />
+									<Tooltip classes={{tooltip: classes.popup}} title={project.name} placement="left-start">
 									<Avatar style={{
 										backgroundColor: `#${project.color}`,
 										width: '30px', height: '30px'
-									}} />
+									}}
+									onClick={() => this.clickNav(project.key)}
+									/>
+									</Tooltip>
 								</ListItem>
 							))
 						: null
