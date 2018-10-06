@@ -18,32 +18,35 @@ class EventList extends React.Component {
       formOpen: false
     };
     this.openForm = this.openForm.bind(this);
-	}
+  }
 
-	componentDidMount(){
-		if (this.props.events) this.setState({events: this.props.events})
-		if (this.props.projects) this.setState({projects: this.props.projects})
-	}
+  componentDidMount() {
+    if (this.props.events) this.setState({ events: this.props.events });
+    if (this.props.projects) this.setState({ projects: this.props.projects });
+  }
 
-	componentDidUpdate(prevProps){
-		const props = this.props
-		if(prevProps.events !== props.events || prevProps.projects !== props.projects) {
-			let projectIds = []
-			props.projects.forEach(project => {
-				projectIds.push(project.key)
-			})
-			let myEvents = []
-			props.events.forEach(event => {
-				if(projectIds.includes(event.projectId + '')) {
-					myEvents.push(event)
-				}
-			})
-			this.setState({
-				events: myEvents,
-				projects: props.projects
-			})
-		}
-	}
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (
+      prevProps.events !== props.events ||
+      prevProps.projects !== props.projects
+    ) {
+      let projectIds = [];
+      props.projects.forEach(project => {
+        projectIds.push(project.key);
+      });
+      let myEvents = [];
+      props.events.forEach(event => {
+        if (projectIds.includes(event.projectId + "")) {
+          myEvents.push(event);
+        }
+      });
+      this.setState({
+        events: myEvents,
+        projects: props.projects
+      });
+    }
+  }
 
   openForm() {
     if (!this.state.formOpen) {
@@ -51,7 +54,7 @@ class EventList extends React.Component {
     } else {
       this.setState({ formOpen: false });
     }
-	}
+  }
 
   render() {
     const months = [
@@ -69,25 +72,19 @@ class EventList extends React.Component {
       "November",
       "December"
     ];
+    const projectId = this.props.projectId;
     return (
       <div>
         <List>
           {this.state.events.map(l => (
-            <ListItem
-              key={l.key}
-              title={l.name}
-            >
-              <Checkbox
-              />
+            <ListItem key={l.key} title={l.name}>
+              <Checkbox />
               <ListItemText>
                 {" "}
                 {months[l.date.month]} {l.date.day}, {l.date.year}
               </ListItemText>
               <ListItemText> {l.name}</ListItemText>
-              <IconButton
-                aria-label="Delete"
-                style={{ float: "right" }}
-              >
+              <IconButton aria-label="Delete" style={{ float: "right" }}>
                 <RemoveCircle />
               </IconButton>
             </ListItem>
@@ -106,7 +103,7 @@ class EventList extends React.Component {
           <AddIcon />
           add an event
         </Button>
-        {this.state.formOpen ? <CreateEvent /> : null}
+        {this.state.formOpen ? <CreateEvent projectId={projectId} /> : null}
       </div>
     );
   }
