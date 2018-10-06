@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import firebase from '../firebase'
+import firebase from "../firebase";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
@@ -38,7 +38,7 @@ class SingleProject extends React.Component {
 
   handleChange = (event, value) => {
     this.setState({ value });
-	};
+  };
 
 	componentWillMount(){
 		const self = this
@@ -87,32 +87,35 @@ class SingleProject extends React.Component {
 						const notedatas = snapshot.val().notes
 						const eventdatas = snapshot.val().events
 
-						let projects = []
-						let tasks = []
-						let notes = []
-						let events = []
-						for (var key in projdatas) {
-							if (projectKey === key) projects.push({key, ...projdatas[key]})
-						}
-						for (var tkey in taskdatas) {
-							if (taskdatas[tkey].projectId + '' === projectKey + '') tasks.push({key: tkey, ...taskdatas[tkey]})
-						}
-						for (var nkey in notedatas) {
-							if (notedatas[nkey].projectId + '' === projectKey + '') notes.push({key: nkey, ...notedatas[nkey]})
-						}
-						for (var ekey in eventdatas) {
-							if (eventdatas[ekey].projectId) events.push({key: ekey, ...eventdatas[ekey]})
-						}
-						self.setState({projects, tasks, notes, events})
-					})
-				}
-			})
-		}
-	}
+            let projects = [];
+            let tasks = [];
+            let notes = [];
+            let events = [];
+            for (var key in projdatas) {
+              if (projectKey === key) projects.push({ key, ...projdatas[key] });
+            }
+            for (var tkey in taskdatas) {
+              if (taskdatas[tkey].projectId + "" === projectKey + "")
+                tasks.push({ key: tkey, ...taskdatas[tkey] });
+            }
+            for (var nkey in notedatas) {
+              if (notedatas[nkey].projectId + "" === projectKey + "")
+                notes.push({ key: nkey, ...notedatas[nkey] });
+            }
+            for (var ekey in eventdatas) {
+              if (eventdatas[ekey].projectId)
+                events.push({ key: ekey, ...eventdatas[ekey] });
+            }
+            self.setState({ projects, tasks, notes, events });
+          });
+        }
+      });
+    }
+  }
 
   render() {
-    const { classes } = this.props;
-		const { value, projects, tasks, notes, events } = this.state;
+    const { classes, projectKey } = this.props;
+    const { value, projects, tasks, notes, events } = this.state;
     return (
       <Paper className={classes.root}>
         <Tabs
@@ -143,7 +146,11 @@ class SingleProject extends React.Component {
         )}
         {value === 3 && (
           <TabContainer>
-            <EventList events={events} projects={projects} />
+            <EventList
+              events={events}
+              projects={projects}
+              projectId={projectKey}
+            />
           </TabContainer>
         )}
         {value === 4 && (
