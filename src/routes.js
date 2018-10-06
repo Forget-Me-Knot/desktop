@@ -14,6 +14,7 @@ import SingleProject from "./Components/SingleProject";
 import PhotoGrid from "./Components/PhotoGrid";
 import CreateProject from './Components/CreateProject'
 import firebase from "./firebase";
+import CreateEvent from "./Components/CreateEvent";
 
 export default class Routes extends Component {
   constructor(props) {
@@ -42,6 +43,7 @@ export default class Routes extends Component {
         <Route path="/writenote" component={NoteForm} />
         <Route path="/projectbar" component={ProjectBar} />
         <Route path="/calendar" component={Calendar} />
+        <Route path="/AddEvent" component={CreateEvent} />
         <Route path="/todos" component={Todos} />
         <Route path="/project" component={SingleProject} />
         <Route path="/photoBook" component={PhotoGrid} />
