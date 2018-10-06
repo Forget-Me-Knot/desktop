@@ -29,9 +29,9 @@ export default class ProjectBar extends React.Component {
     const self = this;
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-        let userProjects = [];
         var ref = firebase.database().ref("projects");
         ref.on("value", function(snapshot) {
+          let userProjects = [];
           let projects = snapshot.val();
           for (let key in projects) {
             if (projects[key].members) {
@@ -70,8 +70,8 @@ export default class ProjectBar extends React.Component {
       .ref("projects/" + proj)
       .child("notes")
       .update(updates);
-    // Keyboard.dismiss()
   }
+
   render() {
     const projects = this.state.projects;
     return (
@@ -85,20 +85,21 @@ export default class ProjectBar extends React.Component {
         <List>
           <ListItem>
             <ListItemText primary="Add a Project" />
-            <Button
-              variant="fab"
-              text="add a project"
-              // color="primary"
-              aria-label="Add"
-              style={{
-                backgroundColor: "mediumpurple",
-                width: "30px",
-                height: "30px"
-              }}
-              onClick={() => console.log("hi there")}
-            >
-              <AddIcon />
-            </Button>
+            <Link to="/addproject" replace>
+              <Button
+                variant="fab"
+                text="add a project"
+                aria-label="Add"
+                style={{
+                  backgroundColor: "mediumpurple",
+                  width: "30px",
+                  height: "30px"
+                }}
+                onClick={() => console.log("hi there")}
+              >
+                <AddIcon />
+              </Button>
+            </Link>
           </ListItem>
           {/* <Divider /> */}
           <ListItem>
@@ -106,7 +107,7 @@ export default class ProjectBar extends React.Component {
             {/* <SupervisedUserCircle /> */}
             <PeopleOutline />
           </ListItem>
-          {projects && projects ? (
+          {projects ? (
             projects.map(item => (
               <ListItem key={item.key}>
                 <Avatar
@@ -128,6 +129,24 @@ export default class ProjectBar extends React.Component {
             <ListItemText primary="Personal Projects" />
             <PersonOutlined />
           </ListItem>
+          <ListItem>
+            <ListItemText primary="Add a Project" />
+            <Button
+              variant="fab"
+              text="add a project"
+              // color="primary"
+              aria-label="Add"
+              style={{
+                backgroundColor: "mediumpurple",
+                width: "30px",
+                height: "30px"
+              }}
+              onClick={() => console.log("hi there")}
+            >
+              <AddIcon />
+            </Button>
+          </ListItem>
+          <Divider />
         </List>
       </div>
     );
