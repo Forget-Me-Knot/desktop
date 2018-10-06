@@ -12,7 +12,9 @@ export default class CreateTodo extends Component {
   constructor() {
     super()
     this.state = {
-      loadMembers: false
+			loadMembers: false,
+			assignProject: '',
+			assignMember: ''
     }
 		this.getMembers = this.getMembers.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)

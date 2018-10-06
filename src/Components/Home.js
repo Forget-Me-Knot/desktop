@@ -14,7 +14,7 @@ class Home extends Component {
 			ref.on('value', function(snapshot){
 				const users = snapshot.val()
 				for (var key in users) {
-					if (key === user.uid) {
+					if (user && key === user.uid) {
 						self.setState({userName: users[key].displayName})
 					}
 				}

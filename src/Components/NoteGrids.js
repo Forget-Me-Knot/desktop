@@ -12,35 +12,25 @@ class NoteGrids extends React.Component {
       open: false
     };
     this.deleteNote = this.deleteNote.bind(this);
-  }
-  componentDidMount() {
-    var self = this;
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        const ref = firebase.database().ref();
-        ref.on("value", function(snapshot) {
-          let myNotes = [];
-          const notes = snapshot.val().notes;
-          const projects = snapshot.val().projects;
+	}
 
-          for (var key in notes) {
-            if (notes[key].author === user.uid) {
-              const projectId = notes[key].projectId;
-              for (var id in projects) {
-                if (id === projectId) {
-                  const color = projects[id].color;
-                  myNotes.push({ ...notes[key], key, color });
-                }
-              }
-            }
-          }
-          self.setState({ notes: myNotes });
-        });
-      } else {
-        console.log("not logged in");
-      }
-    });
-  }
+	componentDidMount(){
+		if (this.props.notes) {
+			this.setState({
+				notes: this.props.notes
+			})
+		}
+	}
+
+	componentDidUpdate(prevProps){
+		const props = this.props
+		if (prevProps.notes !== props.notes) {
+			this.setState({
+				notes: props.notes
+			})
+		}
+	}
+
   deleteNote(key) {
     return firebase.database().ref("notes").child(key).remove();
   }
