@@ -38,15 +38,19 @@ export default class SignUpForm extends Component {
       .catch(function(error) {
         console.error(error);
       });
-    //add user to db
-    const userid = firebase.auth().currentUser.uid;
-    firebase
-      .database()
-      .ref('users/' + userid)
-      .set({
-        displayName: displayName,
-        email: email,
-      });
+		//add user to db
+		firebase.auth().onAuthStateChanged(function(user){
+			let n = 0
+			if (user && n === 0) {
+				n ++
+				const uid = user.uid
+				firebase.database().ref('users/' + uid)
+				.set({
+					displayName,
+					email
+				})
+			}
+		})
   }
 
   render() {
@@ -77,7 +81,9 @@ export default class SignUpForm extends Component {
                 </FormControl>
                 <br />
                 <Button onClick={this.handleSubmit} type="submit">
-                  SIGNUP
+                  <Link to='/login' replace>
+									SIGNUP
+									</Link>
                 </Button>
                 <Button>
                   <Link to="/login" replace>
