@@ -39,21 +39,23 @@ class App extends Component {
 		const user = this.state.user;
     return (
       <div>
-        <Grid container>
-          <Grid item xs={2}>
+        <div
+					style={{position: 'absolute', left: 0, width: 78, height: '100%'}}
+				>
                 <NewNavbar
                   handleLogout={this.handleLogout}
 									handleLogin={this.handleLogin}
 									setProject={this.setProject}
                 />
-          </Grid>
-          <Grid item xs={10}>
+          </div>
+          <div
+						style={{position: 'absolute', left: 80, width: 922, height: '100%', padding: 10}}
+					>
             <Routes
 							projectKey={this.state.key}
 							handleLogin={this.handleLogin}
 						/>
-          </Grid>
-        </Grid>
+          </div>
       </div>
     );
   }
