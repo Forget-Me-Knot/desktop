@@ -107,7 +107,7 @@ class SingleProject extends React.Component {
               if (eventdatas[ekey].projectId)
                 events.push({ key: ekey, ...eventdatas[ekey] });
             }
-            self.setState({ projects, tasks, notes, events });
+						self.setState({ projects, tasks, notes, events });
           });
         }
       });
@@ -115,12 +115,9 @@ class SingleProject extends React.Component {
   }
 
   render() {
-<<<<<<< HEAD
-    const { classes } = this.props;
-=======
+
     const { classes, projectKey } = this.props;
->>>>>>> 3638c2603fa577fafe5a3666837ed40f7c1599eb
-    const { value, projects, tasks, notes, events } = this.state;
+		const { value, projects, tasks, notes, events } = this.state;
     return (
       <Paper className={classes.root}>
         <Tabs
@@ -140,7 +137,7 @@ class SingleProject extends React.Component {
         {value === 0 && (
           <TabContainer>
             {" "}
-            <NoteGrids notes={notes} />
+            <NoteGrids notes={notes} projectKey={projectKey} />
           </TabContainer>
         )}
         {value === 1 && (

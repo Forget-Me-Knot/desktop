@@ -5,7 +5,6 @@ import { Avatar } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
-import NoteForm from "./NoteForm";
 import MiniNote from "./MiniNote";
 
 class NoteGrids extends React.Component {
@@ -14,8 +13,7 @@ class NoteGrids extends React.Component {
     this.state = {
       notes: [],
       open: false,
-      formOpen: false,
-      projectId: "test"
+      formOpen: false
     };
     this.deleteNote = this.deleteNote.bind(this);
     this.openForm = this.openForm.bind(this);
@@ -33,17 +31,20 @@ class NoteGrids extends React.Component {
     const props = this.props;
     if (prevProps.notes !== props.notes) {
       this.setState({
-        notes: props.notes
+				notes: props.notes,
+				projectId: props.projectKey
       });
     }
-  }
+	}
+
   openForm() {
     if (!this.state.formOpen) {
       this.setState({ formOpen: true });
     } else {
       this.setState({ formOpen: false });
     }
-  }
+	}
+
   deleteNote(key) {
     return firebase
       .database()
@@ -53,7 +54,7 @@ class NoteGrids extends React.Component {
   }
 
   render() {
-    const notes = this.state.notes;
+		const notes = this.state.notes;
     return (
       <div>
         {notes.map(note => (
@@ -99,7 +100,7 @@ class NoteGrids extends React.Component {
             New Note
           </Button>
           {this.state.formOpen ? (
-            <MiniNote projectId={this.state.projectId} />
+            <MiniNote projectId={this.props.projectKey} />
           ) : null}
         </div>
       </div>
