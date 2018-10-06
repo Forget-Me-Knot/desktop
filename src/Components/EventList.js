@@ -9,6 +9,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import CreateEvent from "./CreateEvent";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
+import firebase from "../firebase";
 
 class EventList extends React.Component {
   constructor(props) {
@@ -17,7 +18,8 @@ class EventList extends React.Component {
       events: [],
       formOpen: false
     };
-    this.openForm = this.openForm.bind(this);
+		this.openForm = this.openForm.bind(this);
+		this.delete = this.delete.bind(this)
   }
 
   componentDidMount() {
@@ -56,6 +58,10 @@ class EventList extends React.Component {
     }
   }
 
+	delete(key){
+		return firebase.database().ref('events').child(key).remove()
+	}
+
   render() {
     const months = [
       "nothing",
@@ -87,7 +93,7 @@ class EventList extends React.Component {
                 {months[l.date.month]} {l.date.day}, {l.date.year}
               </ListItemText>
               <ListItemText> {l.name}</ListItemText>
-              <IconButton aria-label="Delete" style={{ float: "right" }}>
+              <IconButton aria-label="Delete" style={{ float: "right" }} onClick={() => this.delete(l.key)}>
                 <RemoveCircle />
               </IconButton>
             </ListItem>
