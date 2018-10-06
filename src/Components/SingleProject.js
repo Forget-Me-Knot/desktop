@@ -104,7 +104,7 @@ class SingleProject extends React.Component {
                 notes.push({ key: nkey, ...notedatas[nkey] });
             }
             for (var ekey in eventdatas) {
-              if (eventdatas[ekey].projectId)
+              if (eventdatas[ekey].projectId + "" === projectKey + "")
                 events.push({ key: ekey, ...eventdatas[ekey] });
             }
 						self.setState({ projects, tasks, notes, events });
