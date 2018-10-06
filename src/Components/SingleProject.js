@@ -41,6 +41,40 @@ class SingleProject extends React.Component {
     this.setState({ value });
   };
 
+	componentWillMount(){
+		const self = this
+		const projectKey = this.props.projectKey
+		firebase.auth().onAuthStateChanged(function(user) {
+			if (user) {
+				const ref = firebase.database().ref()
+				ref.on('value', function(snapshot) {
+					const projdatas = snapshot.val().projects
+					const taskdatas = snapshot.val().tasks
+					const notedatas = snapshot.val().notes
+					const eventdatas = snapshot.val().events
+
+					let projects = []
+					let tasks = []
+					let notes = []
+					let events = []
+					for (var key in projdatas) {
+						if (projectKey === key) projects.push({key, ...projdatas[key]})
+					}
+					for (var tkey in taskdatas) {
+						if (taskdatas[tkey].projectId + '' === projectKey + '') tasks.push({key: tkey, ...taskdatas[tkey]})
+					}
+					for (var nkey in notedatas) {
+						if (notedatas[nkey].projectId + '' === projectKey + '') notes.push({key: nkey, ...notedatas[nkey]})
+					}
+					for (var ekey in eventdatas) {
+						if (eventdatas[ekey].projectId) events.push({key: ekey, ...eventdatas[ekey]})
+					}
+					self.setState({projects, tasks, notes, events})
+				})
+			}
+		})
+	}
+
   componentDidUpdate(prevProps) {
     const self = this;
     const projectKey = this.props.projectKey;
@@ -81,7 +115,11 @@ class SingleProject extends React.Component {
   }
 
   render() {
+<<<<<<< HEAD
     const { classes } = this.props;
+=======
+    const { classes, projectKey } = this.props;
+>>>>>>> 3638c2603fa577fafe5a3666837ed40f7c1599eb
     const { value, projects, tasks, notes, events } = this.state;
     return (
       <Paper className={classes.root}>
@@ -117,7 +155,11 @@ class SingleProject extends React.Component {
         )}
         {value === 3 && (
           <TabContainer>
-            <EventList events={events} projects={projects} />
+            <EventList
+              events={events}
+              projects={projects}
+              projectId={projectKey}
+            />
           </TabContainer>
         )}
         {value === 4 && (

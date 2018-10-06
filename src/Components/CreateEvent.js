@@ -25,8 +25,8 @@ const styles = theme => ({
 });
 
 class CreateEvent extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       date: "",
       time: "",
@@ -93,6 +93,8 @@ class CreateEvent extends React.Component {
   render() {
     const projects = this.state.projects;
     const self = this;
+    const projectId = this.props.projectId;
+    console.log(projectId);
     return (
       <Card style={{ margin: 10 }}>
         <FormGroup style={{ padding: 10 }}>
@@ -126,28 +128,30 @@ class CreateEvent extends React.Component {
                 }}
               />
             </div>
-            <div style={{ marginBottom: 10 }}>
-              <InputLabel>
-                What project is this event associated with?
-              </InputLabel>
-              <Select
-                fullWidth
-                // onChange={function(event) {
-                //   self.getMembers(event);
-                // }}
-                value={this.state.project}
-              >
-                {projects ? (
-                  projects.map(project => (
-                    <MenuItem key={project.key} value={project.name}>
-                      {project.name}
-                    </MenuItem>
-                  ))
-                ) : (
-                  <MenuItem>No project available.</MenuItem>
-                )}
-              </Select>
-            </div>
+            {!projectId ? (
+              <div style={{ marginBottom: 10 }}>
+                <InputLabel>
+                  What project is this event associated with?
+                </InputLabel>
+                <Select
+                  fullWidth
+                  // onChange={function(event) {
+                  //   self.getMembers(event);
+                  // }}
+                  value={this.state.project}
+                >
+                  {projects ? (
+                    projects.map(project => (
+                      <MenuItem key={project.key} value={project.name}>
+                        {project.name}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem>No project available.</MenuItem>
+                  )}
+                </Select>
+              </div>
+            ) : null}
           </div>
           <Button variant="outlined" onClick={() => this.handleSubmit()}>
             SUBMIT

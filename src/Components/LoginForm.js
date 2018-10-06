@@ -70,9 +70,7 @@ export default class LoginForm extends Component {
                 </FormControl>
                 <br />
                 <Button onClick={this.handleSubmit} type="submit">
-
 									<Link to='/home' replace>LOGIN</Link>
-
                 </Button>
                 <Button>
                   <Link style={{ textDecoration: "none" }} to="/signup" replace>
