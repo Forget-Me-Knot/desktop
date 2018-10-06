@@ -3,11 +3,9 @@ import { Switch, Route } from "react-router-dom";
 import Home from "./Components/Home";
 import LoginForm from "./Components/LoginForm";
 import SignUpForm from "./Components/SignUpForm";
-import NoteForm from "./Components/NoteForm";
 import NoteGrids from "./Components/NoteGrids";
 import Calendar from "./Components/Calendar";
 import Todos from "./Components/Todos";
-import ProjectBar from "./Components/ProjectBar";
 import SingleProject from "./Components/SingleProject";
 import PhotoGrid from "./Components/PhotoGrid";
 import CreateProject from "./Components/CreateProject";
@@ -49,12 +47,6 @@ export default class Routes extends Component {
       <Switch>
         <PropsRoute path="/notes" component={NoteGrids} projectKey={key} />
         <PropsRoute path="/home" component={Home} projectKey={key} />
-        <PropsRoute path="/writenote" component={NoteForm} projectKey={key} />
-        <PropsRoute
-          path="/projectbar"
-          component={ProjectBar}
-          projectKey={key}
-        />
         <PropsRoute path="/calendar" component={Calendar} projectKey={key} />
         <PropsRoute path="/AddEvent" component={CreateEvent} projectKey={key} />
         <PropsRoute path="/todos" component={Todos} projectKey={key} />

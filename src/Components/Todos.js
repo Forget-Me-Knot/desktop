@@ -94,8 +94,6 @@ export default class ToDo extends Component {
 
   render() {
     const tasks = this.props.tasks;
-    const project = this.props.projects;
-    console.log("this props project key in todos", this.props.projects);
     return (
       <div>
         <div>

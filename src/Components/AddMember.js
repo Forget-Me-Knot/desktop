@@ -22,27 +22,6 @@ class AddMember extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   const projects = this.props.projects;
-  //   const self = this;
-  //   firebase.auth().onAuthStateChanged(function(user) {
-
-  //       const ref = firebase.database().ref();
-  //       ref.on("value", function(snapshot) {
-  //         const users = snapshot.val().users;
-  //         let myMembers = [];
-  //         for (var id in users) {
-  //           projects.map(project => {
-  //             if (project.members.includes(users[id].email)) {
-  //               myMembers.push(users[id].displayName);
-  //             }
-  //           });
-  //         }
-  //         self.setState({ members: myMembers });
-  //       });
-
-  //   });
-  // }
   render() {
     return (
       <div>

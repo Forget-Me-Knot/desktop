@@ -4,14 +4,11 @@ import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
-import { ListItem, ListItemText } from "@material-ui/core/";
-import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
+import { ListItem } from "@material-ui/core/";
 import firebase from "../firebase";
 import Avatar from "@material-ui/core/Avatar"
 import Tooltip from '@material-ui/core/Tooltip';
 import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
 
 const styles = theme => ({
   icon: {
@@ -31,8 +28,7 @@ class Navbar extends React.Component {
     this.state = {
       projects: [] || null,
       user: {},
-      login: null,
-      selected: false
+      login: null
     };
     this.logOut = this.logOut.bind(this);
     this.clickNav = this.clickNav.bind(this);
@@ -87,7 +83,7 @@ class Navbar extends React.Component {
   }
 
   render() {
-    const { user, projects, selected } = this.state;
+    const { user, projects } = this.state;
     const { classes } = this.props;
     return (
       <div className={classes.root}>
@@ -125,26 +121,6 @@ class Navbar extends React.Component {
 							</Avatar>
 						</Tooltip>
             </ListItem>
-<<<<<<< HEAD
-            <Divider />
-            {projects
-              ? projects.map(project => (
-                  <ListItem key={project.key}>
-                    <ListItemText
-                      primary={project.name}
-                      onClick={() => this.clickNav(project.key)}
-                    />
-                    <Avatar
-                      style={{
-                        backgroundColor: `#${project.color}`,
-                        width: "30px",
-                        height: "30px"
-                      }}
-                    />
-                  </ListItem>
-                ))
-              : null}
-=======
 						{
 							projects && user.uid ?
 							projects.map(project => (
@@ -162,7 +138,6 @@ class Navbar extends React.Component {
 							))
 						: null
 						}
->>>>>>> 3638c2603fa577fafe5a3666837ed40f7c1599eb
           </List>
         </Drawer>
       </div>
