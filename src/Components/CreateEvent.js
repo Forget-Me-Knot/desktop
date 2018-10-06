@@ -66,7 +66,6 @@ class CreateEvent extends React.Component {
 		})
   }
   render() {
-    console.log(this.state)
     return (
       <Card style={{ margin: 10 }}>
 				<form onChange={this.handleChange}>
