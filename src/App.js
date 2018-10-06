@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import Routes from "./routes";
-import Navbar from "./Components/Navbar";
-import Grid from "@material-ui/core/Grid";
-import firebase from "./firebase";
 import NewNavbar from "./Components/NewNavbar";
 
 class App extends Component {
@@ -37,7 +34,6 @@ class App extends Component {
   }
 
   render() {
-    const user = this.state.user;
     return (
       <div>
         <div

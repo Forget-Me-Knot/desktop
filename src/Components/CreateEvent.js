@@ -6,10 +6,6 @@ import firebase from "../firebase";
 import Card from "@material-ui/core/Card";
 import FormGroup from "@material-ui/core/FormGroup";
 import Button from "@material-ui/core/Button";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import { Typography } from "@material-ui/core";
 
 const styles = theme => ({
@@ -27,97 +23,69 @@ const styles = theme => ({
 class CreateEvent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      date: "",
-      time: "",
-      eventName: "",
-      projectId: ""
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-  componentDidMount() {
-    const self = this;
-    firebase.auth().onAuthStateChanged(function(user) {
-      const ref = firebase.database().ref();
-      ref.on("value", function(snapshot) {
-        const projects = snapshot.val().projects;
-        let myProjects = [];
-        for (var key in projects) {
-          if (projects[key].members.includes(user.email)) {
-            const name = projects[key].name;
-            const members = projects[key].members;
-            myProjects.push({ name, members, key });
-          }
-        }
-        self.setState({ projects: myProjects });
-      });
-    });
-  }
+    this.state = {};
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleChange = this.handleChange.bind(this)
+	}
+
+	handleChange(event){
+		this.setState({
+			[event.target.name]: event.target.value
+		})
+	}
+
   handleSubmit() {
     const self = this;
-    const eventName = this.state.eventName;
-    const projectId = parseInt(this.state.project);
-    const eventDate = this.state.date;
-    const eventTime = this.state.time;
-    const newKey = firebase;
-    //   .database()
-    //   .ref("events/")
-    //   .push().key;
-    // const ref = firebase.database().ref("users");
-    // ref.on("value", function(snapshot) {
-    //   const users = snapshot.val();
-    //   let event;
-    //   for (var key in users) {
-    //     if (users[key].email === assigned) {
-    let event = {
-      eventName,
-      projectId,
-      eventDate,
-      eventTime
-    };
-    // }
-    //   }
-    firebase
-      .database()
-      .ref("events")
-      .child(newKey)
-      .set(event);
-    self.setState({
-      date: "",
-      time: "",
-      eventName: "",
-      project: []
-    });
-    // });
-  }
-  render() {
-    console.log("this props projects in create eevetn", this.props.projects);
-    const projects = this.state.projects;
-    const self = this;
+    const name = this.state.eventName;
     const projectId = this.props.projectId;
 
+		const getDate = this.state.date
+		const dateString = getDate.substring(0, 10)
+		const year = parseInt(dateString.split('-')[0])
+		const month = parseInt(dateString.split('-')[1])
+		const day = parseInt(dateString.split('-')[2])
+
+    const newKey = firebase.database().ref('events').push().key;
+
+		const ref = firebase.database().ref('projects')
+		ref.on('value', function(snapshot){
+			let color
+			const projects = snapshot.val()
+			for (var key in projects) {
+				if (key + '' === projectId + '') color = projects[key].color
+			}
+			let event = {
+				date: {
+					dateString, year, month, day
+				},
+				projectId, name, color
+			};
+			firebase.database().ref("events")
+      	.child(newKey).set(event);
+    	self.setState({ date: "", eventName: "" });
+		})
+  }
+  render() {
     return (
       <Card style={{ margin: 10 }}>
+				<form onChange={this.handleChange}>
         <FormGroup style={{ padding: 10 }}>
           <div style={{ marginBottom: 10 }}>
             <Typography variant="headline" align="center">
               Tell us about this new thing!
             </Typography>
             <div>
-              {/* <InputLabel>What's this thing called?</InputLabel> */}
               <TextField
                 required
-                // id="standard-required"
-                id="standard-with-placeholder"
+								id="standard-with-placeholder"
                 label="Event name"
                 placeholder="New Event Title"
-                // value="eventName"
                 className={styles.textField}
-                margin="normal"
+								margin="normal"
+								name="eventName"
               />
             </div>
             <div>
-              {/* <InputLabel>When's it going down?</InputLabel> */}
               <TextField
                 id="datetime-local"
                 label="Event date and time"
@@ -126,38 +94,16 @@ class CreateEvent extends React.Component {
                 className={styles.textField}
                 InputLabelProps={{
                   shrink: true
-                }}
+								}}
+								name="date"
               />
             </div>
-            {!projectId ? (
-              <div style={{ marginBottom: 10 }}>
-                <InputLabel>
-                  What project is this event associated with?
-                </InputLabel>
-                <Select
-                  fullWidth
-                  // onChange={function(event) {
-                  //   self.getMembers(event);
-                  // }}
-                  value={this.state.project}
-                >
-                  {projects ? (
-                    projects.map(project => (
-                      <MenuItem key={project.key} value={project.name}>
-                        {project.name}
-                      </MenuItem>
-                    ))
-                  ) : (
-                    <MenuItem>No project available.</MenuItem>
-                  )}
-                </Select>
-              </div>
-            ) : null}
           </div>
           <Button variant="outlined" onClick={() => this.handleSubmit()}>
             SUBMIT
           </Button>
         </FormGroup>
+				</form>
       </Card>
     );
   }

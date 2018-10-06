@@ -72,12 +72,13 @@ class EventList extends React.Component {
       "November",
       "December"
     ];
-    const projects = this.props.projects;
-    // console.log("projects in props event list", projects);
+		const projectId = this.props.projectId;
+		const events = this.props.events
     return (
       <div>
         <List>
-          {this.state.events.map(l => (
+          {events.map(l => (
+						l.date ?
             <ListItem key={l.key} title={l.name}>
               <Checkbox />
               <ListItemText>
@@ -89,7 +90,7 @@ class EventList extends React.Component {
                 <RemoveCircle />
               </IconButton>
             </ListItem>
-          ))}
+          : null))}
         </List>
         <Divider />
         <Button

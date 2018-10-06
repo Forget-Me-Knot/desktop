@@ -1,5 +1,4 @@
 import React from "react";
-import { ScrollView, View } from "react-native";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -7,13 +6,6 @@ import firebase from "../firebase";
 import IconButton from "@material-ui/core/IconButton";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import AddMember from "./AddMember";
-import Divider from "@material-ui/core/Divider";
-import Checkbox from "@material-ui/core/Checkbox";
-import CreateEvent from "./CreateEvent";
-import AddIcon from "@material-ui/icons/Add";
-import Button from "@material-ui/core/Button";
-import { Typography } from "@material-ui/core";
-import Icon from "@material-ui/core/Icon";
 
 class Members extends React.Component {
   constructor(props) {
@@ -82,7 +74,6 @@ class Members extends React.Component {
       .ref("projects/members/")
       .child(key)
       .remove();
-    //filter?
   }
 
   memberList(members) {
