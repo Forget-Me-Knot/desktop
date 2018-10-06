@@ -6,7 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import Divider from "@material-ui/core/Divider";
 import Checkbox from "@material-ui/core/Checkbox";
-import CreateEventMini from "./CreateEventMini";
+import CreateEvent from "./CreateEvent";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 
@@ -43,7 +43,7 @@ class EventList extends React.Component {
       });
       this.setState({
         events: myEvents,
-        projects: props.projects
+				projects: props.projects
       });
     }
   }
@@ -74,6 +74,7 @@ class EventList extends React.Component {
     ];
 		const projectId = this.props.projectId;
 		const events = this.props.events
+		const projects = this.props.projects
     return (
       <div>
         <List>
@@ -105,7 +106,7 @@ class EventList extends React.Component {
           <AddIcon />
           add an event
         </Button>
-        {this.state.formOpen ? <CreateEventMini projects={projects} /> : null}
+        {this.state.formOpen ? <CreateEvent projects={projects} projectId={projectId} /> : null}
       </div>
     );
   }
