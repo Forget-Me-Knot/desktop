@@ -6,6 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import firebase from "../firebase";
 import IconButton from "@material-ui/core/IconButton";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
+import AddMember from "./AddMember";
 import Divider from "@material-ui/core/Divider";
 import Checkbox from "@material-ui/core/Checkbox";
 import CreateEvent from "./CreateEvent";
@@ -20,30 +21,25 @@ class Members extends React.Component {
     this.state = {
       members: []
     };
+    this.delete = this.delete.bind(this);
   }
 
   componentDidMount() {
     var self = this;
+    const projects = this.props.projects;
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         const ref = firebase.database().ref();
         ref.on("value", function(snapshot) {
-          const projects = snapshot.val().projects;
           const users = snapshot.val().users;
 
           let myMembers = [];
-          let myProjects = [];
-          for (var key in projects) {
-            if (projects[key].members.includes(user.email)) {
-              myProjects.push(projects[key]);
-              console.log("Projects: ", myProjects);
-              //All my project ids
-            }
-          }
+
           for (var id in users) {
-            myProjects.map(project => {
+            projects.map(project => {
               if (project.members.includes(users[id].email)) {
                 myMembers.push(users[id].displayName);
+                console.log("Members: ", myMembers);
               }
             });
           }
@@ -51,6 +47,34 @@ class Members extends React.Component {
         });
       }
     });
+  }
+
+  componentDidUpdate(prevProps) {
+    var self = this;
+    const props = this.props;
+    if (prevProps.projects !== props.projects) {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          const ref = firebase.database().ref();
+          ref.on("value", function(snapshot) {
+            const users = snapshot.val().users;
+            let myMembers = [];
+            for (var id in users) {
+              props.projects.map(project => {
+                if (project.members.includes(users[id].email)) {
+                  myMembers.push(users[id].displayName);
+                  console.log("Members: ", myMembers);
+                }
+              });
+            }
+            self.setState({
+              projects: props.projects,
+              members: myMembers
+            });
+          });
+        }
+      });
+    }
   }
   delete(key) {
     return firebase
@@ -79,7 +103,12 @@ class Members extends React.Component {
 
   render() {
     const members = this.state.members;
-    return <List>{members ? this.memberList(members) : null}</List>;
+    return (
+      <div>
+        <List>{members ? this.memberList(members) : null}</List>
+        <AddMember project={this.props.projects} />
+      </div>
+    );
   }
 }
 export default Members;
