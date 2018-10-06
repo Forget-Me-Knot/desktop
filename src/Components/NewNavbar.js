@@ -15,11 +15,10 @@ import IconButton from '@material-ui/core/IconButton';
 
 const styles = theme => ({
   icon: {
-    height: "50px"
+    height: "40px"
   },
   paper: {
-		width: 50,
-		whiteSpace: 'nowrap'
+		width: 80
 	},
 	popup: {
 		fontSize: 13
@@ -93,46 +92,51 @@ class Navbar extends React.Component {
     return (
       <div className={classes.root}>
         <Drawer variant="permanent" className={classes.paper}>
-          <List>
-            <ListItem>
-              <img
-                className={classes.icon}
-                src="reminder.png"
-                alt="home"
-                centered={"true"}
+          <List style={{width: 78}}>
+            <ListItem style={{right: 10}}>
+							<Avatar style={{width: '50px', height: '50px', backgroundColor: 'white'}}
+								src='/reminder.png' alt='home'
               />
             </ListItem>
-            {user ? (
+            {user.uid ? (
               <ListItem>
-                <Button onClick={this.logOut} variant="raised">
-                  logout
-                </Button>
+								<Link to='/home' replace>
+								<Tooltip classes={{tooltip: classes.popup}} title='Logout' placement="left-start">
+									<Avatar style={{width: '30px', height: '30px', backgroundColor: 'white', color: 'grey'}}
+										onClick={this.logOut} >
+										<Icon>logout</Icon>
+									</Avatar>
+								</Tooltip>
+								</Link>
               </ListItem>
             ) : (
-              <ListItem component={Link} to="/login">
-                <ListItemText primary="Login" />
+              <ListItem component={Link} to="/login" replace>
+								<Tooltip classes={{tooltip: classes.popup}} title='Login' placement="left-start">
+									<Avatar style={{width: '30px', height: '30px', backgroundColor: 'white', color: 'grey'}}>
+										<Icon>input</Icon>
+									</Avatar>
+								</Tooltip>
               </ListItem>
             )}
-            <Divider />
-            <ListItem component={Link} to="/calendar">
-              <ListItemText primary="Calendar" />
+            <ListItem component={Link} to="/calendar" onClick={() => this.clickNav('key')} replace>
+						<Tooltip classes={{tooltip: classes.popup}} title='Calendar' placement="left-start">
+							<Avatar style={{width: '30px', height: '30px', backgroundColor: 'white', color: 'grey'}}>
+								<Icon>calendar_today</Icon>
+							</Avatar>
+						</Tooltip>
             </ListItem>
-            <Divider />
-            <ListItem component={Link} to="/project">
-              <ListItemText primary="DemoTabs" />
-            </ListItem>
-            <Divider />
 						{
-							projects ?
+							projects && user.uid ?
 							projects.map(project => (
-								<ListItem key={project.key}>
+								<ListItem key={project.key} onClick={() => this.clickNav(project.key)}>
 									<Tooltip classes={{tooltip: classes.popup}} title={project.name} placement="left-start">
+									<Link to='/project'>
 									<Avatar style={{
 										backgroundColor: `#${project.color}`,
 										width: '30px', height: '30px'
 									}}
-									onClick={() => this.clickNav(project.key)}
 									/>
+									</Link>
 									</Tooltip>
 								</ListItem>
 							))
