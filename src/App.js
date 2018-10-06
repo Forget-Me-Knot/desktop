@@ -3,18 +3,19 @@ import Routes from "./routes";
 import Navbar from "./Components/Navbar";
 import Grid from "@material-ui/core/Grid";
 import firebase from "./firebase";
-import NewNavbar from './Components/NewNavbar'
+import NewNavbar from "./Components/NewNavbar";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       user: {},
-      login: false
+      login: false,
+      key: null
     };
     this.handleLogin = this.handleLogin.bind(this);
-		this.handleLogout = this.handleLogout.bind(this);
-		this.setProject = this.setProject.bind(this)
+    this.handleLogout = this.handleLogout.bind(this);
+    this.setProject = this.setProject.bind(this);
   }
 
   handleLogin(user) {
@@ -29,33 +30,36 @@ class App extends Component {
       user: {},
       login: false
     });
-	}
+  }
 
-	setProject(key){
-		this.setState({key})
-	}
+  setProject(key) {
+    this.setState({ key });
+  }
 
   render() {
-		const user = this.state.user;
+    const user = this.state.user;
     return (
       <div>
         <div
-					style={{position: 'absolute', left: 0, width: 78, height: '100%'}}
-				>
-                <NewNavbar
-                  handleLogout={this.handleLogout}
-									handleLogin={this.handleLogin}
-									setProject={this.setProject}
-                />
-          </div>
-          <div
-						style={{position: 'absolute', left: 80, width: 922, height: '100%', padding: 10}}
-					>
-            <Routes
-							projectKey={this.state.key}
-							handleLogin={this.handleLogin}
-						/>
-          </div>
+          style={{ position: "absolute", left: 0, width: 78, height: "100%" }}
+        >
+          <NewNavbar
+            handleLogout={this.handleLogout}
+            handleLogin={this.handleLogin}
+            setProject={this.setProject}
+          />
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            left: 80,
+            width: 922,
+            height: "100%",
+            padding: 10
+          }}
+        >
+          <Routes projectKey={this.state.key} handleLogin={this.handleLogin} />
+        </div>
       </div>
     );
   }

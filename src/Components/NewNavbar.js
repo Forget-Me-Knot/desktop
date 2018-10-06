@@ -31,34 +31,34 @@ class Navbar extends React.Component {
     this.state = {
       projects: [] || null,
       user: {},
-			login: null,
-			selected: false
-		};
-		this.logOut = this.logOut.bind(this);
-		this.clickNav = this.clickNav.bind(this)
+      login: null,
+      selected: false
+    };
+    this.logOut = this.logOut.bind(this);
+    this.clickNav = this.clickNav.bind(this);
   }
 
   componentDidMount() {
-		const self = this
+    const self = this;
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-				self.setState({user})
-				let userProjects = []
-				const ref = firebase.database().ref('projects')
-				ref.on('value', function(snapshot){
-					const projects = snapshot.val()
-					for(let key in projects){
-						if(projects[key].members){
-							const members = projects[key].members
-							const name = projects[key].name
-							const color = projects[key].color
-							if( members.includes(user.email) ){
-								userProjects.push({name, key, color})
-							}
-						}
-					}
-					self.setState({projects: userProjects})
-				})
+        self.setState({ user });
+        let userProjects = [];
+        const ref = firebase.database().ref("projects");
+        ref.on("value", function(snapshot) {
+          const projects = snapshot.val();
+          for (let key in projects) {
+            if (projects[key].members) {
+              const members = projects[key].members;
+              const name = projects[key].name;
+              const color = projects[key].color;
+              if (members.includes(user.email)) {
+                userProjects.push({ name, key, color });
+              }
+            }
+          }
+          self.setState({ projects: userProjects });
+        });
       }
     });
   }
@@ -80,15 +80,15 @@ class Navbar extends React.Component {
       user: {}
     });
     this.props.handleLogout();
-	}
+  }
 
-	clickNav(key){
-		this.props.setProject(key)
-	}
+  clickNav(key) {
+    this.props.setProject(key);
+  }
 
   render() {
-		const { user, projects, selected } = this.state
-		const { classes } = this.props
+    const { user, projects, selected } = this.state;
+    const { classes } = this.props;
     return (
       <div className={classes.root}>
         <Drawer variant="permanent" className={classes.paper}>
@@ -125,6 +125,26 @@ class Navbar extends React.Component {
 							</Avatar>
 						</Tooltip>
             </ListItem>
+<<<<<<< HEAD
+            <Divider />
+            {projects
+              ? projects.map(project => (
+                  <ListItem key={project.key}>
+                    <ListItemText
+                      primary={project.name}
+                      onClick={() => this.clickNav(project.key)}
+                    />
+                    <Avatar
+                      style={{
+                        backgroundColor: `#${project.color}`,
+                        width: "30px",
+                        height: "30px"
+                      }}
+                    />
+                  </ListItem>
+                ))
+              : null}
+=======
 						{
 							projects && user.uid ?
 							projects.map(project => (
@@ -142,6 +162,7 @@ class Navbar extends React.Component {
 							))
 						: null
 						}
+>>>>>>> 3638c2603fa577fafe5a3666837ed40f7c1599eb
           </List>
         </Drawer>
       </div>
