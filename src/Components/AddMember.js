@@ -25,18 +25,7 @@ class AddMember extends React.Component {
   render() {
     return (
       <div>
-        <Button
-          text="add a project"
-          aria-label="Add"
-          style={{
-            backgroundColor: "mediumpurple",
-            marginTop: 12
-          }}
-          onClick={() => this.openForm()}
-        >
-          <AddIcon />
-          add a member
-        </Button>
+        <p>Hello</p>
       </div>
     );
   }
