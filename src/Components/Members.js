@@ -6,6 +6,7 @@ import firebase from "../firebase";
 import IconButton from "@material-ui/core/IconButton";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import AddMember from "./AddMember";
+import Typography from "@material-ui/core/Typography";
 
 class Members extends React.Component {
   constructor(props) {
@@ -94,8 +95,22 @@ class Members extends React.Component {
 
   render() {
     const members = this.state.members;
+    const shade = "#" + this.props.projects[0].color;
     return (
       <div>
+        <span>
+          <Typography
+            variant="title"
+            align="center"
+            style={{
+              backgroundColor: shade,
+              fontSize: "1.5em",
+              color: "white"
+            }}
+          >
+            {this.props.projects[0].name}
+          </Typography>
+        </span>
         <List>{members ? this.memberList(members) : null}</List>
         <AddMember project={this.props.projects} />
       </div>

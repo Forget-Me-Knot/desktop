@@ -10,6 +10,7 @@ import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import CreateTodo from "./CreateTodo";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 
 export default class ToDo extends Component {
   constructor(props) {
@@ -94,8 +95,22 @@ export default class ToDo extends Component {
 
   render() {
     const tasks = this.props.tasks;
+    const shade = "#" + this.props.projects[0].color;
     return (
       <div>
+        <span>
+          <Typography
+            variant="title"
+            align="center"
+            style={{
+              backgroundColor: shade,
+              fontSize: "1.5em",
+              color: "white"
+            }}
+          >
+            {this.props.projects[0].name}
+          </Typography>
+        </span>
         <div>
           <Button
             text="add a task"

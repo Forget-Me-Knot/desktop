@@ -8,8 +8,8 @@ import Button from "@material-ui/core/Button";
 import MiniNote from "./MiniNote";
 
 class NoteGrids extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       notes: [],
       open: false,
@@ -23,6 +23,7 @@ class NoteGrids extends React.Component {
     if (this.props.notes) {
       this.setState({
         notes: this.props.notes
+        // projects: this.props.projects
       });
     }
   }
@@ -31,11 +32,11 @@ class NoteGrids extends React.Component {
     const props = this.props;
     if (prevProps.notes !== props.notes) {
       this.setState({
-				notes: props.notes,
-				projectId: props.projectKey
+        notes: props.notes,
+        projectId: props.projectKey
       });
     }
-	}
+  }
 
   openForm() {
     if (!this.state.formOpen) {
@@ -43,7 +44,7 @@ class NoteGrids extends React.Component {
     } else {
       this.setState({ formOpen: false });
     }
-	}
+  }
 
   deleteNote(key) {
     return firebase
@@ -54,9 +55,28 @@ class NoteGrids extends React.Component {
   }
 
   render() {
-		const notes = this.state.notes;
+    const notes = this.state.notes;
+    console.log("this props products in notegrind", this.props.projects);
+    const projects = this.props.projects;
+    // const shade = "#" + this.props.projects[0].color;
     return (
       <div>
+        {/* {projects ? (
+          <span>
+            <Typography
+              variant="title"
+              align="center"
+              style={{
+                // backgroundColor: `#${projects[0].color}`,
+                fontSize: "1.5em",
+                color: "white"
+              }}
+            >
+              {this.props.projects[0].name}
+            </Typography>
+          </span>
+        ) : null} */}
+
         {notes.map(note => (
           <Paper
             key={note.key}

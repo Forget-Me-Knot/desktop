@@ -10,6 +10,7 @@ import CreateEvent from "./CreateEvent";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import firebase from "../firebase";
+import Typography from "@material-ui/core/Typography";
 
 class EventList extends React.Component {
   constructor(props) {
@@ -18,8 +19,8 @@ class EventList extends React.Component {
       events: [],
       formOpen: false
     };
-		this.openForm = this.openForm.bind(this);
-		this.delete = this.delete.bind(this)
+    this.openForm = this.openForm.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   componentDidMount() {
@@ -45,7 +46,7 @@ class EventList extends React.Component {
       });
       this.setState({
         events: myEvents,
-				projects: props.projects
+        projects: props.projects
       });
     }
   }
@@ -58,9 +59,13 @@ class EventList extends React.Component {
     }
   }
 
-	delete(key){
-		return firebase.database().ref('events').child(key).remove()
-	}
+  delete(key) {
+    return firebase
+      .database()
+      .ref("events")
+      .child(key)
+      .remove();
+  }
 
   render() {
     const months = [
@@ -78,26 +83,46 @@ class EventList extends React.Component {
       "November",
       "December"
     ];
-		const projectId = this.props.projectId;
-		const events = this.props.events
-		const projects = this.props.projects
+    const projectId = this.props.projectId;
+    const events = this.props.events;
+    const projects = this.props.projects;
+    const shade = "#" + this.props.projects[0].color;
     return (
       <div>
+        <span>
+          <Typography
+            variant="title"
+            align="center"
+            style={{
+              backgroundColor: shade,
+              fontSize: "1.5em",
+              color: "white"
+            }}
+          >
+            {this.props.projects[0].name}
+          </Typography>
+        </span>
         <List>
-          {events.map(l => (
-						l.date ?
-            <ListItem key={l.key} title={l.name}>
-              <Checkbox />
-              <ListItemText>
-                {" "}
-                {months[l.date.month]} {l.date.day}, {l.date.year}
-              </ListItemText>
-              <ListItemText> {l.name}</ListItemText>
-              <IconButton aria-label="Delete" style={{ float: "right" }} onClick={() => this.delete(l.key)}>
-                <RemoveCircle />
-              </IconButton>
-            </ListItem>
-          : null))}
+          {events.map(
+            l =>
+              l.date ? (
+                <ListItem key={l.key} title={l.name}>
+                  <Checkbox />
+                  <ListItemText>
+                    {" "}
+                    {months[l.date.month]} {l.date.day}, {l.date.year}
+                  </ListItemText>
+                  <ListItemText> {l.name}</ListItemText>
+                  <IconButton
+                    aria-label="Delete"
+                    style={{ float: "right" }}
+                    onClick={() => this.delete(l.key)}
+                  >
+                    <RemoveCircle />
+                  </IconButton>
+                </ListItem>
+              ) : null
+          )}
         </List>
         <Divider />
         <Button
@@ -112,7 +137,9 @@ class EventList extends React.Component {
           <AddIcon />
           add an event
         </Button>
-        {this.state.formOpen ? <CreateEvent projects={projects} projectId={projectId} /> : null}
+        {this.state.formOpen ? (
+          <CreateEvent projects={projects} projectId={projectId} />
+        ) : null}
       </div>
     );
   }
