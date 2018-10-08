@@ -98,11 +98,13 @@ class SingleProject extends React.Component {
 						let notes = [];
 						let events = []
 						let members = []
+						let color
 
 						for (var key in projdatas) {
 							if (projectKey === key) {
 								projects.push({key, ...projdatas[key]})
 								members = projdatas[key].members
+								color = projdatas[key].color
 							}
 						}
             for (var tkey in taskdatas) {
@@ -117,7 +119,7 @@ class SingleProject extends React.Component {
               if (eventdatas[ekey].projectId + "" === projectKey + "")
                 events.push({ key: ekey, ...eventdatas[ekey] });
             }
-						self.setState({ projects, tasks, notes, events, members });
+						self.setState({ projects, tasks, notes, events, members, color });
           });
         }
       });
@@ -127,7 +129,7 @@ class SingleProject extends React.Component {
   render() {
 
     const { classes, projectKey } = this.props;
-		const { value, projects, tasks, notes, events, members } = this.state;
+		const { value, projects, tasks, notes, events, members, color } = this.state;
     return (
       <Paper className={classes.root}>
         <Tabs
@@ -135,8 +137,6 @@ class SingleProject extends React.Component {
           onChange={this.handleChange}
           scrollable
           scrollButtons="on"
-          indicatorColor="primary"
-          textColor="primary"
         >
           <Tab label="Notes" />
           <Tab label="Members" />

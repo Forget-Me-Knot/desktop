@@ -90,7 +90,7 @@ class Navbar extends React.Component {
         <Drawer variant="permanent" className={classes.paper}>
           <List style={{ width: 78 }}>
             <ListItem style={{ right: 10 }}>
-						<Link to='/home' replace>
+						<Link to='/' replace>
               <Avatar
                 style={{
                   width: "50px",

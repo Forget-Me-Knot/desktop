@@ -1,17 +1,17 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import firebase from "../firebase";
-import Card from "@material-ui/core/Card";
-import FormGroup from "@material-ui/core/FormGroup";
-import Button from "@material-ui/core/Button";
-import { Typography } from "@material-ui/core";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import firebase from '../firebase';
+import Card from '@material-ui/core/Card';
+import FormGroup from '@material-ui/core/FormGroup';
+import Button from '@material-ui/core/Button';
+import { Typography } from '@material-ui/core';
 
 const styles = theme => ({
   container: {
-    display: "flex",
-    flexWrap: "wrap"
+    display: 'flex',
+    flexWrap: 'wrap'
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -41,9 +41,9 @@ class CreateEvent extends React.Component {
 
 		const getDate = this.state.date
 		const dateString = getDate.substring(0, 10)
-		const year = parseInt(dateString.split('-')[0])
-		const month = parseInt(dateString.split('-')[1])
-		const day = parseInt(dateString.split('-')[2])
+		const year = parseInt(dateString.split('-')[0], 10)
+		const month = parseInt(dateString.split('-')[1], 10)
+		const day = parseInt(dateString.split('-')[2], 10)
 
     const newKey = firebase.database().ref('events').push().key;
 
@@ -60,9 +60,9 @@ class CreateEvent extends React.Component {
 				},
 				projectId, name, color
 			};
-			firebase.database().ref("events")
+			firebase.database().ref('events')
       	.child(newKey).set(event);
-    	self.setState({ date: "", eventName: "" });
+    	self.setState({ date: '', eventName: '' });
 		})
   }
   render() {
@@ -83,6 +83,7 @@ class CreateEvent extends React.Component {
                 className={styles.textField}
 								margin="normal"
 								name="eventName"
+								value={this.state.eventName}
               />
             </div>
             <div>
@@ -96,6 +97,7 @@ class CreateEvent extends React.Component {
                   shrink: true
 								}}
 								name="date"
+								value={this.state.date}
               />
             </div>
           </div>
