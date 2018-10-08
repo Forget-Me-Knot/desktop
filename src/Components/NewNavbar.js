@@ -90,21 +90,17 @@ class Navbar extends React.Component {
         <Drawer variant="permanent" className={classes.paper}>
           <List style={{ width: 78 }}>
             <ListItem style={{ right: 10 }}>
-              <Link to="/home" replace>
-                <Avatar
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    backgroundColor: "white"
-                  }}
-                  src="/reminder.png"
-                  alt="home"
-                  component={Link}
-                  to="/profile"
-                  onClick={() => this.clickNav("key")}
-                  replace
-                />
-              </Link>
+						<Link to='/' replace>
+              <Avatar
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  backgroundColor: "white"
+                }}
+                src="/reminder.png"
+                alt="home"
+              />
+							</Link>
             </ListItem>
             {user.uid ? (
               <ListItem>

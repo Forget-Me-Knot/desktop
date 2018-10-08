@@ -47,7 +47,7 @@ export default class Routes extends Component {
     return (
       <Switch>
         <PropsRoute path="/notes" component={NoteGrids} projectKey={key} />
-        <PropsRoute path="/home" component={Home} projectKey={key} />
+        <PropsRoute exact path="/" component={Home} projectKey={key} />
         <PropsRoute path="/calendar" component={Calendar} projectKey={key} />
         <PropsRoute path="/AddEvent" component={CreateEvent} projectKey={key} />
         <PropsRoute path="/todos" component={Todos} projectKey={key} />

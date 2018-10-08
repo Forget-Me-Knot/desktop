@@ -10,14 +10,16 @@ import createHistory from "history/createBrowserHistory";
 
 //material ui
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { blue, green, pink } from "@material-ui/core/colors";
+import { blue, green, indigo, red } from "@material-ui/core/colors";
 
 const history = createHistory();
 
 const theme = createMuiTheme({
   palette: {
-    primary: blue,
-    secondary: green
+    primary: indigo,
+    secondary: {
+			main: '#000000'
+		}
   },
   status: {
     danger: "orange"
