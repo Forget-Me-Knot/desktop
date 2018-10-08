@@ -55,22 +55,23 @@ class NoteGrids extends React.Component {
 
   render() {
     const notes = this.state.notes;
-    // const shade = "#" + this.props.projects[0].color;
+		let project = this.props.projects ? this.props.projects[0] : null
+		let color = project ? '#' + project.color : null
     return (
       <div>
-        {/* <span>
+        {color ? <span>
           <Typography
             variant="title"
             align="center"
             style={{
-              backgroundColor: shade,
+              backgroundColor: color,
               fontSize: "1.5em",
               color: "white"
             }}
           >
             {this.props.projects[0].name}
           </Typography>
-        </span> */}
+        </span> : null }
         {notes.map(note => (
           <Paper
             key={note.key}
