@@ -6,9 +6,9 @@ import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import { ListItem } from "@material-ui/core/";
 import firebase from "../firebase";
-import Avatar from "@material-ui/core/Avatar"
-import Tooltip from '@material-ui/core/Tooltip';
-import Icon from '@material-ui/core/Icon';
+import Avatar from "@material-ui/core/Avatar";
+import Tooltip from "@material-ui/core/Tooltip";
+import Icon from "@material-ui/core/Icon";
 
 const styles = theme => ({
   icon: {
@@ -41,7 +41,7 @@ class Navbar extends React.Component {
         self.setState({ user });
         const ref = firebase.database().ref("projects");
         ref.on("value", function(snapshot) {
-					let userProjects = [];
+          let userProjects = [];
           const projects = snapshot.val();
           for (let key in projects) {
             if (projects[key].members) {
@@ -90,17 +90,21 @@ class Navbar extends React.Component {
         <Drawer variant="permanent" className={classes.paper}>
           <List style={{ width: 78 }}>
             <ListItem style={{ right: 10 }}>
-						<Link to='/home' replace>
-              <Avatar
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundColor: "white"
-                }}
-                src="/reminder.png"
-                alt="home"
-              />
-							</Link>
+              <Link to="/home" replace>
+                <Avatar
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    backgroundColor: "white"
+                  }}
+                  src="/reminder.png"
+                  alt="home"
+                  component={Link}
+                  to="/profile"
+                  onClick={() => this.clickNav("key")}
+                  replace
+                />
+              </Link>
             </ListItem>
             {user.uid ? (
               <ListItem>
@@ -167,23 +171,31 @@ class Navbar extends React.Component {
                 </Avatar>
               </Tooltip>
             </ListItem>
-						{
-							projects && user.uid ?
-							projects.map(project => (
-								<ListItem key={project.key} onClick={() => this.clickNav(project.key)}>
-									<Tooltip classes={{tooltip: classes.popup}} title={project.name} placement="left-start">
-									<Link to='/project'>
-									<Avatar style={{
-										backgroundColor: `#${project.color}`,
-										width: '30px', height: '30px'
-									}}
-									/>
-									</Link>
-									</Tooltip>
-								</ListItem>
-							))
-						: null
-						}
+            {projects && user.uid
+              ? projects.map(project => (
+                  <ListItem
+                    key={project.key}
+                    project={project}
+                    onClick={() => this.clickNav(project.key)}
+                  >
+                    <Tooltip
+                      classes={{ tooltip: classes.popup }}
+                      title={project.name}
+                      placement="left-start"
+                    >
+                      <Link to="/project">
+                        <Avatar
+                          style={{
+                            backgroundColor: `#${project.color}`,
+                            width: "30px",
+                            height: "30px"
+                          }}
+                        />
+                      </Link>
+                    </Tooltip>
+                  </ListItem>
+                ))
+              : null}
           </List>
         </Drawer>
       </div>
