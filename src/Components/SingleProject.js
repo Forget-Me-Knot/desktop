@@ -100,12 +100,14 @@ class SingleProject extends React.Component {
             const taskdatas = snapshot.val().tasks;
             const notedatas = snapshot.val().notes;
             const eventdatas = snapshot.val().events;
+            const userdatas = snapshot.val().users;
 
             let projects = [];
             let tasks = [];
             let notes = [];
             let events = [];
             let members = [];
+            let users = [];
             let color;
 
             for (var key in projdatas) {
@@ -128,7 +130,19 @@ class SingleProject extends React.Component {
               if (eventdatas[ekey].projectId + "" === projectKey + "")
                 events.push({ key: ekey, ...eventdatas[ekey] });
             }
-            self.setState({ projects, tasks, notes, events, members, color });
+            for (var ukey in userdatas) {
+              users.push({ key: ukey, ...userdatas[ukey] });
+            }
+
+            self.setState({
+              projects,
+              tasks,
+              notes,
+              events,
+              members,
+              color,
+              users
+            });
           });
         }
       });
@@ -168,6 +182,7 @@ class SingleProject extends React.Component {
               notes={notes}
               projectKey={projectKey}
               projects={projects}
+              users={users}
             />
           </TabContainer>
         )}

@@ -13,6 +13,7 @@ class NoteGrids extends React.Component {
     this.state = {
       notes: [],
       open: false,
+      author: [],
       formOpen: false
     };
     this.deleteNote = this.deleteNote.bind(this);
@@ -20,19 +21,46 @@ class NoteGrids extends React.Component {
   }
 
   componentDidMount() {
+    const self = this;
     if (this.props.notes) {
-      this.setState({
-        notes: this.props.notes
+      let notes = this.props.notes;
+      const ref = firebase.database().ref("users");
+      ref.on("value", function(snapshot) {
+        const users = snapshot.val();
+        for (var key in users) {
+          notes.forEach(note => {
+            if (note.author === key) {
+              self.setState({ [key]: users[key].displayName });
+            }
+          });
+        }
+        self.setState({
+          notes,
+          projectId: self.props.projectKey
+        });
       });
     }
   }
 
   componentDidUpdate(prevProps) {
+    const self = this;
     const props = this.props;
     if (prevProps.notes !== props.notes) {
-      this.setState({
-        notes: props.notes,
-        projectId: props.projectKey
+      let notes = this.props.notes;
+      const ref = firebase.database().ref("users");
+      ref.on("value", function(snapshot) {
+        const users = snapshot.val();
+        for (var key in users) {
+          notes.forEach(note => {
+            if (note.author === key) {
+              self.setState({ [key]: users[key].displayName });
+            }
+          });
+        }
+        self.setState({
+          notes,
+          projectId: self.props.projectKey
+        });
       });
     }
   }
@@ -55,23 +83,26 @@ class NoteGrids extends React.Component {
 
   render() {
     const notes = this.state.notes;
-		let project = this.props.projects ? this.props.projects[0] : null
-		let color = project ? '#' + project.color : null
+    const users = this.props.users;
+    let project = this.props.projects ? this.props.projects[0] : null;
+    let color = project ? "#" + project.color : null;
     return (
       <div>
-        {color ? <span>
-          <Typography
-            variant="title"
-            align="center"
-            style={{
-              backgroundColor: color,
-              fontSize: "1.5em",
-              color: "white"
-            }}
-          >
-            {this.props.projects[0].name}
-          </Typography>
-        </span> : null }
+        {color ? (
+          <span>
+            <Typography
+              variant="title"
+              align="center"
+              style={{
+                backgroundColor: color,
+                fontSize: "1.5em",
+                color: "white"
+              }}
+            >
+              {this.props.projects[0].name}
+            </Typography>
+          </span>
+        ) : null}
         {notes.map(note => (
           <Paper
             key={note.key}
@@ -79,14 +110,21 @@ class NoteGrids extends React.Component {
           >
             <Avatar
               style={{
-                width: 15,
-                height: 15,
+                width: 40,
+                height: 40,
                 padding: 10,
                 marginRight: 10,
-                backgroundColor: `#${note.color}`
+                backgroundColor: `#${note.color}`,
+                fontSize: "0.8rem"
               }}
-            />
-            <Typography>{note.content}</Typography>
+            >
+              {this.state[note.author]}
+            </Avatar>
+
+            <Typography style={{ marginTop: ".7em" }}>
+              {note.content}
+            </Typography>
+
             <Avatar
               style={{
                 width: 15,
