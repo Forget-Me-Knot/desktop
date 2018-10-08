@@ -87,6 +87,7 @@ class Members extends React.Component {
       <div>
         <span>
           <Typography
+						className="projTitle"
             variant="title"
             align="center"
             style={{
