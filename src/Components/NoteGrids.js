@@ -31,11 +31,11 @@ class NoteGrids extends React.Component {
     const props = this.props;
     if (prevProps.notes !== props.notes) {
       this.setState({
-				notes: props.notes,
-				projectId: props.projectKey
+        notes: props.notes,
+        projectId: props.projectKey
       });
     }
-	}
+  }
 
   openForm() {
     if (!this.state.formOpen) {
@@ -43,7 +43,7 @@ class NoteGrids extends React.Component {
     } else {
       this.setState({ formOpen: false });
     }
-	}
+  }
 
   deleteNote(key) {
     return firebase
@@ -54,9 +54,23 @@ class NoteGrids extends React.Component {
   }
 
   render() {
-		const notes = this.state.notes;
+    const notes = this.state.notes;
+    // const shade = "#" + this.props.projects[0].color;
     return (
       <div>
+        {/* <span>
+          <Typography
+            variant="title"
+            align="center"
+            style={{
+              backgroundColor: shade,
+              fontSize: "1.5em",
+              color: "white"
+            }}
+          >
+            {this.props.projects[0].name}
+          </Typography>
+        </span> */}
         {notes.map(note => (
           <Paper
             key={note.key}

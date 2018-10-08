@@ -12,6 +12,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
+import { Typography } from "@material-ui/core";
 
 class Members extends React.Component {
   constructor(props) {
@@ -79,10 +80,24 @@ class Members extends React.Component {
 
   render() {
     const members = this.props.members;
-    console.log("Members: ", members);
     const key = this.props.projectKey;
+    // console.log("this props in memebers", this.props);
+    const shade = "#" + this.props.projects[0].color;
     return (
       <div>
+        <span>
+          <Typography
+            variant="title"
+            align="center"
+            style={{
+              backgroundColor: shade,
+              fontSize: "1.5em",
+              color: "white"
+            }}
+          >
+            {this.props.projects[0].name}
+          </Typography>
+        </span>
         <List>{members ? this.memberList(members) : null}</List>
         <Button
           text="add a project"
