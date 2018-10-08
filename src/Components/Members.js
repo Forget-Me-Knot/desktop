@@ -101,12 +101,12 @@ class Members extends React.Component {
     console.log("newUser", newUsers);
     console.log("this props in memebers", this.props);
     console.log("userArr", userArr);
-    // const shade = "#" + this.props.projects[0].color;
+    const shade = "#" + this.props.projects[0].color;
     return (
       <div>
-        {/* <span>
+        <span>
           <Typography
-						className="projTitle"
+            className="projTitle"
             variant="title"
             align="center"
             style={{
@@ -117,7 +117,7 @@ class Members extends React.Component {
           >
             {this.props.projects[0].name}
           </Typography>
-        </span> */}
+        </span>
         <List>{members ? this.memberList(members) : null}</List>
         <Button
           text="add a project"
