@@ -1,13 +1,6 @@
 import React, { Component } from "react";
-import { Typography } from "@material-ui/core";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import AddIcon from "@material-ui/icons/Add";
-import LensOutlined from "@material-ui/icons/LensOutlined";
-import Lens from "@material-ui/icons/Lens";
 import { Avatar, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Table from '@material-ui/core/Table';
@@ -20,12 +13,6 @@ import IconButton from "@material-ui/core/IconButton";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
 
 import firebase from "../firebase";
-
-const styles = {
-  container: {
-    alignItems: "center"
-  }
-};
 
 export default class UserProfile extends Component {
   constructor() {

@@ -80,25 +80,25 @@ class Members extends React.Component {
 
   render() {
     const members = this.props.members;
-    const key = this.props.projectKey;
-    // console.log("this props in memebers", this.props);
-    const shade = "#" + this.props.projects[0].color;
+		const key = this.props.projectKey;
+		let project = this.props.projects ? this.props.projects[0] : null
+		let color = project ? '#' + project.color : null
     return (
       <div>
-        <span>
+        { color ? <span>
           <Typography
 						className="projTitle"
             variant="title"
             align="center"
             style={{
-              backgroundColor: shade,
+              backgroundColor: color,
               fontSize: "1.5em",
               color: "white"
             }}
           >
             {this.props.projects[0].name}
           </Typography>
-        </span>
+        </span> : null}
         <List>{members ? this.memberList(members) : null}</List>
         <Button
           text="add a project"

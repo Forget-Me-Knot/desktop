@@ -29,7 +29,7 @@ export default class CreateTodo extends Component {
   handleSubmit() {
     const self = this;
     const assigned = this.state.assignMember;
-    const projectId = parseInt(this.state.projectId);
+    const projectId = this.state.projectId;
     const content = this.state.todo;
     const newKey = firebase
       .database()
