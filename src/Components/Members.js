@@ -91,7 +91,9 @@ class Members extends React.Component {
 
   render() {
     const members = this.props.members;
-    const key = this.props.projectKey;
+		const key = this.props.projectKey;
+		let project = this.props.projects ? this.props.projects[0] : null
+		let color = project ? '#' + project.color : null
     const users = this.props.users;
     const userArr = [];
     for (var person in users) {
@@ -101,23 +103,22 @@ class Members extends React.Component {
     console.log("newUser", newUsers);
     console.log("this props in memebers", this.props);
     console.log("userArr", userArr);
-    const shade = "#" + this.props.projects[0].color;
     return (
       <div>
-        <span>
+        { color ? <span>
           <Typography
             className="projTitle"
             variant="title"
             align="center"
             style={{
-              backgroundColor: shade,
+              backgroundColor: color,
               fontSize: "1.5em",
               color: "white"
             }}
           >
             {this.props.projects[0].name}
           </Typography>
-        </span>
+        </span> : null}
         <List>{members ? this.memberList(members) : null}</List>
         <Button
           text="add a project"

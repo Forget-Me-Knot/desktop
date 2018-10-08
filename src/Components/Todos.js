@@ -94,24 +94,25 @@ export default class ToDo extends Component {
   }
 
   render() {
-    const tasks = this.props.tasks;
-    const shade = "#" + this.props.projects[0].color;
+		const tasks = this.props.tasks;
+		let project = this.props.projects ? this.props.projects[0] : null
+		let color = project ? '#' + project.color : null
 
     return (
       <div>
-        <span>
+        { color ? <span>
           <Typography
             variant="title"
             align="center"
             style={{
-              backgroundColor: shade,
+              backgroundColor: color,
               fontSize: "1.5em",
               color: "white"
             }}
           >
             {this.props.projects[0].name}
           </Typography>
-        </span>
+        </span> : null }
         <div>
           <Button
             text="add a task"
