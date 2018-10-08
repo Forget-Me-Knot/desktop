@@ -57,8 +57,13 @@ class SingleProject extends React.Component {
 					let tasks = []
 					let notes = []
 					let events = []
+					let members = []
+
 					for (var key in projdatas) {
-						if (projectKey === key) projects.push({key, ...projdatas[key]})
+						if (projectKey === key) {
+							projects.push({key, ...projdatas[key]})
+							members = projdatas[key].members
+						}
 					}
 					for (var tkey in taskdatas) {
 						if (taskdatas[tkey].projectId + '' === projectKey + '') tasks.push({key: tkey, ...taskdatas[tkey]})
@@ -69,7 +74,7 @@ class SingleProject extends React.Component {
 					for (var ekey in eventdatas) {
 						if (eventdatas[ekey].projectId) events.push({key: ekey, ...eventdatas[ekey]})
 					}
-					self.setState({projects, tasks, notes, events})
+					self.setState({projects, tasks, notes, events, members})
 				})
 			}
 		})
@@ -90,11 +95,16 @@ class SingleProject extends React.Component {
 
             let projects = [];
             let tasks = [];
-            let notes = [];
-            let events = [];
-            for (var key in projdatas) {
-              if (projectKey === key) projects.push({ key, ...projdatas[key] });
-            }
+						let notes = [];
+						let events = []
+						let members = []
+
+						for (var key in projdatas) {
+							if (projectKey === key) {
+								projects.push({key, ...projdatas[key]})
+								members = projdatas[key].members
+							}
+						}
             for (var tkey in taskdatas) {
               if (taskdatas[tkey].projectId + "" === projectKey + "")
                 tasks.push({ key: tkey, ...taskdatas[tkey] });
@@ -107,7 +117,7 @@ class SingleProject extends React.Component {
               if (eventdatas[ekey].projectId + "" === projectKey + "")
                 events.push({ key: ekey, ...eventdatas[ekey] });
             }
-						self.setState({ projects, tasks, notes, events });
+						self.setState({ projects, tasks, notes, events, members });
           });
         }
       });
@@ -117,7 +127,7 @@ class SingleProject extends React.Component {
   render() {
 
     const { classes, projectKey } = this.props;
-		const { value, projects, tasks, notes, events } = this.state;
+		const { value, projects, tasks, notes, events, members } = this.state;
     return (
       <Paper className={classes.root}>
         <Tabs
@@ -142,7 +152,7 @@ class SingleProject extends React.Component {
         )}
         {value === 1 && (
           <TabContainer>
-            <Members projects={projects} />
+            <Members members={members} projectKey={projectKey} />
           </TabContainer>
         )}
         {value === 2 && (

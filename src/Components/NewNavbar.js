@@ -26,7 +26,7 @@ class Navbar extends React.Component {
   constructor() {
     super();
     this.state = {
-      projects: [] || null,
+      projects: [],
       user: {},
       login: null
     };
@@ -39,9 +39,9 @@ class Navbar extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         self.setState({ user });
-        let userProjects = [];
         const ref = firebase.database().ref("projects");
         ref.on("value", function(snapshot) {
+					let userProjects = [];
           const projects = snapshot.val();
           for (let key in projects) {
             if (projects[key].members) {
@@ -90,6 +90,7 @@ class Navbar extends React.Component {
         <Drawer variant="permanent" className={classes.paper}>
           <List style={{ width: 78 }}>
             <ListItem style={{ right: 10 }}>
+						<Link to='/home' replace>
               <Avatar
                 style={{
                   width: "50px",
@@ -99,6 +100,7 @@ class Navbar extends React.Component {
                 src="/reminder.png"
                 alt="home"
               />
+							</Link>
             </ListItem>
             {user.uid ? (
               <ListItem>
