@@ -25,7 +25,31 @@ class AddMember extends React.Component {
   render() {
     return (
       <div>
-        <p>Hello</p>
+        <FormGroup>
+          <div style={{ marginBottom: 10 }}>
+            <InputLabel>Member email</InputLabel>
+            <Select
+              fullWidth
+              onChange={event =>
+                this.setState({ assignMember: event.target.value })
+              }
+              value={this.state.assignMember}
+            >
+              {userArr ? (
+                userArr.filter(
+                  user =>
+                    members.indexOf(user) < 0 ? (
+                      <MenuItem key={user} value={user}>
+                        {user}
+                      </MenuItem>
+                    ) : null
+                )
+              ) : (
+                <MenuItem>No members in this project.</MenuItem>
+              )}
+            </Select>
+          </div>
+        </FormGroup>
       </div>
     );
   }
