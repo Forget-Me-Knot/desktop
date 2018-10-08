@@ -10,7 +10,12 @@ import LensOutlined from "@material-ui/icons/LensOutlined";
 import Lens from "@material-ui/icons/Lens";
 import { Avatar, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 import IconButton from "@material-ui/core/IconButton";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
 
@@ -23,10 +28,6 @@ const styles = {
 };
 
 export default class UserProfile extends Component {
-  //   constructor() {
-  //     super();
-  //     this.state = {};
-  //   }
   constructor() {
     super();
     this.state = {
@@ -35,8 +36,6 @@ export default class UserProfile extends Component {
       login: null
     };
     this.deleteProject = this.deleteProject.bind(this);
-
-    // this.clickNav = this.clickNav.bind(this);
   }
 
   componentDidMount() {
@@ -45,10 +44,11 @@ export default class UserProfile extends Component {
       if (user) {
         self.setState({ user });
 
-        const ref = firebase.database().ref("projects");
+        const ref = firebase.database().ref();
         ref.on("value", function(snapshot) {
-          let userProjects = [];
-          const projects = snapshot.val();
+					let userProjects = [];
+					const users = snapshot.val().users;
+          const projects = snapshot.val().projects;
           for (let key in projects) {
             if (projects[key].members) {
               const members = projects[key].members;
@@ -58,7 +58,10 @@ export default class UserProfile extends Component {
                 userProjects.push({ name, key, color, members });
               }
             }
-          }
+					}
+					for(let id in users) {
+						if (id === user.uid) self.setState({name: users[id].displayName})
+					}
           self.setState({ projects: userProjects });
         });
       }
@@ -69,7 +72,6 @@ export default class UserProfile extends Component {
     if (prevProps.projects !== props.projects) {
       this.setState({
         projects: props.projects
-        // projectId: props.projectKey
       });
     }
   }
@@ -82,50 +84,49 @@ export default class UserProfile extends Component {
   }
 
   render() {
-    const projects = this.state.projects;
-    const user = this.state.user;
+		const { projects, user, name } = this.state;
     return (
       <div>
-        <Typography variant="headline" align="center">
-          {" "}
-          User Info{" "}
-        </Typography>
-        <Divider />
-        <Typography variant="subheading"> email: {user.email}</Typography>
-        <Typography variant="subheading"> name: {user.displayName} </Typography>
-        <div />
-        <div>
-          <Divider />
-          <Typography variant="headline" align="center">
-            {" "}
-            My Projects
-          </Typography>
-          <Divider />
-          <List>
-            {projects ? (
+				<Paper>
+				<Table>
+					<TableHead>
+						<TableRow>
+							<TableCell>Name</TableCell>
+							<TableCell>E-mail</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						<TableRow>
+							<TableCell>{name}</TableCell>
+							<TableCell>{user.email}</TableCell>
+						</TableRow>
+					</TableBody>
+				</Table>
+				<Divider />
+				<Table>
+					<TableHead>
+						<TableRow>
+							<TableCell>Projects</TableCell>
+							<TableCell> </TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+					{projects ? (
               projects.map(item => (
-                <ListItem key={item.key}>
+								<TableRow>
+                <TableCell key={item.key}>
                   <Avatar
                     style={{
+											float: 'left',
                       backgroundColor: `#${item.color}`,
                       width: "30px",
-                      height: "30px"
+											height: "30px",
+											marginRight: 10
                     }}
                   />
-                  <ListItemText primary={item.name} />
-                  {/* <Avatar
-                    style={{
-                      width: 15,
-                      height: 15,
-                      position: "absolute",
-                      right: 20,
-                      color: "grey",
-                      backgroundColor: "white"
-                    }}
-                    onClick={() => this.deleteProject(item.key)}
-                  >
-                    x
-                  </Avatar> */}
+									<span style={{float: 'left', marginTop: 5}}>{item.name}</span>
+									</TableCell>
+									<TableCell>
                   <IconButton
                     aria-label="Delete"
                     style={{ float: "right" }}
@@ -133,24 +134,25 @@ export default class UserProfile extends Component {
                   >
                     <RemoveCircle />
                   </IconButton>
-                </ListItem>
+                </TableCell>
+								</TableRow>
               ))
             ) : (
-              <ListItem>
-                <ListItemText primary="Projects ForthComing" />
-              </ListItem>
+              <TableRow>
+								<TableCell>No projects.</TableCell>
+								<TableCell> </TableCell>
+							</TableRow>
             )}
-
-            <Divider />
-          </List>
+					</TableBody>
+				</Table>
+					<Divider />
 
           <Link to="/addproject" replace>
             <Button
-              // variant="fab"
-              // text="add a project"
               aria-label="Add"
               style={{
-                backgroundColor: "mediumpurple"
+								backgroundColor: "mediumpurple",
+								margin: 10
               }}
               onClick={() => console.log("hi there")}
             >
@@ -158,8 +160,8 @@ export default class UserProfile extends Component {
               add new project
             </Button>
           </Link>
+				</Paper>
         </div>
-      </div>
     );
   }
 }
