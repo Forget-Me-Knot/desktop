@@ -1,19 +1,19 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import { ListItem } from "@material-ui/core/";
-import firebase from "../firebase";
-import Avatar from "@material-ui/core/Avatar";
-import Tooltip from "@material-ui/core/Tooltip";
-import Icon from "@material-ui/core/Icon";
-import PersonIcon from "@material-ui/icons/Person";
+import React from 'react'
+import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
+import {withStyles} from '@material-ui/core/styles'
+import Drawer from '@material-ui/core/Drawer'
+import List from '@material-ui/core/List'
+import {ListItem, Divider} from '@material-ui/core/'
+import firebase from '../firebase'
+import Avatar from '@material-ui/core/Avatar'
+import Tooltip from '@material-ui/core/Tooltip'
+import Icon from '@material-ui/core/Icon'
+import PersonIcon from '@material-ui/icons/Person'
 
 const styles = theme => ({
   icon: {
-    height: "40px"
+    height: '40px'
   },
   paper: {
     width: 80
@@ -21,43 +21,43 @@ const styles = theme => ({
   popup: {
     fontSize: 13
   }
-});
+})
 
 class Navbar extends React.Component {
   constructor() {
-    super();
+    super()
     this.state = {
       projects: [],
       user: {},
       login: null
-    };
-    this.logOut = this.logOut.bind(this);
-    this.clickNav = this.clickNav.bind(this);
+    }
+    this.logOut = this.logOut.bind(this)
+    this.clickNav = this.clickNav.bind(this)
   }
 
   componentDidMount() {
-    const self = this;
+    const self = this
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        self.setState({ user });
-        const ref = firebase.database().ref("projects");
-        ref.on("value", function(snapshot) {
-          let userProjects = [];
-          const projects = snapshot.val();
+        self.setState({user})
+        const ref = firebase.database().ref('projects')
+        ref.on('value', function(snapshot) {
+          let userProjects = []
+          const projects = snapshot.val()
           for (let key in projects) {
             if (projects[key].members) {
-              const members = projects[key].members;
-              const name = projects[key].name;
-              const color = projects[key].color;
+              const members = projects[key].members
+              const name = projects[key].name
+              const color = projects[key].color
               if (members.includes(user.email)) {
-                userProjects.push({ name, key, color });
+                userProjects.push({name, key, color})
               }
             }
           }
-          self.setState({ projects: userProjects });
-        });
+          self.setState({projects: userProjects})
+        })
       }
-    });
+    })
   }
 
   logOut() {
@@ -66,37 +66,37 @@ class Navbar extends React.Component {
       .signOut()
       .then(
         function() {
-          console.log("Sign out!");
-          console.log(firebase.auth().currentUser);
+          console.log('Sign out!')
+          console.log(firebase.auth().currentUser)
         },
         function(error) {
-          console.error(error);
+          console.error(error)
         }
-      );
+      )
     this.setState({
       user: {}
-    });
-    this.props.handleLogout();
+    })
+    this.props.handleLogout()
   }
 
   clickNav(key) {
-    this.props.setProject(key);
+    this.props.setProject(key)
   }
 
   render() {
-    const { user, projects } = this.state;
-    const { classes } = this.props;
+    const {user, projects} = this.state
+    const {classes} = this.props
     return (
       <div className={classes.root}>
         <Drawer variant="permanent" className={classes.paper}>
-          <List style={{ width: 78 }}>
-            <ListItem style={{ right: 10 }}>
+          <List style={{width: 78}}>
+            <ListItem style={{right: 10}}>
               <Link to="/" replace>
                 <Avatar
                   style={{
-                    width: "50px",
-                    height: "50px",
-                    backgroundColor: "white"
+                    width: '50px',
+                    height: '50px',
+                    backgroundColor: 'white'
                   }}
                   src="/reminder.png"
                   alt="home"
@@ -105,50 +105,37 @@ class Navbar extends React.Component {
             </ListItem>
             {user.uid ? (
               <ListItem>
-                <Link to="/home" replace>
+                <Tooltip
+                  classes={{tooltip: classes.popup}}
+                  title="Profile"
+                  placement="left-start"
+                >
                   <Link to="/profile" replace>
                     <PersonIcon
                       style={{
-                        width: "30px",
-                        height: "30px",
-                        backgroundColor: "white",
-                        color: "grey"
+                        width: '30px',
+                        height: '30px',
+                        backgroundColor: 'white',
+                        color: 'grey'
                       }}
                       align="center"
                     />
                   </Link>
-                  <Tooltip
-                    classes={{ tooltip: classes.popup }}
-                    title="Logout"
-                    placement="left-start"
-                  >
-                    <Avatar
-                      style={{
-                        width: "30px",
-                        height: "30px",
-                        backgroundColor: "white",
-                        color: "grey"
-                      }}
-                      onClick={this.logOut}
-                    >
-                      <Icon>logout</Icon>
-                    </Avatar>
-                  </Tooltip>
-                </Link>
+                </Tooltip>
               </ListItem>
             ) : (
               <ListItem component={Link} to="/login" replace>
                 <Tooltip
-                  classes={{ tooltip: classes.popup }}
+                  classes={{tooltip: classes.popup}}
                   title="Login"
                   placement="left-start"
                 >
                   <Avatar
                     style={{
-                      width: "30px",
-                      height: "30px",
-                      backgroundColor: "white",
-                      color: "grey"
+                      width: '30px',
+                      height: '30px',
+                      backgroundColor: 'white',
+                      color: 'grey'
                     }}
                   >
                     <Icon>input</Icon>
@@ -156,29 +143,32 @@ class Navbar extends React.Component {
                 </Tooltip>
               </ListItem>
             )}
-            <ListItem
-              component={Link}
-              to="/calendar"
-              onClick={() => this.clickNav("key")}
-              replace
-            >
-              <Tooltip
-                classes={{ tooltip: classes.popup }}
-                title="Calendar"
-                placement="left-start"
+            {user.uid ? (
+              <ListItem
+                component={Link}
+                to="/calendar"
+                onClick={() => this.clickNav('key')}
+                replace
               >
-                <Avatar
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    backgroundColor: "white",
-                    color: "grey"
-                  }}
+                <Tooltip
+                  classes={{tooltip: classes.popup}}
+                  title="Calendar"
+                  placement="left-start"
                 >
-                  <Icon>calendar_today</Icon>
-                </Avatar>
-              </Tooltip>
-            </ListItem>
+                  <Avatar
+                    style={{
+                      width: '30px',
+                      height: '30px',
+                      backgroundColor: 'white',
+                      color: 'grey'
+                    }}
+                  >
+                    <Icon>calendar_today</Icon>
+                  </Avatar>
+                </Tooltip>
+              </ListItem>
+            ) : null}
+            <Divider />
             {projects && user.uid
               ? projects.map(project => (
                   <ListItem
@@ -187,7 +177,7 @@ class Navbar extends React.Component {
                     onClick={() => this.clickNav(project.key)}
                   >
                     <Tooltip
-                      classes={{ tooltip: classes.popup }}
+                      classes={{tooltip: classes.popup}}
                       title={project.name}
                       placement="left-start"
                     >
@@ -195,8 +185,8 @@ class Navbar extends React.Component {
                         <Avatar
                           style={{
                             backgroundColor: `#${project.color}`,
-                            width: "30px",
-                            height: "30px"
+                            width: '30px',
+                            height: '30px'
                           }}
                         />
                       </Link>
@@ -204,16 +194,40 @@ class Navbar extends React.Component {
                   </ListItem>
                 ))
               : null}
+            <Divider />
+            {user.uid ? (
+              <ListItem>
+                <Tooltip
+                  classes={{tooltip: classes.popup}}
+                  title="Logout"
+                  placement="left-start"
+                >
+                  <Link to="/" replace>
+                    <Avatar
+                      style={{
+                        width: '30px',
+                        height: '30px',
+                        backgroundColor: 'white',
+                        color: 'grey'
+                      }}
+                      onClick={this.logOut}
+                    >
+                      <Icon>logout</Icon>
+                    </Avatar>
+                  </Link>
+                </Tooltip>
+              </ListItem>
+            ) : null}
           </List>
         </Drawer>
       </div>
-    );
+    )
   }
 }
 
 Navbar.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles, { withTheme: true })(Navbar);
+export default withStyles(styles, {withTheme: true})(Navbar)
