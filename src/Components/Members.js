@@ -5,144 +5,121 @@ import ListItemText from "@material-ui/core/ListItemText";
 import firebase from "../firebase";
 import IconButton from "@material-ui/core/IconButton";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
-import AddMember from "./AddMember";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
 
 class Members extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       members: [],
-      users: [],
-      projects: [],
-      formOpen: false
+      open: false,
+      close: true
     };
-    this.openForm = this.openForm.bind(this);
     this.delete = this.delete.bind(this);
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
+    this.submitclose = this.submitclose.bind(this);
   }
 
-  componentDidMount() {
-    var self = this;
-    const projects = this.props.projects;
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        const ref = firebase.database().ref();
-        ref.on("value", function(snapshot) {
-          const users = snapshot.val().users;
-
-          let myMembers = [];
-          let newMembers = [];
-
-          for (var id in users) {
-            projects.map(project => {
-              if (project.members.includes(users[id].email)) {
-                myMembers.push({
-                  displayName: users[id].displayName,
-                  email: users[id].email
-                });
-                console.log("Members: ", myMembers);
-              } else {
-                newMembers.push({
-                  displayName: users[id].displayName,
-                  email: users[id].email
-                });
-                console.log("New members: ", newMembers);
-              }
-            });
-          }
-          self.setState({ members: myMembers, users: newMembers });
-        });
-      }
+  delete(member) {
+    let members = this.props.members;
+    const key = this.props.projectKey;
+    members.forEach((m, i) => {
+      if (m === member) members.splice(i, 1);
     });
-  }
-
-  componentDidUpdate(prevProps) {
-    var self = this;
-    const props = this.props;
-    if (prevProps.projects !== props.projects) {
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          const ref = firebase.database().ref();
-          ref.on("value", function(snapshot) {
-            const users = snapshot.val().users;
-            let myMembers = [];
-            let newMembers = [];
-            for (var id in users) {
-              props.projects.map(project => {
-                if (project.members.includes(users[id].email)) {
-                  myMembers.push({
-                    displayName: users[id].displayName,
-                    email: users[id].email
-                  });
-                  console.log("Members: ", myMembers);
-                } else {
-                  newMembers.push({
-                    displayName: users[id].displayName,
-                    email: users[id].email
-                  });
-                  console.log("New members: ", newMembers);
-                }
-              });
-            }
-            self.setState({
-              projects: props.projects,
-              users: newMembers,
-              members: myMembers
-            });
-          });
-        }
-      });
-    }
-  }
-
-  openForm() {
-    if (!this.state.formOpen) {
-      this.setState({ formOpen: true });
-    } else {
-      this.setState({ formOpen: false });
-    }
-  }
-
-  delete(key) {
     return firebase
       .database()
-      .ref("projects/members/")
-      .child(key)
-      .remove();
+      .ref("projects/" + key)
+      .update({
+        members
+      });
   }
 
   memberList(members) {
-    if (members) {
-      return members.map(member => (
-        <ListItem key={member.key}>
-          <ListItemText>{member.displayName}</ListItemText>
-          <ListItemText>{member.email}</ListItemText>
-          <IconButton
-            aria-label="Delete"
-            color="grey"
-            style={{ float: "right" }}
-            onClick={() => this.delete(member.key)}
-          >
-            <RemoveCircle />
-          </IconButton>
-        </ListItem>
-      ));
-    }
+    return members.map((member, i) => (
+      <ListItem key={i}>
+        <ListItemText>{member}</ListItemText>
+        <IconButton
+          aria-label="Delete"
+          style={{ float: "right" }}
+          onClick={() => this.delete(member)}
+        >
+          <RemoveCircle />
+        </IconButton>
+      </ListItem>
+    ));
+  }
+
+  open() {
+    this.setState({ open: true });
+  }
+
+  close() {
+    this.setState({ open: false });
+  }
+
+  submitclose(key) {
+    const self = this;
+    firebase
+      .database()
+      .ref("projects/" + key)
+      .update({
+        members: [...self.props.members, self.state.newmember]
+      })
+      .then(function() {
+        self.setState({ open: false });
+      });
   }
 
   render() {
-    const members = this.state.members;
-    console.log("Members Array: ", members);
+    const members = this.props.members;
+    console.log("Members: ", members);
+    const key = this.props.projectKey;
     return (
       <div>
-        <List>
-          {this.state.members && this.state.members.displayName
-            ? this.memberList(this.state.members)
-            : null}
-        </List>
-        <AddMember
-          project={this.props.projects}
-          newMembers={this.state.users}
-        />
+        <List>{members ? this.memberList(members) : null}</List>
+        <Button
+          text="add a project"
+          aria-label="Add"
+          style={{
+            backgroundColor: "mediumpurple",
+            marginTop: 12
+          }}
+          onClick={() => this.open()}
+        >
+          <AddIcon />
+          Add a member
+        </Button>
+        <Dialog open={this.state.open} onClose={this.close}>
+          <DialogContent>
+            <DialogContentText>New member's e-mail</DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Email Address"
+              type="email"
+              fullWidth
+              onChange={event =>
+                this.setState({ newmember: event.target.value })
+              }
+            />
+            <DialogActions>
+              <Button onClick={this.close} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={() => this.submitclose(key)} color="primary">
+                Add
+              </Button>
+            </DialogActions>
+          </DialogContent>
+        </Dialog>
       </div>
     );
   }
