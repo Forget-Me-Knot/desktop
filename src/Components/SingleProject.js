@@ -52,12 +52,14 @@ class SingleProject extends React.Component {
           const taskdatas = snapshot.val().tasks;
           const notedatas = snapshot.val().notes;
           const eventdatas = snapshot.val().events;
+          const userdatas = snapshot.val().users;
 
           let projects = [];
           let tasks = [];
           let notes = [];
           let events = [];
           let members = [];
+          let users = [];
 
           for (var key in projdatas) {
             if (projectKey === key) {
@@ -77,7 +79,10 @@ class SingleProject extends React.Component {
             if (eventdatas[ekey].projectId)
               events.push({ key: ekey, ...eventdatas[ekey] });
           }
-          self.setState({ projects, tasks, notes, events, members });
+          for (var ukey in userdatas) {
+            users.push({ key: ukey, ...userdatas[ukey] });
+          }
+          self.setState({ projects, tasks, notes, events, members, users });
         });
       }
     });
@@ -98,18 +103,18 @@ class SingleProject extends React.Component {
 
             let projects = [];
             let tasks = [];
-						let notes = [];
-						let events = []
-						let members = []
-						let color
+            let notes = [];
+            let events = [];
+            let members = [];
+            let color;
 
-						for (var key in projdatas) {
-							if (projectKey === key) {
-								projects.push({key, ...projdatas[key]})
-								members = projdatas[key].members
-								color = projdatas[key].color
-							}
-						}
+            for (var key in projdatas) {
+              if (projectKey === key) {
+                projects.push({ key, ...projdatas[key] });
+                members = projdatas[key].members;
+                color = projdatas[key].color;
+              }
+            }
 
             for (var tkey in taskdatas) {
               if (taskdatas[tkey].projectId + "" === projectKey + "")
@@ -123,7 +128,7 @@ class SingleProject extends React.Component {
               if (eventdatas[ekey].projectId + "" === projectKey + "")
                 events.push({ key: ekey, ...eventdatas[ekey] });
             }
-						self.setState({ projects, tasks, notes, events, members, color });
+            self.setState({ projects, tasks, notes, events, members, color });
           });
         }
       });
@@ -132,7 +137,16 @@ class SingleProject extends React.Component {
 
   render() {
     const { classes, projectKey } = this.props;
-		const { value, projects, tasks, notes, events, members, color } = this.state;
+    const {
+      value,
+      projects,
+      tasks,
+      notes,
+      events,
+      members,
+      color,
+      users
+    } = this.state;
     return (
       <Paper className={classes.root}>
         <Tabs
@@ -163,6 +177,7 @@ class SingleProject extends React.Component {
               members={members}
               projectKey={projectKey}
               projects={projects}
+              users={users}
             />
           </TabContainer>
         )}

@@ -13,6 +13,11 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import { Typography } from "@material-ui/core";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormGroup from "@material-ui/core/FormGroup";
 
 class Members extends React.Component {
   constructor(props) {
@@ -20,11 +25,14 @@ class Members extends React.Component {
     this.state = {
       members: [],
       open: false,
-      close: true
+      close: true,
+      openAdd: false,
+      assignMember: ""
     };
     this.delete = this.delete.bind(this);
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
+    this.openAdd = this.openAdd.bind(this);
     this.submitclose = this.submitclose.bind(this);
   }
 
@@ -64,6 +72,9 @@ class Members extends React.Component {
   close() {
     this.setState({ open: false });
   }
+  openAdd() {
+    this.setState({ openAdd: !this.state.openAdd });
+  }
 
   submitclose(key) {
     const self = this;
@@ -81,11 +92,19 @@ class Members extends React.Component {
   render() {
     const members = this.props.members;
     const key = this.props.projectKey;
-    // console.log("this props in memebers", this.props);
-    const shade = "#" + this.props.projects[0].color;
+    const users = this.props.users;
+    const userArr = [];
+    for (var person in users) {
+      userArr.push(users[person].email);
+    }
+    const newUsers = userArr.filter(user => members.indexOf(user) === -1);
+    console.log("newUser", newUsers);
+    console.log("this props in memebers", this.props);
+    console.log("userArr", userArr);
+    // const shade = "#" + this.props.projects[0].color;
     return (
       <div>
-        <span>
+        {/* <span>
           <Typography
 						className="projTitle"
             variant="title"
@@ -98,7 +117,7 @@ class Members extends React.Component {
           >
             {this.props.projects[0].name}
           </Typography>
-        </span>
+        </span> */}
         <List>{members ? this.memberList(members) : null}</List>
         <Button
           text="add a project"
@@ -107,35 +126,80 @@ class Members extends React.Component {
             backgroundColor: "mediumpurple",
             marginTop: 12
           }}
-          onClick={() => this.open()}
+          // onClick={() => this.open()}
+          onClick={() => this.openAdd()}
         >
           <AddIcon />
-          Add a member
+          Add a register user:
         </Button>
-        <Dialog open={this.state.open} onClose={this.close}>
-          <DialogContent>
-            <DialogContentText>New member's e-mail</DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
-              fullWidth
-              onChange={event =>
-                this.setState({ newmember: event.target.value })
-              }
-            />
-            <DialogActions>
-              <Button onClick={this.close} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={() => this.submitclose(key)} color="primary">
-                Add
-              </Button>
-            </DialogActions>
-          </DialogContent>
-        </Dialog>
+        {this.state.openAdd ? (
+          <FormGroup>
+            <div style={{ marginBottom: 10 }}>
+              <InputLabel>Member email</InputLabel>
+              <Select
+                fullWidth
+                onChange={event =>
+                  this.setState({ newmember: event.target.value })
+                }
+                value={this.state.newMember}
+              >
+                {newUsers ? (
+                  newUsers.map(
+                    user => (
+                      //   members.indexOf(user) < 0 ? (
+                      <MenuItem key={user} value={user}>
+                        {user}
+                      </MenuItem>
+                    )
+                    // ) : null
+                  )
+                ) : (
+                  <MenuItem>No members in this project.</MenuItem>
+                )}
+              </Select>
+            </div>
+            <Button onClick={() => this.submitclose(key)}>SUBMIT</Button>
+          </FormGroup>
+        ) : null}
+        <div>
+          <Button
+            text="add a project"
+            aria-label="Add"
+            style={{
+              backgroundColor: "aqua",
+              marginTop: 12
+            }}
+            // onClick={() => this.open()}
+            onClick={() => this.open()}
+          >
+            <AddIcon />
+            Invite a new user to join:
+          </Button>
+          <Dialog open={this.state.open} onClose={this.close}>
+            <DialogContent>
+              <DialogContentText>New member's e-mail</DialogContentText>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Email Address"
+                type="email"
+                fullWidth
+                onChange={event =>
+                  this.setState({ newmember: event.target.value })
+                }
+              />
+              <DialogActions>
+                <Button onClick={this.close} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={() => this.submitclose(key)} color="primary">
+                  Add
+                </Button>
+              </DialogActions>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
     );
   }
