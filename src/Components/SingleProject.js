@@ -41,44 +41,47 @@ class SingleProject extends React.Component {
     this.setState({ value });
   };
 
-	componentWillMount(){
-		const self = this
-		const projectKey = this.props.projectKey
-		firebase.auth().onAuthStateChanged(function(user) {
-			if (user) {
-				const ref = firebase.database().ref()
-				ref.on('value', function(snapshot) {
-					const projdatas = snapshot.val().projects
-					const taskdatas = snapshot.val().tasks
-					const notedatas = snapshot.val().notes
-					const eventdatas = snapshot.val().events
+  componentWillMount() {
+    const self = this;
+    const projectKey = this.props.projectKey;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        const ref = firebase.database().ref();
+        ref.on("value", function(snapshot) {
+          const projdatas = snapshot.val().projects;
+          const taskdatas = snapshot.val().tasks;
+          const notedatas = snapshot.val().notes;
+          const eventdatas = snapshot.val().events;
 
-					let projects = []
-					let tasks = []
-					let notes = []
-					let events = []
-					let members = []
+          let projects = [];
+          let tasks = [];
+          let notes = [];
+          let events = [];
+          let members = [];
 
-					for (var key in projdatas) {
-						if (projectKey === key) {
-							projects.push({key, ...projdatas[key]})
-							members = projdatas[key].members
-						}
-					}
-					for (var tkey in taskdatas) {
-						if (taskdatas[tkey].projectId + '' === projectKey + '') tasks.push({key: tkey, ...taskdatas[tkey]})
-					}
-					for (var nkey in notedatas) {
-						if (notedatas[nkey].projectId + '' === projectKey + '') notes.push({key: nkey, ...notedatas[nkey]})
-					}
-					for (var ekey in eventdatas) {
-						if (eventdatas[ekey].projectId) events.push({key: ekey, ...eventdatas[ekey]})
-					}
-					self.setState({projects, tasks, notes, events, members})
-				})
-			}
-		})
-	}
+          for (var key in projdatas) {
+            if (projectKey === key) {
+              projects.push({ key, ...projdatas[key] });
+              members = projdatas[key].members;
+            }
+          }
+          for (var tkey in taskdatas) {
+            if (taskdatas[tkey].projectId + "" === projectKey + "")
+              tasks.push({ key: tkey, ...taskdatas[tkey] });
+          }
+          for (var nkey in notedatas) {
+            if (notedatas[nkey].projectId + "" === projectKey + "")
+              notes.push({ key: nkey, ...notedatas[nkey] });
+          }
+          for (var ekey in eventdatas) {
+            if (eventdatas[ekey].projectId)
+              events.push({ key: ekey, ...eventdatas[ekey] });
+          }
+          self.setState({ projects, tasks, notes, events, members });
+        });
+      }
+    });
+  }
 
   componentDidUpdate(prevProps) {
     const self = this;
@@ -107,6 +110,7 @@ class SingleProject extends React.Component {
 								color = projdatas[key].color
 							}
 						}
+
             for (var tkey in taskdatas) {
               if (taskdatas[tkey].projectId + "" === projectKey + "")
                 tasks.push({ key: tkey, ...taskdatas[tkey] });
@@ -127,7 +131,6 @@ class SingleProject extends React.Component {
   }
 
   render() {
-
     const { classes, projectKey } = this.props;
 		const { value, projects, tasks, notes, events, members, color } = this.state;
     return (
@@ -147,12 +150,20 @@ class SingleProject extends React.Component {
         {value === 0 && (
           <TabContainer>
             {" "}
-            <NoteGrids notes={notes} projectKey={projectKey} />
+            <NoteGrids
+              notes={notes}
+              projectKey={projectKey}
+              projects={projects}
+            />
           </TabContainer>
         )}
         {value === 1 && (
           <TabContainer>
-            <Members members={members} projectKey={projectKey} />
+            <Members
+              members={members}
+              projectKey={projectKey}
+              projects={projects}
+            />
           </TabContainer>
         )}
         {value === 2 && (
