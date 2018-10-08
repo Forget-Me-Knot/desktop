@@ -9,6 +9,7 @@ import firebase from "../firebase";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Icon from "@material-ui/core/Icon";
+import PersonIcon from "@material-ui/icons/Person";
 
 const styles = theme => ({
   icon: {
@@ -90,7 +91,7 @@ class Navbar extends React.Component {
         <Drawer variant="permanent" className={classes.paper}>
           <List style={{ width: 78 }}>
             <ListItem style={{ right: 10 }}>
-              <Link to="/home" replace>
+              <Link to="/" replace>
                 <Avatar
                   style={{
                     width: "50px",
@@ -99,16 +100,23 @@ class Navbar extends React.Component {
                   }}
                   src="/reminder.png"
                   alt="home"
-                  component={Link}
-                  to="/profile"
-                  onClick={() => this.clickNav("key")}
-                  replace
                 />
               </Link>
             </ListItem>
             {user.uid ? (
               <ListItem>
                 <Link to="/home" replace>
+                  <Link to="/profile" replace>
+                    <PersonIcon
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        backgroundColor: "white",
+                        color: "grey"
+                      }}
+                      align="center"
+                    />
+                  </Link>
                   <Tooltip
                     classes={{ tooltip: classes.popup }}
                     title="Logout"

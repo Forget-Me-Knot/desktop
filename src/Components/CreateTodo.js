@@ -33,7 +33,7 @@ export default class CreateTodo extends Component {
     const content = this.state.todo;
     const newKey = firebase
       .database()
-      .ref("tasks/")
+      .ref("tasks")
       .push().key;
     const ref = firebase.database().ref("users");
     ref.on("value", function(snapshot) {
@@ -71,7 +71,8 @@ export default class CreateTodo extends Component {
             <InputLabel>Task</InputLabel>
             <Input
               fullWidth
-              onChange={event => this.setState({ todo: event.target.value })}
+							onChange={event => this.setState({ todo: event.target.value })}
+							value={this.state.todo}
             />
           </div>
 
