@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import firebase from "../firebase";
+import { Avatar, Button } from "@material-ui/core";
+import bounce from "./bounce";
 
 class Home extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = { game: false };
     this._mounted = false;
+    this.gameClick = this.gameClick.bind(this);
   }
 
   componentDidMount() {
@@ -28,6 +31,9 @@ class Home extends Component {
     });
   }
 
+  gameClick() {
+    this.setState({ game: !this.state.game });
+  }
   componentWillMount() {
     this._mounted = false;
   }
@@ -38,6 +44,18 @@ class Home extends Component {
       <div>
         <h1>HOME</h1>
         <p>{name ? name : null}</p>
+        {/* <Button
+          aria-label="Add"
+          style={{
+            backgroundColor: "mediumpurple",
+            margin: 10
+          }}
+          onClick={() => this.gameClick()}
+        >
+          try a game add new project
+        </Button>
+        {this.state.game ?  */}
+        <bounce />
       </div>
     );
   }
