@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import FormGroup from "@material-ui/core/FormGroup";
 import Card from "@material-ui/core/Card";
 import { TextField } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 export default class MiniNote extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ export default class MiniNote extends Component {
     this.state = {};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-	}
+  }
 
   handleChange(event) {
     if (!firebase.auth().currentUser) {
@@ -20,6 +21,7 @@ export default class MiniNote extends Component {
       console.log(firebase.auth().currentUser.displayName);
     }
     console.log("Event: ", event.target.value);
+
     this.setState({
       [event.target.name]: event.target.value
     });
@@ -35,13 +37,14 @@ export default class MiniNote extends Component {
     firebase.auth().onAuthStateChanged(function(user) {
       firebase
         .database()
-        .ref("notes/").child(noteid)
+        .ref("notes/")
+        .child(noteid)
         .set({
           author: user.uid,
           content: self.state.note,
           projectId: self.props.projectId
-				});
-				self.setState({note: ''})
+        });
+      self.setState({ note: "" });
     });
   }
 
@@ -59,12 +62,7 @@ export default class MiniNote extends Component {
           <Card>
             <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
               <FormGroup>
-                <TextField
-                  multiline
-                  rows="4"
-                  name="note"
-                  variant="outlined"
-                />
+                <TextField multiline rows="4" name="note" variant="outlined" />
               </FormGroup>
             </form>
           </Card>
