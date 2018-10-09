@@ -37,24 +37,7 @@ class Calendar extends React.Component {
         </div>
         <div className="col col-end" onClick={this.nextMonth}>
           <div className="icon">chevron_right</div>
-          {/* </div> */}
         </div>
-        {/* <div>
-          <Button
-            variant="fab"
-            text="add an event"
-            // color="primary"
-            aria-label="Add"
-            style={{
-              backgroundColor: `mediumaquamarine`,
-              width: "30px",
-              height: "30px"
-            }}
-            onClick={() => console.log("hi there")}
-          >
-            <AddIcon />
-          </Button>
-        </div> */}
       </div>
     );
   }
@@ -98,61 +81,68 @@ class Calendar extends React.Component {
       let day = startDate;
       let formattedDate = "";
 
-      const ref = firebase.database().ref("events");
-      const self = this;
-      ref.on("value", function(snapshot) {
-        const events = snapshot.val();
-        let eventsObj = {};
-        let eventDates = [];
-        for (var key in events) {
-          if (events[key]) {
-            const day = events[key].date.day;
-            const month = events[key].date.month - 1;
-            const year = events[key].date.year;
-            let date = new Date(year, month, day);
-            eventsObj[JSON.stringify(date)] = events[key];
-            eventDates.push(JSON.stringify(date));
-          }
-        }
+      const ref = firebase.database().ref();
+			const self = this;
+			firebase.auth().onAuthStateChanged(function(user){
+				ref.on("value", function(snapshot) {
+					const events = snapshot.val().events;
+					const projects = snapshot.val().projects
+					let eventsObj = {};
+					let eventDates = [];
+					for (var pkey in projects) {
+						if (projects[pkey].members.includes(user.email)) {
+							for (var key in events) {
+								if (pkey === events[key].projectId) {
+									const day = events[key].date.day;
+									const month = events[key].date.month - 1;
+									const year = events[key].date.year;
+									let date = new Date(year, month, day);
+									eventsObj[JSON.stringify(date)] = events[key];
+									eventDates.push(JSON.stringify(date));
+								}
+							}
+						}
+					}
 
-        while (day <= endDate) {
-          for (let i = 0; i < 7; i++) {
-            formattedDate = dateFns.format(day, dateFormat);
-            const stringDay = JSON.stringify(day);
-            const color = eventsObj[stringDay]
-              ? eventsObj[stringDay].color
-              : null;
-            const eventName = eventsObj[stringDay]
-              ? eventsObj[stringDay].name
-              : "";
+					while (day <= endDate) {
+						for (let i = 0; i < 7; i++) {
+							formattedDate = dateFns.format(day, dateFormat);
+							const stringDay = JSON.stringify(day);
+							const color = eventsObj[stringDay]
+								? eventsObj[stringDay].color
+								: null;
+							const eventName = eventsObj[stringDay]
+								? eventsObj[stringDay].name
+								: "";
 
-            days.push(
-              <div
-                className={`col cell ${
-                  !dateFns.isSameMonth(day, monthStart)
-                    ? "disabled"
-                    : eventDates.includes(stringDay)
-                      ? "selected"
-                      : ""
-                }`}
-                style={color ? { borderLeftColor: `#${color}` } : null}
-                key={day}
-              >
-                <span className="eventtext">{eventName}</span>
-                <span className="number">{formattedDate}</span>
-                <span className="bg">{formattedDate}</span>
-              </div>
-            );
-            day = dateFns.addDays(day, 1);
-          }
-          rows.push(
-            <div className="row" key={day}>
-              {days}
-            </div>
-          );
-          days = [];
-        }
-        self.setState({ div: <div className="body">{rows}</div> });
+							days.push(
+								<div
+									className={`col cell ${
+										!dateFns.isSameMonth(day, monthStart)
+											? "disabled"
+											: eventDates.includes(stringDay)
+												? "selected"
+												: ""
+									}`}
+									style={color ? { borderLeftColor: `#${color}` } : null}
+									key={day}
+								>
+									<span className="eventtext">{eventName}</span>
+									<span className="number">{formattedDate}</span>
+									<span className="bg">{formattedDate}</span>
+								</div>
+							);
+							day = dateFns.addDays(day, 1);
+						}
+						rows.push(
+							<div className="row" key={day}>
+								{days}
+							</div>
+						);
+						days = [];
+					}
+					self.setState({ div: <div className="body">{rows}</div> });
+			})
       });
     } else {
       return this.state.div;
