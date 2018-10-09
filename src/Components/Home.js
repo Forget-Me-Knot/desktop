@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import firebase from "../firebase";
 import ReactRevealText from 'react-reveal-text'
+import { Avatar, Button } from "@material-ui/core";
+import bounce from "./bounce";
 
 class Home extends Component {
   constructor() {
@@ -9,6 +11,9 @@ class Home extends Component {
 			show: false
 		};
 		this._mounted = false;
+    this.state = { game: false };
+    this._mounted = false;
+    this.gameClick = this.gameClick.bind(this);
   }
 
   componentDidMount() {
@@ -47,19 +52,29 @@ class Home extends Component {
     });
   }
 
+  gameClick() {
+    this.setState({ game: !this.state.game });
+  }
   componentWillMount() {
     this._mounted = false;
 	}
 
   render() {
-		const name = this.state.userName + '';
+		const name = this.state.userName  || '';
 		const message = this.state.message + '';
     return (
-      <div>
-				<div>
+      <div style={{position: 'relative'}}>
+				<div style={{
+					position: 'absolute',
+					top: '50%',
+					left: '50%',
+					transform: 'translate(-55%, 120%)',
+					textAlign: 'center'
+				}}>
 					<ReactRevealText style={{fontSize: '4em'}} show={this.state.show}>{message}</ReactRevealText>
 					<ReactRevealText style={{fontSize: '3em'}} show={this.state.show}>{name}</ReactRevealText>
 				</div>
+        <bounce />
       </div>
     );
   }
