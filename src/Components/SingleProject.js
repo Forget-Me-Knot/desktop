@@ -59,12 +59,14 @@ class SingleProject extends React.Component {
           let notes = [];
           let events = [];
           let members = [];
-          let users = [];
+					let users = [];
+					let projectKeys = []
 
           for (var key in projdatas) {
             if (projectKey === key) {
               projects.push({ key, ...projdatas[key] });
-              members = projdatas[key].members;
+							members = projdatas[key].members;
+							projectKeys.push(key)
             }
           }
           for (var tkey in taskdatas) {
@@ -76,7 +78,7 @@ class SingleProject extends React.Component {
               notes.push({ key: nkey, ...notedatas[nkey] });
           }
           for (var ekey in eventdatas) {
-            if (eventdatas[ekey].projectId)
+            if (projectKeys.includes(eventdatas[ekey].projectId))
               events.push({ key: ekey, ...eventdatas[ekey] });
           }
           for (var ukey in userdatas) {
