@@ -11,7 +11,6 @@ import Todos from "./Todos";
 import PhotoGrid from "./PhotoGrid";
 import EventList from "./EventList";
 import Members from "./Members";
-import TestPhoto from "./TestPhoto";
 
 function TabContainer(props) {
   return (
@@ -237,8 +236,7 @@ class SingleProject extends React.Component {
         )}
         {value === 4 && (
           <TabContainer>
-            <TestPhoto photos={images} projectId={projectKey} color={color} />
-            {/* <PhotoGrid photos={images} projectId={projectKey} /> */}
+            <PhotoGrid photos={images} projectId={projectKey} />
           </TabContainer>
         )}
         {value === 5 && <TabContainer>Item Six</TabContainer>}
