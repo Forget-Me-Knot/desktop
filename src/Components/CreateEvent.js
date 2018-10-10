@@ -71,9 +71,6 @@ class CreateEvent extends React.Component {
 				<form onChange={this.handleChange}>
         <FormGroup style={{ padding: 10 }}>
           <div style={{ marginBottom: 10 }}>
-            <Typography variant="headline" align="center">
-              Tell us about this new thing!
-            </Typography>
             <div>
               <TextField
                 required
