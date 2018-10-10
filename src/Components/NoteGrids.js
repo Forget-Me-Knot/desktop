@@ -101,7 +101,6 @@ class NoteGrids extends React.Component {
 
   render() {
     const notes = this.state.notes;
-    const users = this.props.users;
     let project = this.props.projects ? this.props.projects[0] : null;
     let color = project ? "#" + project.color : null;
     return (
@@ -165,8 +164,9 @@ class NoteGrids extends React.Component {
                 width: 15,
                 height: 15,
                 position: "absolute",
-                right: 20,
-                color: "grey",
+                right: 55,
+								color: "grey",
+								marginTop: '.5em',
                 backgroundColor: "white"
               }}
               onClick={() => this.deleteNote(note.key)}

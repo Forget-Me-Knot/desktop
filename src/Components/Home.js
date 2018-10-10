@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import firebase from "../firebase";
 import ReactRevealText from 'react-reveal-text'
-import { Avatar, Button } from "@material-ui/core";
 import bounce from "./bounce";
 
 class Home extends Component {

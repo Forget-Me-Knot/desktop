@@ -110,7 +110,6 @@ class EventList extends React.Component {
             l =>
               l.date ? (
                 <ListItem key={l.key} title={l.name}>
-                  <Checkbox />
                   <ListItemText>
                     {" "}
                     {months[l.date.month]} {l.date.day}, {l.date.year}

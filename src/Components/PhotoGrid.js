@@ -21,8 +21,7 @@ import Grid from "@material-ui/core/Grid";
 import firebase from "../firebase";
 const styles = theme => ({
   card: {
-    maxWidth: 400,
-    minWidth: 300
+    maxWidth: 500
   },
   media: {
     height: 0,
@@ -58,17 +57,12 @@ class PhotoGrid extends React.Component {
   render() {
     const { classes } = this.props;
     const photos = this.props.photos;
+    let project = this.props.projects ? this.props.projects[0] : null;
+    let color = project ? "#" + project.color : null;
     console.log("photos in test photo", photos);
+    const shade = this.props.color;
 
     return (
-      // <Paper style={{ marginLeft: 200 }}>
-      // <Paper
-      //   style={{
-      //     display: "flex",
-      //     alignItems: "center",
-      //     direction: "row"
-      //   }}
-      // >
       <Grid container spacing={24}>
         <Grid item item xs={6}>
           <Card
@@ -81,8 +75,7 @@ class PhotoGrid extends React.Component {
                 <Avatar
                   rounded
                   style={{
-                    // backgroundColor: `#${item.color}`,
-                    backgroundColor: "aqua",
+                    backgroundColor: `${color}`,
                     width: "30px",
                     height: "30px"
                   }}
@@ -100,6 +93,7 @@ class PhotoGrid extends React.Component {
               className={classes.media}
               image="https://img.crocdn.co.uk/images/products2/pl/20/00/01/88/pl2000018820.jpg?width=940&height=940"
               title="flowers"
+              style={{ display: "flex" }}
             />
             <CardContent>
               <Typography component="p">
@@ -151,8 +145,7 @@ class PhotoGrid extends React.Component {
                       <Avatar
                         rounded
                         style={{
-                          // backgroundColor: `#${item.color}`,
-                          backgroundColor: "aqua",
+                          backgroundColor: `${color}`,
                           width: "30px",
                           height: "30px"
                         }}
@@ -233,23 +226,23 @@ export default withStyles(styles)(PhotoGrid);
 // const photoArr = [
 //   {
 //     author: "PeRSWzFbHyYb3iPBOCD2CqnN12H3",
-//     content: "i just think this is a generally fun gift",
-//     projectId: "LO6RPDLzaAXpX5wUWr9",
+//     content: "code",
+//     projectId: "790",
 //     url:
-//       "https://cdn.shopify.com/s/files/1/0548/5721/products/oct-standard-images-2_grande.jpg?v=1533057667"
+//       "https://course_report_production.s3.amazonaws.com/rich/rich_files/rich_files/2625/s300/161012-gh-facebook-profile-2x.jpg"
 //   },
 //   {
 //     author: "PeRSWzFbHyYb3iPBOCD2CqnN12H3",
-//     content: "Woman and Roma would love this!",
-//     projectId: "LO6RPDLzaAXpX5wUWr9",
+//     content: "Everybody be like",
+//     projectId: "790",
 //     url:
-//       "https://cdn.shopify.com/s/files/1/1114/2308/products/7580_029_Tif_NEW_b602c28d-2971-4d65-a497-83e962af7376_600x600.png?v=1532360658"
+//       "https://media.makeameme.org/created/awesome-presentation.jpg"
 //   },
 //   {
 //     author: "PeRSWzFbHyYb3iPBOCD2CqnN12H3",
 //     content:
-//       "these are really cute for the girls! and they could get a matching set!",
-//     projectId: "LO6RPDLzaAXpX5wUWr9",
+//       "inspiration",
+//     projectId: "790",
 //     url:
 //       "https://cdn.shopify.com/s/files/1/0030/8376/3824/products/charlotte-600x600-x2_1_300x300.jpg?v=1535655994"
 //   },
@@ -267,21 +260,28 @@ export default withStyles(styles)(PhotoGrid);
 // // let newKey;
 // // photoArr.map(
 // //   item =>
-// function seed(photo) {
-//   let newKey = firebase
-//     .database()
-//     .ref("photos")
-//     .push().key;
-//   firebase
-//     .database()
-//     .ref("photos")
-//     .child(newKey)
-//     .set(photo);
-// }
+function seed(photo) {
+  let newKey = firebase
+    .database()
+    .ref("photos")
+    .push().key;
+  firebase
+    .database()
+    .ref("photos")
+    .child(newKey)
+    .set(photo);
+}
 // seed({
 //   author: "PeRSWzFbHyYb3iPBOCD2CqnN12H3",
-//   content: "JD and Nick really liked these last time",
-//   projectId: "LO6RPDLzaAXpX5wUWr9",
+//   content: "at least for kristin",
+//   projectId: "-LOUEfjUSoKPAWSxloOy",
 //   url:
-//     "https://www.thebeersoapcompany.com/media/catalog/product/cache/1/image/512x512/9df78eab33525d08d6e5fb8d27136e95/a/b/abita_purple_haze_1.jpg"
+//     "http://1.bp.blogspot.com/_D_Z-D2tzi14/TBpOnhVqyAI/AAAAAAAADFU/8tfM4E_Z4pU/s400/responsibility12(alternate).png"
+// });
+
+// seed({
+//   author: "PeRSWzFbHyYb3iPBOCD2CqnN12H3",
+//   content: "YASSSS",
+//   projectId: "64",
+//   url: "https://media.giphy.com/media/gareTUclVKANi/giphy.gif"
 // });

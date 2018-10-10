@@ -144,7 +144,7 @@ class Members extends React.Component {
                 onChange={event =>
                   this.setState({ newmember: event.target.value })
                 }
-                value={this.state.newMember}
+                value={this.state.newmember}
               >
                 {newUsers ? (
                   newUsers.map(user => (

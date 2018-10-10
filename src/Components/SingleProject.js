@@ -236,7 +236,11 @@ class SingleProject extends React.Component {
         )}
         {value === 4 && (
           <TabContainer>
-            <PhotoGrid photos={images} projectId={projectKey} />
+            <PhotoGrid
+              photos={images}
+              projectId={projectKey}
+              projects={projects}
+            />
           </TabContainer>
         )}
         {value === 5 && <TabContainer>Item Six</TabContainer>}
