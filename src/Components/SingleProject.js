@@ -53,20 +53,21 @@ class SingleProject extends React.Component {
           const notedatas = snapshot.val().notes;
           const eventdatas = snapshot.val().events;
           const userdatas = snapshot.val().users;
-
+          const photodata = snapshot.val().photos;
           let projects = [];
           let tasks = [];
           let notes = [];
           let events = [];
           let members = [];
-					let users = [];
-					let projectKeys = []
+          let users = [];
+          let projectKeys = [];
+          let images = [];
 
           for (var key in projdatas) {
             if (projectKey === key) {
               projects.push({ key, ...projdatas[key] });
-							members = projdatas[key].members;
-							projectKeys.push(key)
+              members = projdatas[key].members;
+              projectKeys.push(key);
             }
           }
           for (var tkey in taskdatas) {
@@ -81,10 +82,22 @@ class SingleProject extends React.Component {
             if (projectKeys.includes(eventdatas[ekey].projectId))
               events.push({ key: ekey, ...eventdatas[ekey] });
           }
+          for (var photokey in photodata) {
+            if (photodata[photokey].projectId + "" === projectKey + "")
+              images.push({ key: photokey, ...photodata[photokey] });
+          }
           for (var ukey in userdatas) {
             users.push({ key: ukey, ...userdatas[ukey] });
           }
-          self.setState({ projects, tasks, notes, events, members, users });
+          self.setState({
+            projects,
+            tasks,
+            notes,
+            events,
+            members,
+            users,
+            images
+          });
         });
       }
     });
@@ -103,6 +116,7 @@ class SingleProject extends React.Component {
             const notedatas = snapshot.val().notes;
             const eventdatas = snapshot.val().events;
             const userdatas = snapshot.val().users;
+            const photodata = snapshot.val().photos;
 
             let projects = [];
             let tasks = [];
@@ -110,6 +124,7 @@ class SingleProject extends React.Component {
             let events = [];
             let members = [];
             let users = [];
+            let images = [];
             let color;
 
             for (var key in projdatas) {
@@ -128,6 +143,10 @@ class SingleProject extends React.Component {
               if (notedatas[nkey].projectId + "" === projectKey + "")
                 notes.push({ key: nkey, ...notedatas[nkey] });
             }
+            for (var photokey in photodata) {
+              if (photodata[photokey].projectId === projectKey)
+                images.push({ key: photokey, ...photodata[photokey] });
+            }
             for (var ekey in eventdatas) {
               if (eventdatas[ekey].projectId + "" === projectKey + "")
                 events.push({ key: ekey, ...eventdatas[ekey] });
@@ -143,7 +162,8 @@ class SingleProject extends React.Component {
               events,
               members,
               color,
-              users
+              users,
+              images
             });
           });
         }
@@ -161,8 +181,10 @@ class SingleProject extends React.Component {
       events,
       members,
       color,
+      images,
       users
     } = this.state;
+    console.log("this photos in single project", images);
     return (
       <Paper className={classes.root}>
         <Tabs
@@ -214,7 +236,7 @@ class SingleProject extends React.Component {
         )}
         {value === 4 && (
           <TabContainer>
-            <PhotoGrid />
+            <PhotoGrid photos={images} projectId={projectKey} />
           </TabContainer>
         )}
         {value === 5 && <TabContainer>Item Six</TabContainer>}
