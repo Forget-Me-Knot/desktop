@@ -63,7 +63,8 @@ export default class CreateTodo extends Component {
   }
 
   render() {
-    const members = this.state.members;
+		const members = this.state.members;
+		console.log(this.state)
     return (
       <Card style={{ margin: 10 }}>
         <FormGroup style={{ padding: 10 }}>
