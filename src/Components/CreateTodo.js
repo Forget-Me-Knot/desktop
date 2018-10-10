@@ -56,15 +56,14 @@ export default class CreateTodo extends Component {
         .set(task);
       self.setState({
         todo: "",
-        assignMember: "",
-        projectId: ""
+        assignMember: ""
       });
     });
   }
 
   render() {
-		const members = this.state.members;
-		console.log(this.state)
+    const members = this.state.members;
+    console.log(this.state);
     return (
       <Card style={{ margin: 10 }}>
         <FormGroup style={{ padding: 10 }}>
@@ -72,8 +71,8 @@ export default class CreateTodo extends Component {
             <InputLabel>Task</InputLabel>
             <Input
               fullWidth
-							onChange={event => this.setState({ todo: event.target.value })}
-							value={this.state.todo}
+              onChange={event => this.setState({ todo: event.target.value })}
+              value={this.state.todo}
             />
           </div>
 
