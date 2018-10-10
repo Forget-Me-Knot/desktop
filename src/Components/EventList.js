@@ -10,7 +10,8 @@ import CreateEvent from "./CreateEvent";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import firebase from "../firebase";
-import { Typography } from "@material-ui/core";
+import { Chip, Avatar } from "@material-ui/core";
+import DoneIcon from '@material-ui/icons/Done';
 
 class EventList extends React.Component {
   constructor(props) {
@@ -90,19 +91,20 @@ class EventList extends React.Component {
     let color = project ? '#' + project.color : null
     return (
       <div>
-        { color ? <span>
-          <Typography
-            variant="title"
-            align="center"
-            style={{
-              backgroundColor: color,
-              fontSize: "1.5em",
-              color: "white"
-            }}
-          >
-            {this.props.projects[0].name}
-          </Typography>
-        </span> : null }
+				{ color ?
+				<div style={{marginBottom: 10}}>
+					<Chip
+						avatar={
+							<Avatar
+							style={{
+								backgroundColor: color,
+							}}>
+								<DoneIcon />
+							</Avatar>}
+						label={this.props.projects[0].name}
+					/>
+				</div>
+        : null}
         <List>
           {events.map(
             l =>
@@ -130,9 +132,9 @@ class EventList extends React.Component {
           text="add a project"
           aria-label="Add"
           style={{
-            backgroundColor: "mediumpurple",
             marginTop: 12
-          }}
+					}}
+					variant="outlined"
           onClick={() => this.openForm()}
         >
           <AddIcon />

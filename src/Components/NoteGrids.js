@@ -1,12 +1,12 @@
 import React from "react";
 import firebase from "../firebase";
 import Typography from "@material-ui/core/Typography";
-import { Avatar } from "@material-ui/core";
+import { Avatar, Chip } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import MiniNote from "./MiniNote";
-import { Link } from "react-router-dom";
+import DoneIcon from "@material-ui/icons/Done";
 
 class NoteGrids extends React.Component {
   constructor() {
@@ -107,19 +107,20 @@ class NoteGrids extends React.Component {
     return (
       <div>
         {color ? (
-          <span>
-            <Typography
-              variant="title"
-              align="center"
-              style={{
-                backgroundColor: color,
-                fontSize: "1.5em",
-                color: "white"
-              }}
-            >
-              {this.props.projects[0].name}
-            </Typography>
-          </span>
+          <div style={{ marginBottom: 20 }}>
+            <Chip
+              avatar={
+                <Avatar
+                  style={{
+                    backgroundColor: color
+                  }}
+                >
+                  <DoneIcon />
+                </Avatar>
+              }
+              label={this.props.projects[0].name}
+            />
+          </div>
         ) : null}
         {notes.map(note => (
           <Paper
@@ -177,9 +178,9 @@ class NoteGrids extends React.Component {
           <Button
             text="add a task"
             style={{
-              backgroundColor: `rgb(255, 100, 109)`,
               marginTop: 35
             }}
+            variant="outlined"
             onClick={() => this.openForm()}
           >
             <AddIcon />
