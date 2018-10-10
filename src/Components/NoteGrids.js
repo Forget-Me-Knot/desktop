@@ -19,7 +19,7 @@ class NoteGrids extends React.Component {
     };
     this.deleteNote = this.deleteNote.bind(this);
     this.openForm = this.openForm.bind(this);
-    this.createTextLinks_ = this.createTextLinks_.bind(this);
+    // this.createTextLinks_ = this.createTextLinks_.bind(this);
   }
 
   componentDidMount() {
@@ -83,21 +83,21 @@ class NoteGrids extends React.Component {
       .remove();
   }
 
-  createTextLinks_(text) {
-    //const regex = /(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/;
-    return (text || "").replace(
-      /([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi,
-      function(match, space, url) {
-        var hyperlink = url;
-        if (!hyperlink.match("^https?://")) {
-          hyperlink = "http://" + hyperlink;
-          let textArray = text.split("hyperlink");
-          console.log("Hyper Link: ", hyperlink);
-        }
-        return <a href={`${hyperlink}`}>{url}</a>;
-      }
-    );
-  }
+  // createTextLinks_(text) {
+  //   //const regex = /(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/;
+  //   return (text || "").replace(
+  //     /([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi,
+  //     function(match, space, url) {
+  //       var hyperlink = url;
+  //       if (!hyperlink.match("^https?://")) {
+  //         hyperlink = "http://" + hyperlink;
+  //         let textArray = text.split("hyperlink");
+  //         console.log("Hyper Link: ", hyperlink);
+  //       }
+  //       return <a href={`${hyperlink}`}>{url}</a>;
+  //     }
+  //   );
+  // }
 
   render() {
     const notes = this.state.notes;
@@ -156,7 +156,8 @@ class NoteGrids extends React.Component {
             })
             */}
             <Typography style={{ marginTop: ".7em" }}>
-              {this.createTextLinks_(note.content)}
+              {/* {this.createTextLinks_(note.content)} */}
+              {note.content}
             </Typography>
 
             <Avatar

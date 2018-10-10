@@ -14,7 +14,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import { Chip, Avatar } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
-import DoneIcon from '@material-ui/icons/Done';
+import DoneIcon from "@material-ui/icons/Done";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -91,9 +91,9 @@ class Members extends React.Component {
 
   render() {
     const members = this.props.members;
-		const key = this.props.projectKey;
-		let project = this.props.projects ? this.props.projects[0] : null
-		let color = project ? '#' + project.color : null
+    const key = this.props.projectKey;
+    let project = this.props.projects ? this.props.projects[0] : null;
+    let color = project ? "#" + project.color : null;
     const users = this.props.users;
     const userArr = [];
     for (var person in users) {
@@ -105,33 +105,36 @@ class Members extends React.Component {
     console.log("userArr", userArr);
     return (
       <div>
-				{ color ?
-				<div style={{marginBottom: 10}}>
-					<Chip
-						avatar={
-							<Avatar
-							style={{
-								backgroundColor: color,
-							}}>
-								<DoneIcon />
-							</Avatar>}
-						label={this.props.projects[0].name}
-					/>
-				</div>
-        : null}
+        {color ? (
+          <div style={{ marginBottom: 10 }}>
+            <Chip
+              avatar={
+                <Avatar
+                  style={{
+                    backgroundColor: color
+                  }}
+                >
+                  <DoneIcon />
+                </Avatar>
+              }
+              label={this.props.projects[0].name}
+            />
+          </div>
+        ) : null}
         <List>{members ? this.memberList(members) : null}</List>
         <Button
           text="add a project"
           aria-label="Add"
           style={{
-						marginTop: 12,
-					}}
-					variant='outlined'
+            marginTop: 12
+          }}
+          variant="outlined"
           onClick={() => this.openAdd()}
         >
           <AddIcon />
           Add a register user
         </Button>
+        <br /> <br /> <br />
         {this.state.openAdd ? (
           <FormGroup>
             <div style={{ marginBottom: 10 }}>
@@ -144,13 +147,11 @@ class Members extends React.Component {
                 value={this.state.newMember}
               >
                 {newUsers ? (
-                  newUsers.map(
-                    user => (
-                      <MenuItem key={user} value={user}>
-                        {user}
-                      </MenuItem>
-                    )
-                  )
+                  newUsers.map(user => (
+                    <MenuItem key={user} value={user}>
+                      {user}
+                    </MenuItem>
+                  ))
                 ) : (
                   <MenuItem>No members in this project.</MenuItem>
                 )}
@@ -166,8 +167,8 @@ class Members extends React.Component {
             style={{
               marginTop: 12
             }}
-						onClick={() => this.open()}
-						variant="outlined"
+            onClick={() => this.open()}
+            variant="outlined"
           >
             <AddIcon />
             Invite a new user to join
