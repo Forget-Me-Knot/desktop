@@ -94,7 +94,7 @@ export default class ToDo extends Component {
     const tasks = this.props.tasks
     let project = this.props.projects ? this.props.projects[0] : null
     let color = project ? '#' + project.color : null
-
+		console.log(tasks)
     return (
       <div>
         {color ? (

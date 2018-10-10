@@ -23,11 +23,13 @@ class Home extends Component {
       message = 'Good morning';
     } else if (hour >= 12 && hour <= 14) {
       message = 'Lunch time!';
-    } else if (hour > 14 && hour <= 17) {
+    } else if (hour > 14 && hour <= 16) {
       message = 'Good afternoon';
-    } else if (hour >= 18) {
-      message = 'Good night';
-    }
+    } else if (hour >= 17 && hour <= 21 ) {
+      message = 'Good evening';
+    } else {
+			message = 'Good Night'
+		}
     this.setState({ message });
 		setTimeout(() => {
       this.setState({ show: true });
