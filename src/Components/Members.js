@@ -12,9 +12,9 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import { Typography } from "@material-ui/core";
+import { Chip, Avatar } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
+import DoneIcon from '@material-ui/icons/Done';
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -105,33 +105,32 @@ class Members extends React.Component {
     console.log("userArr", userArr);
     return (
       <div>
-        { color ? <span>
-          <Typography
-            className="projTitle"
-            variant="title"
-            align="center"
-            style={{
-              backgroundColor: color,
-              fontSize: "1.5em",
-              color: "white"
-            }}
-          >
-            {this.props.projects[0].name}
-          </Typography>
-        </span> : null}
+				{ color ?
+				<div style={{marginBottom: 10}}>
+					<Chip
+						avatar={
+							<Avatar
+							style={{
+								backgroundColor: color,
+							}}>
+								<DoneIcon />
+							</Avatar>}
+						label={this.props.projects[0].name}
+					/>
+				</div>
+        : null}
         <List>{members ? this.memberList(members) : null}</List>
         <Button
           text="add a project"
           aria-label="Add"
           style={{
-            backgroundColor: "mediumpurple",
-            marginTop: 12
-          }}
-          // onClick={() => this.open()}
+						marginTop: 12,
+					}}
+					variant='outlined'
           onClick={() => this.openAdd()}
         >
           <AddIcon />
-          Add a register user:
+          Add a register user
         </Button>
         {this.state.openAdd ? (
           <FormGroup>
@@ -147,12 +146,10 @@ class Members extends React.Component {
                 {newUsers ? (
                   newUsers.map(
                     user => (
-                      //   members.indexOf(user) < 0 ? (
                       <MenuItem key={user} value={user}>
                         {user}
                       </MenuItem>
                     )
-                    // ) : null
                   )
                 ) : (
                   <MenuItem>No members in this project.</MenuItem>
@@ -167,14 +164,13 @@ class Members extends React.Component {
             text="add a project"
             aria-label="Add"
             style={{
-              backgroundColor: "aqua",
               marginTop: 12
             }}
-            // onClick={() => this.open()}
-            onClick={() => this.open()}
+						onClick={() => this.open()}
+						variant="outlined"
           >
             <AddIcon />
-            Invite a new user to join:
+            Invite a new user to join
           </Button>
           <Dialog open={this.state.open} onClose={this.close}>
             <DialogContent>

@@ -10,7 +10,8 @@ import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import CreateTodo from "./CreateTodo";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
-import { Typography } from "@material-ui/core";
+import { Chip } from "@material-ui/core";
+import DoneIcon from '@material-ui/icons/Done';
 
 export default class ToDo extends Component {
   constructor(props) {
@@ -100,36 +101,37 @@ export default class ToDo extends Component {
 
     return (
       <div>
-        { color ? <span>
-          <Typography
-            variant="title"
-            align="center"
-            style={{
-              backgroundColor: color,
-              fontSize: "1.5em",
-              color: "white"
-            }}
-          >
-            {this.props.projects[0].name}
-          </Typography>
-        </span> : null }
+				{ color ?
+				<div style={{marginBottom: 10}}>
+					<Chip
+						avatar={
+							<Avatar
+							style={{
+								backgroundColor: color,
+							}}>
+								<DoneIcon />
+							</Avatar>}
+						label={this.props.projects[0].name}
+					/>
+				</div>
+        : null}
         <div>
-          <Button
-            text="add a task"
-            style={{
-              backgroundColor: `rgb(255, 246, 0)`,
-              marginTop: 35
-            }}
-            onClick={() => this.openForm()}
-          >
-            <AddIcon />
-            Add a Task
-          </Button>
           {this.state.formOpen ? (
             <CreateTodo projects={this.props.projects} />
           ) : null}
         </div>
         <List>{tasks ? this.makeList(tasks) : null}</List>
+				<Button
+            text="add a task"
+            style={{
+              marginTop: 35
+						}}
+						variant="outlined"
+            onClick={() => this.openForm()}
+          >
+            <AddIcon />
+            Add a Task
+          </Button>
       </div>
     );
   }
