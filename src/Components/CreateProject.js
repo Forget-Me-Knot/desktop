@@ -18,21 +18,21 @@ export default class CreateProject extends Component {
 
 	randomColor() {
     let colors = [
-      'ffa70e',
-      '66ad6d',
-      '80d2cb',
-      '343ea3',
-      'b57cd2',
-      'bf5c8f',
-      'ff646d',
-      'fff600',
-      '6affad',
-      '80d2cb',
-      '5982f7',
-      '7069ca',
-      'f1b5ec',
-      'e1b198',
-      '8387cc',
+			'6affad',
+			'bb1f4b',
+			'9cc2e9',
+			'16941f',
+			'6c1694',
+			'ff6c00',
+			'd88383',
+			'b5ed7e',
+			'7e9bed',
+			'a294b7',
+			'b3feff',
+			'e2a9a9',
+			'f8e4a0',
+			'8f11e0',
+			'c04d4d'
     ];
     let n = Math.floor(Math.random() * colors.length);
     return colors[n];
