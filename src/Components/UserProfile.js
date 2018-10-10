@@ -138,9 +138,9 @@ export default class UserProfile extends Component {
             <Button
               aria-label="Add"
               style={{
-								backgroundColor: "mediumpurple",
 								margin: 10
-              }}
+							}}
+							variant="outlined"
               onClick={() => console.log("hi there")}
             >
               <AddIcon />

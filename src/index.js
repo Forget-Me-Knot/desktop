@@ -6,13 +6,10 @@ import "./index.css";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import store from "./store";
-import createHistory from "history/createBrowserHistory";
 
 //material ui
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { blue, green, indigo, red } from "@material-ui/core/colors";
-
-const history = createHistory();
+import { indigo } from "@material-ui/core/colors";
 
 const theme = createMuiTheme({
   palette: {

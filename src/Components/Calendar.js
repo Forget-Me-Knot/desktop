@@ -2,9 +2,6 @@ import React from "react";
 import dateFns from "date-fns";
 import "./calendar.css";
 import firebase from "../firebase";
-import AddIcon from "@material-ui/icons/Add";
-import Button from "@material-ui/core/Button";
-import CreateEvent from "./CreateEvent";
 
 class Calendar extends React.Component {
   constructor() {
@@ -19,7 +16,6 @@ class Calendar extends React.Component {
     this.renderDays = this.renderDays.bind(this);
     this.nextMonth = this.nextMonth.bind(this);
     this.prevMonth = this.prevMonth.bind(this);
-    this.openForm = this.openForm.bind(this);
   }
 
   renderHeader() {
@@ -40,13 +36,6 @@ class Calendar extends React.Component {
         </div>
       </div>
     );
-  }
-  openForm() {
-    if (!this.state.formOpen) {
-      this.setState({ formOpen: true });
-    } else {
-      this.setState({ formOpen: false });
-    }
   }
 
   renderDays() {
@@ -170,20 +159,6 @@ class Calendar extends React.Component {
           {this.renderHeader()}
           {this.renderDays()}
           {this.renderCells()}
-        </div>
-        <div>
-          <Button
-            text="add an event"
-            style={{
-              backgroundColor: `mediumaquamarine`,
-              marginTop: 35
-            }}
-            onClick={() => this.openForm()}
-          >
-            <AddIcon />
-            Add Event
-          </Button>
-          {this.state.formOpen ? <CreateEvent /> : null}
         </div>
       </div>
     );
