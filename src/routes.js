@@ -12,6 +12,7 @@ import CreateProject from "./Components/CreateProject";
 import firebase from "./firebase";
 import CreateEvent from "./Components/CreateEvent";
 import UserProfile from "./Components/UserProfile";
+import TestPhoto from "./Components/TestPhoto";
 
 const renderMergedProps = (component, ...rest) => {
   const finalprops = Object.assign({}, ...rest);
@@ -57,7 +58,7 @@ export default class Routes extends Component {
           component={SingleProject}
           projectKey={key}
         />
-        <PropsRoute path="/photoBook" component={PhotoGrid} projectKey={key} />
+        <PropsRoute path="/photoBook" component={TestPhoto} projectKey={key} />
         <PropsRoute
           path="/addproject"
           component={CreateProject}
