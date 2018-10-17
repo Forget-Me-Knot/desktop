@@ -19,7 +19,6 @@ class NoteGrids extends React.Component {
     };
     this.deleteNote = this.deleteNote.bind(this);
     this.openForm = this.openForm.bind(this);
-    // this.createTextLinks_ = this.createTextLinks_.bind(this);
   }
 
   componentDidMount() {
@@ -83,22 +82,6 @@ class NoteGrids extends React.Component {
       .remove();
   }
 
-  // createTextLinks_(text) {
-  //   //const regex = /(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/;
-  //   return (text || "").replace(
-  //     /([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi,
-  //     function(match, space, url) {
-  //       var hyperlink = url;
-  //       if (!hyperlink.match("^https?://")) {
-  //         hyperlink = "http://" + hyperlink;
-  //         let textArray = text.split("hyperlink");
-  //         console.log("Hyper Link: ", hyperlink);
-  //       }
-  //       return <a href={`${hyperlink}`}>{url}</a>;
-  //     }
-  //   );
-  // }
-
   render() {
     const notes = this.state.notes;
     let project = this.props.projects ? this.props.projects[0] : null;
@@ -139,23 +122,7 @@ class NoteGrids extends React.Component {
               {this.state[note.author]}
             </Avatar>
 
-            {/*
-            TODO: 1. Use Regex to find every URL... in fact, split the
-            note.content across them... you need to get the text as array of
-            [PURE TEXT, LINK, PURE TEXT, PURE TEXT...]
-
-            Come visit http://stuff.com and also follow us on https://instagram.com!
-
-            then, for the PURE TEXT use Typography as below, and for each link
-            use Link tags...
-            <Typography>{ some text }</Typography><Link>ACUTUAL HREF</Link>...
-
-            SPLIT_CONTENT.map(content => {
-              ?? some if statement that checks if content is text or URL
-            })
-            */}
             <Typography style={{ marginTop: ".7em" }}>
-              {/* {this.createTextLinks_(note.content)} */}
               {note.content}
             </Typography>
 

@@ -5,7 +5,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import Divider from "@material-ui/core/Divider";
-import Checkbox from "@material-ui/core/Checkbox";
 import CreateEvent from "./CreateEvent";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";

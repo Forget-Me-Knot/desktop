@@ -21,9 +21,9 @@ class Home extends Component {
     const hour = date.getHours();
     if (hour >= 6 && hour < 12) {
       message = 'Good morning';
-    } else if (hour >= 12 && hour <= 14) {
-      message = 'Lunch time!';
-    } else if (hour > 14 && hour <= 16) {
+    } else if (hour >= 12 && hour < 14) {
+      message = 'Good afternoon';
+    } else if (hour >= 14 && hour <= 16) {
       message = 'Good afternoon';
     } else if (hour >= 17 && hour <= 21 ) {
       message = 'Good evening';
@@ -72,7 +72,7 @@ class Home extends Component {
 					transform: 'translate(-55%, 120%)',
 					textAlign: 'center'
 				}}>
-					<ReactRevealText style={{fontSize: '4em'}} show={this.state.show}>{message}</ReactRevealText>
+					<ReactRevealText style={{fontSize: '3.6em'}} show={this.state.show}>{message}</ReactRevealText>
 					<ReactRevealText style={{fontSize: '3em'}} show={this.state.show}>{name}</ReactRevealText>
 				</div>
         <bounce />

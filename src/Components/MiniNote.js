@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import FormGroup from "@material-ui/core/FormGroup";
 import Card from "@material-ui/core/Card";
 import { TextField } from "@material-ui/core";
-import { Link } from "react-router-dom";
 
 export default class MiniNote extends Component {
   constructor(props) {

@@ -9,29 +9,6 @@ var container = {
   width: 1100,
   height: 700
 };
-//create the array of circles that will be animated
-// let size= x: 150,
-// y: 80,
-// r: 20,
-// vx: 15,
-// vy: 8,
-let colors = [
-  "ffa70e",
-  "66ad6d",
-  "80d2cb",
-  "343ea3",
-  "b57cd2",
-  "bf5c8f",
-  "ff646d",
-  "fff600",
-  "6affad",
-  "80d2cb",
-  "5982f7",
-  "7069ca",
-  "f1b5ec",
-  "e1b198",
-  "8387cc"
-];
 
 var circles = [
   {
@@ -153,5 +130,3 @@ function animate() {
   requestAnimationFrame(animate);
 }
 requestAnimationFrame(animate);
-
-// export default bounce
