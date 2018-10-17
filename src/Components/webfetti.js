@@ -1,4 +1,5 @@
 import ConfettiGenerator from "./confetti";
+
 var AppClass = function() {
   var appstate = {
     target: "confetti-holder",
@@ -21,7 +22,6 @@ var AppClass = function() {
 
   var confetti = null;
 
-  //
   var updateForm = function() {
     document.getElementById("canvas-id").value = appstate.target;
     document.getElementById("max-confetti").value = appstate.max;
@@ -88,7 +88,6 @@ var AppClass = function() {
 
     document.getElementById("json-output").innerHTML = JSON.stringify(appstate);
   };
-  //
 
   var render = function() {
     updateState();
@@ -112,8 +111,6 @@ var AppClass = function() {
     render: render
   };
 };
-
-///
 
 var app = null;
 

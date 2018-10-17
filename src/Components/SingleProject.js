@@ -180,7 +180,6 @@ class SingleProject extends React.Component {
       notes,
       events,
       members,
-      color,
       images,
       users
     } = this.state;
